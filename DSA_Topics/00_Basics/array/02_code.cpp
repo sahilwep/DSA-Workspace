@@ -1,20 +1,13 @@
 // find the maximum item index in array list.
 
 /* 
-
     arr list : 1,23,4,4234,23,....
-
     let's assume the max value is : arr[0] = 1;
-
     in loop we can compare the max value with each index.
-
     if arr[i] > max 
-     
     then only update the max value else, no need to update.
-    
 */
 
-/*
 
 #include <iostream>
 using namespace std;
@@ -39,9 +32,10 @@ int main(void){
     return 0;
 }
 
-*/
 
 
+
+//  Another Example : 
 /*
     loop : i = 0 to (n-1) index
             
@@ -49,7 +43,9 @@ int main(void){
         max = arr[i]
     }
 
+*/
 
+/*
 
 #include <iostream>
 using namespace std;

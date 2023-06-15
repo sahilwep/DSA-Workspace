@@ -1,4 +1,4 @@
-// Binary Search
+// Binary Search using while loop.
 
 #include <iostream>
 using namespace std;
@@ -19,6 +19,7 @@ void print(int list[], int size){
         cout << list[i] << " ";
     }
 }
+
 
 int binarySearch(int list[], int size, int target){
     int start = 0; 

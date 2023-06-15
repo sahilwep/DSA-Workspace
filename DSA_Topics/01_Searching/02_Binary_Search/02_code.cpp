@@ -3,9 +3,13 @@
 #include <iostream>
 using namespace std;
 
+// Sorting Algorithms, Bubble Sort.
 void sort(int list[], int size){
+    // to access the elements of list.
     for(int i = 0 ; i < size -1; i++){
+        // to compare the items in list.
         for(int j = 0 ; j < size -1 ; j++){
+            // compare two consecutive items.
             if(list[j] > list[j+1]){
                 // swap(list[j], list[j+1]);
                 int temp = list[j];
@@ -16,6 +20,7 @@ void sort(int list[], int size){
     }
 }
 
+// to print the list.
 void print(int list[], int size){
     cout << endl << "Array list : ";
     for(int i = 0 ; i < size; i++){
@@ -23,6 +28,7 @@ void print(int list[], int size){
     }
 }
 
+// Binary Search function.
 bool binarySearch(int list[], int size, int target){
     int start = 0;
     int end = size - 1;
@@ -49,6 +55,7 @@ bool binarySearch(int list[], int size, int target){
     return false;
 }
 
+
 int main(void){
 
     int list[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
@@ -60,7 +67,6 @@ int main(void){
 
     int result = binarySearch(list, size, target);
     (result == 1) ? cout << endl << "Found." : cout << endl << "Not Found.";
-
 
     return 0;
 }

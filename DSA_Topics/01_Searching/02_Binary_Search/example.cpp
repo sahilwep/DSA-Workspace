@@ -3,7 +3,7 @@
     For Binary Search We need a sorted array list.
     -> How Binary Search Works ?
     -> suppose a list contain sequence ordered no from 1 to 100, we need to find the no 62
-    -> we can divide into half the list and compare the list until we find the no.
+    -> we can divide the list into half again-&-again and compare the mid with expected number until we find it.
 */
 
 #include <iostream>

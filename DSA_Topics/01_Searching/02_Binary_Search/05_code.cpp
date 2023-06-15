@@ -1,4 +1,4 @@
-// binary Search.
+// binary Search Algorithm.
 
 #include <iostream>
 using namespace std;
@@ -17,7 +17,6 @@ void sort(int list[], int size){
 }
 
 // Binary Search.
-
 bool binarySearch(int list[], int size, int target){
     int start = 0;
     int end = size -1;
