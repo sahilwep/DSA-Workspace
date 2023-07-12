@@ -218,11 +218,31 @@
     * *             * *
     *                 *
     
+    // pattern 21
+
+    * * * * *
+    *       *
+    *       *
+    *       *
+    * * * * *
+    
+    // pattern 22
+
+    5 5 5 5 5 5 5 5 5 
+    5 4 4 4 4 4 4 4 5 
+    5 4 3 3 3 3 3 4 5 
+    5 4 3 2 2 2 3 4 5 
+    5 4 3 2 1 2 3 4 5 
+    5 4 3 2 2 2 3 4 5 
+    5 4 3 3 3 3 3 4 5 
+    5 4 4 4 4 4 4 4 5 
+    5 5 5 5 5 5 5 5 5
+
 
 */
 
 
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;    
 
 void pattern_1(int n){
@@ -878,6 +898,92 @@ void pattern_20(int n){
     }
 }
 
+void pattern_21(int n){
+
+/*
+    * * * * *
+    *       *
+    *       *
+    *       *
+    * * * * *
+               Solution : 
+                * it is simple like this :
+                                          i       i 
+                                          1       n
+                                    j-> 1 * * * * * 
+                                          * * * * * 
+                                          * * * * * 
+                                          * * * * * 
+                                    n-> n  * * * * * 
+                * so we check if (i==1|| i==n || j==1 || j==n) {print *} else print{ space }
+    NOTE : For better understanding use # instead of spaces.
+*/
+    for(int i = 1; i<=n;i++){
+        for(int j = 1; j<=n; j++){
+            if(i==1 || i==n || j==1 || j==n){
+                cout << "* ";
+            }
+            else{
+                cout << "  ";
+            }
+        }
+        cout << endl;
+    }
+}
+
+void pattern_22(int n){
+/*
+    for N = 5
+
+    5 5 5 5 5 5 5 5 5 
+    5 4 4 4 4 4 4 4 5 
+    5 4 3 3 3 3 3 4 5 
+    5 4 3 2 2 2 3 4 5 
+    5 4 3 2 1 2 3 4 5 
+    5 4 3 2 2 2 3 4 5 
+    5 4 3 3 3 3 3 4 5 
+    5 4 4 4 4 4 4 4 5 
+    5 5 5 5 5 5 5 5 5
+
+        Solution : For better understanding let's subtract each value of the pattern FROM N
+            * Observation : 
+
+                0   0   0   0   0   0   0   0   0 
+                0   1   1   1  {1}  1   1   1   0 
+                0   1   2   2   2   2   2   1   0 
+                0   1   2   3   3   3   2   1   0 
+                0   1   2   3   4   3   2   1   0 
+                0   1   2   3   3   3   2   1   0 
+                0   1   2   2   2   2   2   1   0 
+                0   1   1   1   1   1   1   1   0 
+                0   0   0   0   0   0   0   0   0 
+
+            * for any value we see like for example : 1, 
+                * it has distance of current cell of each the square is : (min(1,4,4,7)), i.e min(min(top,bottom), min(left,right))
+                            * top = i 
+                            * left = j 
+                            * right = (2*n-2)-j
+                            * bottom = (2*n-2)-i
+                            
+            * taking min(min(top,bottom), min(left,right)) & subtracting them into N we will get the pattern.
+*/
+
+    for(int i = 0; i<2*n-1;i++){
+        for(int j = 0; j<2*n-1;j++){
+            int top = i;
+            int left = j;
+            int right =  (2*n-2)-j;
+            int bottom = (2*n-2)-i;
+
+            cout << (n - min(min(top,bottom), min(left,right))) << " ";
+            
+        }
+
+        cout << endl;
+    }
+}
+
+
 
 int main(void){ 
 
@@ -935,6 +1041,10 @@ int main(void){
         pattern_19(n);
         cout << endl;
         pattern_20(n);
+        cout << endl;
+        pattern_21(n);
+        cout << endl;
+        pattern_22(n);
         cout << endl;
     }
 
