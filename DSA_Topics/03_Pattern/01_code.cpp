@@ -193,6 +193,32 @@
     B C D E 
     A B C D E
 
+    // pattern 19 
+
+    * * * * * * * * * *
+    * * * *     * * * *
+    * * *         * * *
+    * *             * *
+    *                 *
+    *                 *
+    * *             * *
+    * * *         * * *
+    * * * *     * * * *
+    * * * * * * * * * *
+
+    // pattern 20
+
+    *                 *
+    * *             * *
+    * * *         * * *
+    * * * *     * * * *
+    * * * * * * * * * * 
+    * * * *     * * * *
+    * * *         * * *
+    * *             * *
+    *                 *
+    
+
 */
 
 
@@ -653,6 +679,206 @@ void pattern_18(int n){
     }
 }
 
+void pattern_19(int n){
+/*  
+        Concept : we can use pattern 9, and instead of stars we print space, and instead of spaces we print stars.
+
+        // bruteforce solution : using tow different outer loop and then combine them. 
+                * For first half : 
+                    * till i <= 5, we can use patten that we use before
+
+                * For Second half : 
+                    * we can print the another loop for second half start from i = 1 till 5                             
+    * * * * * * * * * *    i = 1                 
+    * * * *     * * * *    i = 2
+    * * *         * * *    i = 3
+    * *             * *    i = 4
+    *                 *    i = 5
+    *                 *    i = 1   because, if split into 2nd half   i = 1 => 8      (2*n - 2*i) : 10 - 2  => 8
+    * *             * *    i = 2   because, if split into 2nd half   i = 2 => 6                    10 - 4  => 6
+    * * *         * * *    i = 3   because, if split into 2nd half   i = 3 => 4                    10 - 6  => 4 
+    * * * *     * * * *    i = 4   because, if split into 2nd half   i = 4 => 2                    10 - 8  => 2
+    * * * * * * * * * *    i = 5   because, if split into 2nd half   i = 5 => 0                    10 - 10 => 0
+
+                * combining them together, and we will get the pattern.
+
+        // Advance Solution : we don't use two half to print, instead in one single outer loop we print the whole pattern. 
+
+    * * * * * * * * * *    i = 1            for i = 1      =>      0(spaces)  using this formula : (2*i-2) : 2-2 = 0                 
+    * * * *     * * * *    i = 2            for i = 2     =>       2(spaces)                        4-2 = 2
+    * * *         * * *    i = 3            for i = 3     =>       4(spaces)                        6-2 = 4
+    * *             * *    i = 4            for i = 4     =>       6(spaces)                        8-2 = 6
+    *                 *    i = 5------------for i = 5-----=>-------8(spaces)------------------- 
+    *                 *    i = 6            for i = 6     =>       8(spaces)         
+    * *             * *    i = 7            for i = 7     =>       6(spaces)          
+    * * *         * * *    i = 8            for i = 8     =>       4(spaces)                      
+    * * * *     * * * *    i = 9            for i = 9     =>       2(spaces)                    
+    * * * * * * * * * *    i = 10           for i = 10    =>       0(spaces)       
+            
+            let say : count = (2*n-i)
+    for i  = 6    :  8(spaces) (2*n-i+4) equivalent to (2*n-i+count) equivalent to (2*n-i+(2*n-i))  :  10-6+(10-6)   = 8   
+    for i  = 7    :  6(spaces) (2*n-i+3) equivalent to (2*n-i+count) equivalent to (2*n-i+(2*n-i))  :  10-7+(10-7)   = 6 
+    for i  = 8    :  4(spaces) (2*n-i+2) equivalent to (2*n-i+count) equivalent to (2*n-i+(2*n-i))  :  10-8+(10-8)   = 4 
+    for i  = 9    :  2(spaces) (2*n-i+1) equivalent to (2*n-i+count) equivalent to (2*n-i+(2*n-i))  :  10-9+(10-9)   = 2 
+    for i  = 10   :  0(spaces) (2*n-i+0) equivalent to (2*n-i+count) equivalent to (2*n-i+(2*n-i))  :  10-10+(10-10) = 0 
+
+                so, we can say : (2*n-i+(2*n-i)) is formula for this half space pattern.
+    
+                        // for better understanding use # instead of spaces.
+*/
+
+    // Advance Solution : Using single outer loop to print all the pattern.
+    for(int i = 1; i<=2*n; i++){
+        // stars :
+        if(i<=n){
+            for(int j = 1; j<=n-i+1;j++){
+                cout << "* ";
+            }
+        }
+        else{
+            // this condition is simple : our star is increment after n, so (i-n)
+            for(int j = 1; j<=i-n;j++){
+                cout << "* ";
+            }
+        }
+        // spaces :
+        // the upper half spaces are simple, we can refer pervious patterns.
+        if(i<=n){
+            for(int j = 1; j<=(2*i-2); j++){
+                cout << "  ";
+            }
+        }
+        // for half spaces
+        else{
+            for(int j = 1; j<=(2*n-i+(2*n-i)); j++){
+                cout << "  ";
+            }
+        }
+
+        stars :
+        if(i<=n){
+            for(int j = 1; j<=n-i+1;j++){
+                cout << "* ";
+            }
+        }
+        else{
+            // this condition is simple : our star is increment after n, so (i-n)
+            for(int j = 1; j<=i-n;j++){
+                cout << "* ";
+            }
+        }
+        cout << endl;
+    }
+
+/*
+    // Bruteforce Solution : works fine.
+    // first half
+    for(int i = 1; i<=n; i++){        
+        // stars
+        for(int j = 1; j<=n-i+1;j++){
+            cout << "* ";
+        }
+        // spaces
+        for(int j = 1; j<=(2*i-1-1); j++){
+            cout << "  ";
+        }
+        // stars
+        for(int j = 1; j<=n-i+1;j++){
+            cout << "* ";
+        }
+        cout << endl;
+    }
+    //  Second half
+    for(int i = 1; i<=n; i++){
+        // stars
+        for(int j  = 1; j<=i;j++){
+            cout << "* ";
+        }
+        // spaces
+        for(int j = 1; j<=(2*n-2*i); j++){
+            cout << "  ";
+        }
+        // stars
+        for(int j  = 1; j<=i;j++){
+            cout << "* ";
+        }
+        cout << endl;
+    }
+*/
+}
+
+void pattern_20(int n){
+/*
+    *                 *
+    * *             * *
+    * * *         * * *
+    * * * *     * * * *
+    * * * * * * * * * * 
+    * * * *     * * * *        
+    * * *         * * *
+    * *             * *
+    *                 *
+                    // Bruteforce Solution :
+                        * we can use 2 pattern 8 & 7, and replacing their stars with spaces & print then by combining them.
+
+                    // Optimal Solution : 
+                                    For First space : 
+                                                Starts from i = 1 till 5 :    so formula we get is : (2*n-2*i) 
+                                                    for i = 1       =>  8(spaces)       10-2=8
+                                                    for i = 2       =>  6(spaces)       10-4=6
+                                                    for i = 3       =>  4(spaces)       10-6=4
+                                                    for i = 4       =>  2(spaces)       10-8=2
+                                                    for i = 5       =>  0(spaces)       10-10=0
+
+                                    For Second Space : 
+                                                Starts from when i > 5 :      so formula we get is : (2*i-2*n)
+                                                    for i = 6        =>  2(spaces)       12-10=2     
+                                                    for i = 7        =>  4(spaces)       14-10=4
+                                                    for i = 8        =>  6(spaces)       16-10=6
+                                                    for i = 9        =>  8(spaces)       18-10=8
+   This case not print, because iteration is till 9 for i = 10       =>  0(spaces)       
+
+                    * NOTE : use # & @ instead of spaces for better understanding. 
+
+*/
+    for(int i = 1; i <= 2*n-1;i++){
+        // first star
+        if(i<=n){
+            for(int j = 1; j<=i;j++){
+                cout << "* ";
+            }
+        }
+        else{
+            for(int j = 1; j<=2*n-i;j++){
+                cout << "* ";
+            }
+        }
+        // first space
+        for(int j = 1; j <= (2*n-2*i); j++){
+            cout << "  ";
+        }
+        // second space
+        if(i>n){            // condition when  i > n this loop will execute.
+            for(int j = 1; j<=(2*i-2*n); j++){
+                cout << "  ";
+            }
+        }
+        // second star
+        if(i<=n){
+            for(int j = 1; j<=i;j++){
+                cout << "* ";
+            }
+        }
+        else{
+            for(int j = 1; j<=2*n-i;j++){
+                cout << "* ";
+            }
+        }
+        cout << endl;
+    }
+}
+
+
 int main(void){ 
 
     int n = 5;   //the input value of loop
@@ -706,8 +932,10 @@ int main(void){
         cout << endl;
         pattern_18(n);
         cout << endl;
-        
-
+        pattern_19(n);
+        cout << endl;
+        pattern_20(n);
+        cout << endl;
     }
 
     return 0;
