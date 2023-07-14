@@ -13,6 +13,14 @@
     * * *
     * * * * 
     * * * * * 
+    
+    // pattern 2_1
+
+    *
+    * *
+    *   *
+    *     *
+    * * * * *
 
     // pattern 3
 
@@ -38,6 +46,13 @@
     * * 
     * 
     
+    // pattern 5_1
+
+    * * * * *
+    *     *
+    *   *
+    * *
+    *  
     // pattern 6
 
     1 2 3 4 5
@@ -78,6 +93,15 @@
             * * * * * 
           * * * * * * *  
         * * * * * * * * *
+    
+    // pattern 7_1
+
+                * 
+              *   * 
+            *       * 
+          *           *  
+        * * * * * * * * *
+
     
     // pattern 8
 
@@ -263,6 +287,20 @@ void pattern_2(int n){
     }
 }
 
+void pattern_2_1(int n){
+    for(int i = 1 ; i<=n; i++){
+        for(int j = 1; j<=i; j++){
+            if( i==n || j==1|| j==i){
+                cout << "* ";
+            }
+            else{
+                cout << "  ";
+            }
+        }
+        cout << endl;
+    }
+}
+
 void pattern_3(int n){
     for(int i =1;i<=n;i++){
         for(int j=1;j<=i;j++){
@@ -285,6 +323,18 @@ void pattern_5(int n){
     for(int i =n ;i>=1;i--){
         for(int j = 1;j<=i;j++){
             cout << "* ";
+        }
+        cout << endl;
+    }
+}
+
+void pattern_5_1(int n){
+    for(int i = 1; i<=n; i++){
+        for(int j = 1; j<=n-i+1; j++){
+            if(i==1|| j==n-i+1|| j==1){
+                cout << "* ";
+            }
+            else cout << "  ";
         }
         cout << endl;
     }
@@ -377,6 +427,27 @@ void pattern_7(int n ){
         cout << endl;
     }
 }   
+
+void pattern_7_1(int n){
+    for(int i=1; i<=n; i++){
+        // spaces
+        for(int j=1; j<=n-i; j++){
+            cout << "  ";
+        }
+        // stars
+        for(int j=1; j<=2*i-1; j++){
+            if(i==n || j==1 || j==2*i-1){
+                cout << "* ";
+            }
+            else cout << "  ";
+        }
+        // spaces
+        for(int j=1; j<=n-i; j++){
+            cout << "  ";
+        }
+        cout << endl;
+    }
+}
 
 void pattern_8(int n){
 /*
@@ -994,11 +1065,15 @@ int main(void){
         cout << endl;
         pattern_2(n);
         cout << endl;
+        pattern_2_1(n);
+        cout << endl;
         pattern_3(n);
         cout << endl;
         pattern_4(n);
         cout << endl;
         pattern_5(n);
+        cout << endl;
+        pattern_5_1(n);
         cout << endl;
         pattern_6(n);
         cout << endl;
@@ -1009,6 +1084,8 @@ int main(void){
         pattern_6_3(n);
         cout << endl;
         pattern_7(n);
+        cout << endl;
+        pattern_7_1(n);
         cout << endl;
         pattern_8(n);
         cout << endl;
