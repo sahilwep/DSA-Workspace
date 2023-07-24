@@ -4,7 +4,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// print function to print vector.
+// print function  to printvector.
 void print(vector<int> &nums){
     for(int i = 0; i< nums.size(); i++){
         cout << nums[i] << " ";
