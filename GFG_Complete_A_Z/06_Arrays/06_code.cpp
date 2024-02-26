@@ -1,51 +1,55 @@
 /*
-// Operations in array Part 2 : 
+// Largest Element of an array :
 
-// Delete operations : 
-    * TC : O(n)
+I/p : arr[] = [10, 5, 20, 8]
+O/p : 2 // return index of largest element
 
-// Example : 
-    I/p : arr[] = {3, 8, 12, 5, 6}
-    x = 12
-    0/p : arr[] = {3, 8, 5, 6, _}
-    
-    I/p : arr[] = {3, 8, 12, 5, 6}
-    x = 6
-    0/p : arr[] = {3, 8, 12, 5, _}
+
+// efficient solution: 
+    * Let's assume our largest element is at index 0, then iterate through out the array, if we find any largest value grater than assumed value, just update with it.
 
 
 */
 
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-int deleteEle(int arr[], int n, int x){
-    int i;
-    // finding the index position of deleting element
-    for(i=0;i<n;i++){
-        if(arr[i] == x){
-            break;
+// Bruteforce Solution: TC : O(n^2)
+int largestElement(int arr[], int n){
+    for(int i=0;i<n;i++){
+        bool flag = true;
+        for(int j=0;j<n;j++){
+            if(arr[j] > arr[i]){
+                flag = false;
+                break;
+            }
+        }
+        if(flag == true){
+            return i;
         }
     }
-    if(i==n) return n;  // if deleting element is last element.
-    // now shift all the element to left.
-    for(int j=i;j<n;j++){
-        arr[j] = arr[j+1];
-    }
-    return (n-1);   // as we delete one element, we return (size-1)
+    return -1;
 }
 
-int main(void){
+// Efficient solution: TC : O(n)
+int largestElement_1(int arr[], int n){
+    int largest = 0;
+    for(int i=1;i<n;i++){
+        if(arr[i] > arr[largest]) {
+            largest = i;
+        }
+    }
+    return largest;
+}
+
+
+int main(){
     int n;
     cin >> n;
     int arr[n];
     for(int i=0;i<n;i++) cin >> arr[i];
-    int x;
-    cin >> x;
 
-    n = deleteEle(arr, n, x);
-
-    for(int i=0;i<n;i++) cout << arr[i] << " ";
+    cout << "index: " << largestElement_1(arr, n);
 
     return 0;
 }

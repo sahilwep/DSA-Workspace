@@ -1,62 +1,51 @@
 /*
-// Operations in an array Part 1 : 
+// Operations in array Part 2 : 
 
-// Search 
-    * if element found then return their index else return -1
+// Delete operations : 
+    * TC : O(n)
 
-// Insert 
+// Example : 
+    I/p : arr[] = {3, 8, 12, 5, 6}
+    x = 12
+    0/p : arr[] = {3, 8, 5, 6, _}
+    
+    I/p : arr[] = {3, 8, 12, 5, 6}
+    x = 6
+    0/p : arr[] = {3, 8, 12, 5, _}
 
-    I/p : arr[] = {5, 10, 20, _, _}
-    x = 7
-    pos = 2
-
-    O/p : arr[] = {5, 7, 10, 20, _}
-
-// insert at the end of dynamic size array : 
-    * TC : O(1)
 
 */
-
 
 #include<bits/stdc++.h>
 using namespace std;
 
-// TC : O(n)
-int search(int arr[], int n, int x){
-    for(int i=0;i<n;i++){
-        if(arr[i] == x) return i;
+int deleteEle(int arr[], int n, int x){
+    int i;
+    // finding the index position of deleting element
+    for(i=0;i<n;i++){
+        if(arr[i] == x){
+            break;
+        }
     }
-    return -1;
-}
-
-// TC : O(n)
-int insert(int arr[], int n, int x, int cap, int pos){
-    if(cap == n) return n;
-    int idx = pos -1;   // where we want to insert the element.
-    for(int i=n-1;i>=idx;i--){
-        arr[i+1] = arr[i];  // moving one element to right.
+    if(i==n) return n;  // if deleting element is last element.
+    // now shift all the element to left.
+    for(int j=i;j<n;j++){
+        arr[j] = arr[j+1];
     }
-    arr[idx] = x;   // inserting the value at the specific position.
-    return n+1; // returning n+1, because we are inserting 1 element.
-
+    return (n-1);   // as we delete one element, we return (size-1)
 }
 
 int main(void){
-    // Search : 
-    // int n, x;
-    // cin >> n >> x;
-    // int arr[n];
-    // for(int i=0;i<n;i++) cin >> arr[i];
-    // cout << search(arr, n, x);
+    int n;
+    cin >> n;
+    int arr[n];
+    for(int i=0;i<n;i++) cin >> arr[i];
+    int x;
+    cin >> x;
 
-    // Insert : 
-    int arr[5] = {5, 10, 20};
-    int n = 3;
-    int cap = 5;
-    int x = 7;
-    int pos = 2;
-    int newSize = insert(arr, n, x, cap, pos);
-    for(int i=0;i<newSize;i++) cout << arr[i] << " ";
+    n = deleteEle(arr, n, x);
+
+    for(int i=0;i<n;i++) cout << arr[i] << " ";
 
     return 0;
 }
