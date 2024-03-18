@@ -9,4 +9,6 @@
 5. Operations in array part 2: 
 6. Largest element in an array:
 7. Second largest element in an array:
-8. 
+8. Check if the array  is sorted or not:
+9. Reverse an Array
+10. 
