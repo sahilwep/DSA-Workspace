@@ -11,4 +11,5 @@
 7. Second largest element in an array:
 8. Check if the array  is sorted or not:
 9. Reverse an Array
-10. 
+10. Remove duplicate from a sorted array
+11. 
