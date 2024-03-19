@@ -13,4 +13,6 @@
 9. Reverse an Array
 10. Remove duplicate from a sorted array
 11. Move all zeros to end
-12. 
+12. left rotate an array by one
+13. left rotate an array by D place
+14. 

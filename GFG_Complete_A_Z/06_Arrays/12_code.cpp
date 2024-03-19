@@ -8,7 +8,6 @@
     I/p: arr[] = {30, 5, 20}
     O/p: arr[] = {5, 20, 30}
 
-
 */
 
 #include<bits/stdc++.h>
