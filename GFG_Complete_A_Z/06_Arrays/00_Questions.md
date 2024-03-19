@@ -12,4 +12,5 @@
 8. Check if the array  is sorted or not:
 9. Reverse an Array
 10. Remove duplicate from a sorted array
-11. 
+11. Move all zeros to end
+12. 
