@@ -15,4 +15,6 @@
 11. Move all zeros to end
 12. left rotate an array by one
 13. left rotate an array by D place
-14. 
+14. Leaders in an array
+15. Maximum difference problem with order
+16. 
