@@ -17,4 +17,6 @@
 13. left rotate an array by D place
 14. Leaders in an array
 15. Maximum difference problem with order
-16. 
+16. Frequency in a sorted array:
+17. Stock Buy and sell (part 1)
+18. 

@@ -110,6 +110,8 @@
         "stacktrace": "cpp",
         "stdfloat": "cpp",
         "stop_token": "cpp",
-        "syncstream": "cpp"
+        "syncstream": "cpp",
+        "__verbose_abort": "cpp",
+        "execution": "cpp"
     }
 }
