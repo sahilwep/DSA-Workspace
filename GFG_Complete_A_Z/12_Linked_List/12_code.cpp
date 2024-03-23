@@ -1,5 +1,7 @@
 /*
 
+// Singly Linked list with whole Operations: 
+
 // Operations : 
     * insertBeg : TC -> O(1)
     * insertEnd : TC -> O(n)
