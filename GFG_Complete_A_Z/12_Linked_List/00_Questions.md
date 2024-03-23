@@ -17,7 +17,7 @@
 13. Doubly Linked list : Must visit.
 14. Singly Linked list v/s Doubly linked list.
 15. Insert at beginning of Doubly linked list.
-16. Insert End of Doubly linked list. 
+16. Insert End of Doubly linked list.
 17. Reverse Doubly Linked list.
 18. Delete head of the Doubly linked list.
 19. Delete last node of Doubly linked list.
