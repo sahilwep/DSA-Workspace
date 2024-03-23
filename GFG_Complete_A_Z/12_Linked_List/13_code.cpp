@@ -26,4 +26,9 @@
         * Traversal : 
             * Looping
             * Recursive
+
+// Application : 
+    * linked list used in various software development parts
+    * example: 
+        * Multiple pages links etc...
 */
