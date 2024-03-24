@@ -2,7 +2,8 @@
     "cSpell.words": [
         "Bruteforce",
         "enque",
-        "logn"
+        "logn",
+        "subarray"
     ],
     "files.associations": {
         "iostream": "cpp",
