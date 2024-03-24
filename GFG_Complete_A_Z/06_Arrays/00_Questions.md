@@ -18,5 +18,6 @@
 14. Leaders in an array
 15. Maximum difference problem with order
 16. Frequency in a sorted array:
-17. Stock Buy and sell (part 1)
-18. 
+17. Stock Buy and sell (part 1) : O(n^2) : recursive solution
+18. Stock Buy and sell (part 2) : O(n) : Iterative solution
+19. 
