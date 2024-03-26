@@ -24,5 +24,6 @@
 20. Maximum Consecutive 1's in a Binary Array.
 21. Maximum Sum Sub-array : must visit
 22. Longest Even Odd Subarray : Must Visit ***
-23. Maximum Circular Subarray sum: 
-24. 
+23. Maximum Circular Subarray sum: must visit 
+24. Majority Element : 
+25. 
