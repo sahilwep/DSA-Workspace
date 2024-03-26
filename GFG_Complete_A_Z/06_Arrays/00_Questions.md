@@ -22,4 +22,6 @@
 18. Stock Buy and sell (part 2) : O(n) : Iterative solution
 19. Trapping Rain Water : Must visit
 20. Maximum Consecutive 1's in a Binary Array.
-21. Maximum Sum Sub-array.
+21. Maximum Sum Sub-array : must visit
+22. Longest Even Odd Subarray
+23. 
