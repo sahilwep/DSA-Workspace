@@ -27,4 +27,5 @@
 23. Maximum Circular Subarray sum: must visit 
 24. Majority Element : Must visit
 25. Minimum Consecutive Flips: Must visit
-26. Sliding Window Technique: 
+26. Sliding Window Technique: Must visit 
+27. Subarray with given sum: 
