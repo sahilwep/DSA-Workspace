@@ -28,4 +28,5 @@
 24. Majority Element : Must visit
 25. Minimum Consecutive Flips: Must visit
 26. Sliding Window Technique: Must visit 
-27. Subarray with given sum: 
+27. Subarray with given sum: Must visit
+28. Prefix Sum: Must visit
