@@ -1,12 +1,5 @@
 /*
-// Prefix Sum
-
-
-
-*/
-
-/*
-    [+] Valid Palindrome: 
+// Valid Palindrome: https://leetcode.com/problems/valid-palindrome/
 
     Example 1:
     Input: s = "A man, a plan, a canal: Panama"
@@ -25,12 +18,12 @@
     Since an empty string reads the same forward and backward, it is a palindrome.
 
 
+// ascii difference : A-a : 32
+    a = 97      , z = 122
+    A = 65      , Z = 90
+    0 = 48      , 9 = 57
+    
 
-
-
-    I/p : "A man, a plan, a canal: Panama"
-    Op : true
-    Explanation: "amanaplanacanalpanama" is a palindrome.
 
 // Naive Solution: 
     s = "A man, a plan, a canal: Panama"
@@ -56,10 +49,6 @@
     * TC : O(n)
     * AS : O(1)
 
-// ascii difference : A-a : 32
-    a = 97      , z = 122
-    A = 65      , Z = 90
-    0 = 48      , 9 = 57
 */
 
 
