@@ -1,1 +1,4 @@
-13 20 27 
+True
+True
+False
+True

@@ -30,4 +30,4 @@
 26. Sliding Window Technique: Must visit 
 27. Subarray with given sum: Must visit
 28. Prefix Sum: Must visit
-29. Prefix Weighted sum : Must visit
+29. Equilibrium point : Must visit
