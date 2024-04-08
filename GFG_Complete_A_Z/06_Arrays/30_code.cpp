@@ -36,16 +36,52 @@
 
 
 // Efficient Solution: 
-    * Working...
+    * Idea for efficient solution: 
+        * Traverse through all the ranges & mark beginning & ending in freq[], with (+1 & -1)
+    
+                    * freq[left[i]]++, freq[right[i]+1]--
+
+                    left[] = {1, 2, 4},  right[] = {4, 5, 7}
+                    freq = {0, 0, 0, 0, 0, 0.....0, 0}
+                    
+                i = 0: freq[] = {0, 1, 0, ,0 ,0, -1, 0, 0, 0, 0, 0, 0, 0,..., 0}
+                i = 0: freq[] = {0, 1, 1, ,0 ,0, -1, -1, 0, 0, 0, 0, 0, 0,..., 0}
+                i = 0: freq[] = {0, 1, 1, ,0 ,1, -1, -1, 0, -1, 0, 0, 0, 0,..., 0}
+
+        * Do prefix sum in freq[]: by doing the prefix sum we can store the frequency of every element...
+                freq[] = {0, 1, 2, 2, 3, 2, 1, 1, 0, 0, 0,...., 0}
+
+        * Return index of maximum value : 
+                return 4
+
+    * TC : O(n+max)
+
 
 */
 
 #include<bits/stdc++.h>
 using namespace std;
 
+// Efficient Solution: 
+int maxAppear(int l[], int r[], int n){
+    int freq[101] = {0};
+    for(int i=0;i<n;i++){
+        freq[l[i]]++;   // increment the freq[left[i]] with 1
+        freq[r[i]+1]--; // decrement the freq[right[i] + 1] with 1
+    }
+    int res = 0;
+    // doing prefix sum:
+    for(int i=1;i<100;i++){
+        freq[i] = freq[i-1] + freq[i];  // doing prefix sum
+        if(freq[i] > freq[res]){    // comparing the max freq..
+            res = i;   
+        }
+    }
+    return res;
+}
 
 // Naive Solution: 
-int maxAppear(int l[], int r[], int n){
+int maxAppear_1(int l[], int r[], int n){
     int freq[100] = {0};    // creating frequency array of size 100, with default value '0'
     for(int i=0;i<n;i++){
         for(int j=l[i];j<=r[i];j++){
@@ -62,7 +98,7 @@ int maxAppear(int l[], int r[], int n){
 }
 
 // Bruteforce Solution: 
-int maxAppear_(int l[], int r[], int n){
+int maxAppear_0(int l[], int r[], int n){
     vector<int> v;
     int k = 0;
     // storing the range into a vector : O(n*m)
