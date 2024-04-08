@@ -31,3 +31,4 @@
 27. Subarray with given sum: Must visit
 28. Prefix Sum: Must visit
 29. Equilibrium point : Must visit
+30. Maximum appearing element in Range: Must visit
