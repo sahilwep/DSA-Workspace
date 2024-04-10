@@ -1,12 +1,9 @@
 /*
-//  A. Word Capitalization
+//  A Boy or Girl:          https://codeforces.com/problemset/problem/236/A
 
 
-// if the first character of string is small case, then we have to make it to the capital case..
-
-
-
-
+// Constrains: 
+    small case: (97-112) range...j
  */ 
 
 #include<bits/stdc++.h>
@@ -25,19 +22,21 @@ typedef pair<int,int> pi;
 #define SQ(a) (a)*(a)
 
 
-
 void solve(){
     string s;
     cin >> s;
-    if(s[0] > 90){
-        s[0] = s[0] - 'a' + 'A';
+    int hash[123] = {0};
+    for(int i=0;i<s.size();i++){
+        hash[s[i]] += 1;
     }
-    cout << "CHAT WITH HER!" << endl;
-    cout << "IGNORE HIM!" << endl;
-
-    
+    int cnt = 0;
+    for(int i=97;i<123;i++){
+        if(hash[i] > 0){
+            cnt++;
+        }
+    }
+    (cnt % 2 == 0) ? cout << "CHAT WITH HER!" << endl : cout << "IGNORE HIM!" << endl; 
 }
-
 
 int main(){
     int t;
