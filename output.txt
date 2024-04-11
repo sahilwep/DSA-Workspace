@@ -1,3 +1,6 @@
-OR: 7
-AND: 2
-XOR: 5
+3 Left shift by 1: 6
+3 Left shift by 2: 12
+3 Right shift by 1: 1
+3 Right shift by 2: 0
+bitwise Not Unsigned: 4294967294
+bitwise Not Signed: -6
