@@ -7,4 +7,4 @@
 3. Binary Representation of negative numbers : Must visit
 4. Check if Kth bits is set or not? : must visit
 5. Count set bits: must visit
-6. 
+6. Power of Two: must visit
