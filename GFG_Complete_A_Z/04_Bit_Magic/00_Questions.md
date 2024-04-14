@@ -9,3 +9,4 @@
 5. Count set bits: must visit
 6. Power of Two: must visit
 7. Find the only odd occurring number: Must visit
+8. FInd two odd appearing number:
