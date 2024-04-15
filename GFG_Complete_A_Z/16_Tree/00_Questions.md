@@ -7,6 +7,6 @@
 3. Tree Traversal: Must visit
 4. Implementation of Inorder Traversal: Must visit
 5. Implementation of Preorder Traversal: Must visit
-5. Implementation of Postorder Traversal: Must visit
-6. Height of Binary Tree: Must visit.
-7. 
+6. Implementation of Postorder Traversal: Must visit
+7. Height of Binary Tree: Must visit.
+8. Print node at kth distance: Must visit
