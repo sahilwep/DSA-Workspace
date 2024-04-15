@@ -32,6 +32,9 @@
                                         |--->print(50)
                                         |--->inorder(NULL)
 
+// TC: O(n)
+// AS: O(h+1) -> O(h)
+    * h=hight of tree
 
 */ 
 
