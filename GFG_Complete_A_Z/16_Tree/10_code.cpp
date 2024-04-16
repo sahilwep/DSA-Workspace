@@ -1,5 +1,5 @@
 /*
-//  Print Sum of leaf node of binary tree.
+//  Sum of leaf node of binary tree.
 
    I/p :
                                             [10]
