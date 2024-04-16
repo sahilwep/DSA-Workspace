@@ -10,3 +10,4 @@
 6. Implementation of Postorder Traversal: Must visit
 7. Height of Binary Tree: Must visit.
 8. Print node at kth distance: Must visit
+9. Print leaf node of binary tree: Must visit
