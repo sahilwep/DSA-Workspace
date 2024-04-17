@@ -26,11 +26,6 @@ Explanation: The arrays we are merging are [] and [1].
 The result of the merge is [1].
 Note that because m = 0, there are no elements in nums1. The 0 is only there to ensure the merge result can fit in nums1.
 
-// Approach: 
-Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
-    * We know that fact that nums1 has m element on it, &  there will be n space left in nums1, so we can start inserting from m to (0->n) element..
-    * At end, we can sort them...
-    * TC : O(nlogn)
 
 // Input: 
 3
@@ -46,6 +41,19 @@ Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
 1 2 2 3 5 6 
 1 
 1 
+
+
+// Naive Solution: 
+Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
+    * We know that fact that nums1 has m element on it, &  there will be n space left in nums1, so we can start inserting from m to (0->n) element..
+    * At end, we can sort them...
+    * TC : O(nlogn)
+
+// Efficient Solution: 
+    * as both the array are sorted & we have to merge them into first array nums1, we can start picking grater element from both the array by comparing, & start inserting at the last position of nums1....
+    * we can use two pointer method..
+    * First pointer will be at the last position of nums1 which is (m-1) location & second pointer is at the last position of nums2 (n-1) location
+    * We start comparing & insert into the position k, which is n+m location-> & We will decrement it until the second array nums2 all element inserted into the first array nums1.
 
 */
 #include<bits/stdc++.h>
@@ -63,7 +71,28 @@ typedef pair<int,int> pi;
 #define el cout << endl;
 #define SQ(a) (a)*(a)
 
+
+// Efficient Solution: 
 void merge_arr(vector<int> nums1, int m, vector<int> nums2, int n){
+    int ptr1 = m-1; // first pointer at end of nums1 location
+    int ptr2 = n-1; // first pointer at end of nums2 location
+    int insert_location = n + m -1; // this is our insertion point..
+    // this condition because, we only have to insert ptr2 size array...
+    while(ptr2 >= 0){
+        // we are checking this condition because nums1 array contains '0' element where we have to insert the grater element among nums1 & nums2...
+        if(ptr1 >= 0 && nums1[ptr1] > nums2[ptr2]){
+            // insert at last position of nums & decrement the size & same we does for nums1 iterator-> we decrease the iterator..
+            nums1[insert_location--] = nums1[ptr1--];
+        } else {
+            nums1[insert_location--] = nums2[ptr2--];
+        }
+    }
+    for(auto i : nums1) cout << i << " ";
+    el;
+}
+
+// Naive Solution: 
+void merge_arr_(vector<int> nums1, int m, vector<int> nums2, int n){
     for(int i=m, j=0;j<n;j++){
         nums1[i] = nums2[j];
         i++;
