@@ -13,3 +13,5 @@
 9. Print leaf node of binary tree: Must visit
 10. Sum of leaf node of binary tree: must visit
 11. Level order traversal(BFS): Must Visit
+12. Size of binary tree: Must visit
+13. 
