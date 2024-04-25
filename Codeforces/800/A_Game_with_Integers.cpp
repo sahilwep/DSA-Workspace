@@ -12,12 +12,12 @@
         n % 3 = 0 : 3, 6, 9, 12, 15, 18, 21, 24....
         when remainder is 0 : these are the numbers..
 
-        r = 0 -> 3, 6, 9, 12,..... Vanya not wins
+        r = 0 -> 3, 6, 9, 12,..... vova not wins
         
         r = 1 -> 4, 7, 10, 13,.....  Vanya wins -> because it can decrease the number by 1
         r = 2 -> 5, 8, 11, 14,.....  Vanya wins -> because it can increase the number by 1
         
-        r = 3 -> 6, 9, 12, 15,.......  Vanya not wins
+        r = 3 -> 6, 9, 12, 15,.......  vova not wins
 
 
         'Vanya goes first'
