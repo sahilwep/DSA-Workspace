@@ -2,7 +2,16 @@
 //  1929. Concatenation of Array            https://leetcode.com/problems/concatenation-of-array/description/
 
 
+// Input: 
+2 
+3
+1 2 1
+4
+1 3 2 1
 
+// Output: 
+1 2 1 1 2 1 
+1 3 2 1 1 3 2 1 
 
 
  */ 
