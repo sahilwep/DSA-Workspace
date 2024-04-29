@@ -72,6 +72,7 @@ struct Node{
     }
 };
 
+// getmax function using recursion call
 int getMax(Node *root){
     if(root == NULL){
         return INT_MIN;
@@ -81,6 +82,27 @@ int getMax(Node *root){
     } 
 }
 
+// getMax function using levelOrder traversal: 
+int getMax_(Node *root){
+    int max = INT_MIN;
+    queue<Node *> q;
+    q.push(root);
+    while(q.empty() == false){
+        Node *curr = q.front();
+        q.pop();
+        // condition to check node: 
+        if(curr->key >= max){
+            max = curr->key;
+        }
+        if(curr->left != NULL){
+            q.push(curr->left);
+        }
+        if(curr->right != NULL){
+            q.push(curr->right);
+        }
+    }
+    return max;
+}
 
 int main(void){
 
@@ -90,9 +112,9 @@ int main(void){
     root->left->left = new Node(80);
     root->left->left->right = new Node(70);
     root->right->left = new Node(60);
-    root->right->right = new Node(20);
+    root->right->right = new Node(10);
     
-    cout << getMax(root) << endl;
+    cout << getMax_(root) << endl;
 
     return 0;
 }
