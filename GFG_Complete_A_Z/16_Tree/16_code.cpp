@@ -42,6 +42,12 @@
     * AS : O(h), h= height of binary tree.
 
 
+// Iterative Solution: 
+    * It's based on level order traversal line by line method 2
+    * We only print the current node, if i = 0, means our first node.
+    * TC : O(n)
+    * AS : O(width)
+
 */ 
 
 #include<bits/stdc++.h>
@@ -57,6 +63,25 @@ struct Node{
         left = right = NULL;
     }
 };
+
+// Iterative Solution: 
+void printLeftMost_(Node *root){
+    if(root == NULL) return;
+    queue<Node *> q;
+    q.push(root);
+    while(q.empty() == false){
+        int count = q.size();
+        for(int i=0;i<count;i++){
+            Node *curr = q.front();
+            q.pop();
+            if(i == 0){
+                cout << curr->key << " ";
+            }
+            if(curr->left != NULL) q.push(curr->left);
+            if(curr->right != NULL) q.push(curr->right);
+        }
+    }
+}
 
 // Recursive Solution: 
 void printLeftMost(Node *root, int level){
@@ -79,6 +104,8 @@ int main(void){
     root->right->left->right = new Node(8);
     
     printLeftMost(root, 1);
+    cout << endl;
+    printLeftMost_(root);
     
     
     return 0;

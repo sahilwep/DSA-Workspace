@@ -17,5 +17,5 @@
 13. maximum in binary tree: Must visit
 14. Level Order Traversal Line by Line (Part 1)
 15. Level Order Traversal Line by Line (Part 2) 
-16. Print Left view of Binary Tree: Must visit
+16. Print Left view of Binary Tree: Must visit : Must visit
 17. 
