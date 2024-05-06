@@ -20,4 +20,4 @@
 16. Print Left view of Binary Tree: Must visit : Must visit
 17. Children Sum Property: must visit
 18. Check for balanced tree: Must visit ** 
-19. 
+19. Maximum width of binary tree : must visit
