@@ -1,3 +1,2 @@
-house
-VIP
-matrix
+50
+1
