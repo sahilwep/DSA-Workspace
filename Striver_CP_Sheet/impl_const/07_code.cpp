@@ -1,6 +1,5 @@
 /*
-//  
-
+//  A. Fox And Snake
 
 
 
@@ -24,7 +23,37 @@ typedef pair<int,int> pi;
 
 
 void solve(){
-    int i, n;
+    int n, m;
+    cin >> n >> m;
+    bool flag = false;
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=m;j++){
+            if(i % 2 != 0){
+                cout << "#";
+            }
+            else{
+                if(flag == false){
+                    if(j<m){
+                        cout << ".";
+                    }else{
+                        cout << "#";
+                        flag = true;
+                    }
+                } else {
+                    if(j == 1){
+                        cout << "#";
+                    } else {
+                        cout << ".";
+                    }
+                    if(j == m){
+                        flag = false;
+                    }
+                }
+            }
+        }
+        el;
+    }
+
     
     
 }
@@ -35,6 +64,7 @@ int main(){
     cin >> t;
     while(t--){
         solve();
+        el;
     }
     
     return 0;
