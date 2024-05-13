@@ -2,8 +2,6 @@
 //  A. Nearly Lucky Number
 
 
-
-
  */ 
 
 #include<bits/stdc++.h>
@@ -29,8 +27,9 @@ void solve(){
     int size = log10(n) + 1;
     if(size == 7 || size == 4){
         cout << "YES" << endl;
+    }else {
+        cout << "NO" << endl;
     }
-    cout << "NO" << endl;
 }
 
 
