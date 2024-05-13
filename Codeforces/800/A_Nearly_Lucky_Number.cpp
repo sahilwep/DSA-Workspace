@@ -2,6 +2,8 @@
 //  A. Nearly Lucky Number
 
 
+// we have to count the number of '4' & '7', if they are 4 or 7, then yes : else no
+
  */ 
 
 #include<bits/stdc++.h>
@@ -22,14 +24,12 @@ typedef pair<int,int> pi;
 
 
 void solve(){
-    ll n;
-    cin >> n;
-    int size = log10(n) + 1;
-    if(size == 7 || size == 4){
-        cout << "YES" << endl;
-    }else {
-        cout << "NO" << endl;
-    }
+    string s;
+    cin >> s;
+    int cnt = 0;
+    for(auto i : s) if(i == '4' || i == '7') cnt++;
+    if(cnt == 4 || cnt == 7) cout << "YES" << endl;
+    else cout << "NO" << endl;
 }
 
 
