@@ -1,4 +1,3 @@
-NO
 YES
 NO
 NO
