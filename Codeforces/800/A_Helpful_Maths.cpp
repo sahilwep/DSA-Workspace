@@ -1,6 +1,14 @@
 /*
 //  A. Helpful Maths
 
+// ASCII Range: 
+    0 -> 48
+    9 -> 57
+
+// Intrusion: 
+    * Create hash array, & store the frequency of ascii numeric value
+    * Create another string that can store hashed values..
+    * at end, we print the string from 0->n-2
 
 */
 
@@ -19,12 +27,27 @@ typedef pair<int,int> pi;
 #define el cout << endl;
 #define SQ(a) (a)*(a);
 
-
-
 void solve(){
-    int n;
-    
-    
+    string s;
+    cin >> s;
+    int hash[52] = {0};
+    for(int i=0;i<s.size();i++){
+        if(s[i] != '+'){
+            hash[int(s[i])]++;
+        }
+    }
+    string res;
+    for(int i=49;i<52;i++){
+        int k = hash[i];
+        for(int j=0;j<k;j++){
+            res += char(i);
+            res += "+";
+        }
+    }
+    for(int i=0;i<res.size()-1;i++){
+        cout << res[i];
+    }
+    el;
 }
 
 
