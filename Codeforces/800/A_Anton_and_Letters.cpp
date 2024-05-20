@@ -1,11 +1,8 @@
 /*
-//  
-
-
+//  A. Anton and Letters
 
 
 */
-
 #include<bits/stdc++.h>
 using namespace std;
 typedef long long ll;
@@ -24,7 +21,19 @@ typedef pair<int,int> pi;
 
 
 void solve(){
-    int n;
+    string value;
+    getline(cin, value);
+    set<char> hash;
+    for(int i=0;i<value.length();i++){
+        if(value[i] >= 'a' && value[i] <= 'z'){
+            hash.insert(value[i]);
+        }
+    }
+    // to print the element of hash values: 
+    // for(set<char>::iterator it = hash.begin();it != hash.end();it++){
+    //     cout << *it;
+    // }
+    cout << hash.size() << endl;
     
     
 }
@@ -32,10 +41,10 @@ void solve(){
 
 int main(){
     int t = 1;     // Change the testcase according to question...
-    cin >> t;
-    
-    cin.ignore(); // Ignore the newline character left in the buffer
-    
+    cin >> t;   
+
+    cin.ignore();   // Ignore the newline character left in the buffer
+
     while(t--){
         solve();
     }
