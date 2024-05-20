@@ -34,8 +34,6 @@ int main(){
     int t = 1;     // Change the testcase according to question...
     cin >> t;
     
-    cin.ignore(); // Ignore the newline character left in the buffer
-    
     while(t--){
         solve();
     }
