@@ -1,4 +1,10 @@
+2
+4
+Icosahedron
+Cube
+Tetrahedron
+Dodecahedron
 3
-{a, b, c}
-{b, a, b, a}
-{}
+Dodecahedron
+Octahedron
+Octahedron
