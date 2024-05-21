@@ -1,10 +1,14 @@
-2
-4
-Icosahedron
-Cube
-Tetrahedron
-Dodecahedron
 3
-Dodecahedron
-Octahedron
-Octahedron
+3
+1 2
+2 4
+3 4
+4
+100 42
+42 100
+5 42
+100 5
+2
+1 2
+1 2
+
