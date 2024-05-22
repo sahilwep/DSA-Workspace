@@ -1,4 +1,11 @@
-3
-3 222
-4 190
-7 1
+10
+YES
+yES
+yes
+Yes
+YeS
+Noo
+orZ
+yEz
+Yas
+XES
