@@ -47,20 +47,21 @@ typedef pair<int,int> pi;
 #define arrOut(k) for(int i=0;i<n;i++) cout << arr[i] <<  k;
 #define el cout << endl;
 #define SQ(a) (a)*(a)
-
+ 
 int removeDuplicate(vector<int> &arr){
-    int k = 1;
-    int count = 1;
+    int k = 1;  // first index to insert elements..
+    int count = 1;  // this counter will count how many times we will need same element
     for(int i=1;i<arr.size();i++){
         if(arr[i] != arr[i-1]){
-            count = 1;
+            count = 1;  // if there is unique element, make counter as 1
         }
         else {
-            count++;
+            count++;    // if we get the same consecutive element, increase counter
         }
+        // if counter is less or equal to 2, will will insert element..
         if(count <= 2){
             arr[k] = arr[i];
-            k++;
+            k++;    // increase counter...
         }
     }
     return k;
