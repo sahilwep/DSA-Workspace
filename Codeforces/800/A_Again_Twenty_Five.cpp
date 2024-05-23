@@ -24,8 +24,7 @@ typedef pair<int,int> pi;
 
 void solve(){
     int n;
-    
-    
+    cout << 25 << endl;
 }
 
 
