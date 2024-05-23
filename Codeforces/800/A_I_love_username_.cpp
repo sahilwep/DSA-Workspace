@@ -6,10 +6,12 @@
     * First, it is amazing if during the contest the coder earns strictly more points that he earned on each past contest. 
     * Second, it is amazing if during the contest the coder earns strictly less points that he earned on each past contest. 
 
+
 // Observations: 
     * The first point should not be count,
     * While counting the best performance, we need to check all the previous back contest, if it's greater than all, we can say it's amazing..
     * same for checking worst performance, we need to check all the previous back contest, it should be less than all of them...
+
 
 Input: 
 5
@@ -81,7 +83,6 @@ void solve(){
     }
     cout << amazing << endl;
 }
-
 
 int main(){
     int t = 1;     // Change the testcase according to question...
