@@ -1,7 +1,4 @@
-Division 4
-Division 4
-Division 4
-Division 4
-Division 3
-Division 2
-Division 1
+10
+1
+4
+0
