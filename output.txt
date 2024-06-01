@@ -1,4 +1,9 @@
-abac
-ac
-bcdaf
-zzzzzz
+5
+4
+2
+2
+12
+10
+6
+3
+8
