@@ -1,11 +1,5 @@
-10
-a
-b
-c
-d
-e
-f
-g
-h
-i
-j
+4
+abbaac
+ac
+bccddaaf
+zzzzzzzzzz
