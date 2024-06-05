@@ -1,12 +1,22 @@
 /*
 //  A. Polycarp and Coins
 
-x
 
+// Observations: 
+    * If we carefully observe, we have 2 & 1 burles, & we have to divide n amount...
+    * means we have to divide it in that way we have this condition true: 
+        * c1 + 2*c2 = n
+        * & also we must minimize | c1 - c1 |
 
+    * Example: 
+        n = 1000
+        output: 334 333
 
-334 + 2*333 = 1000
-10 + 2 * 10 = 30
+        * If we observe carefully: 
+            1000/3 = 333    -> c2
+            n - 2*c2 = c1
+            1000 - 2*333 = 334 -> c1
+            * and we satisfied conditions...
 
 
 
@@ -32,10 +42,10 @@ typedef pair<int,int> pi;
 void solve(){
     int n;
     cin >> n;
-    double i = n/3;
-    int roundNum = round(i);
+    int i = round(n/3.0);       // remember, while using round function user double division, else it will not work properly..., means use n/3.0 not n/3
+    int j = n - 2*i;
 
-    cout << roundNum << " " << n - (2*round(n/3)) << " " << round(n/3) << endl;
+    cout << " " << j << " " << i<< endl;
 }
 
 
