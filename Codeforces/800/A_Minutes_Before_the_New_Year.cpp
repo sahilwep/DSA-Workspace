@@ -1,7 +1,10 @@
 /*
-//  B. Fix You
+//  A. Minutes Before the New Year
 
-
+// Observations: 
+    * We have to check how much minute remaining to become new year...
+    * We have given current time, we have to check when it will become 00:00-> means new year day..
+    * We can convert remaining hours in minute & add it to the remaining minute..
 
 
 */
@@ -24,9 +27,12 @@ typedef pair<int,int> pi;
 
 
 void solve(){
-    int n;
-    
-    
+    int h, m;
+    cin >> h >> m;
+    int hourMin = (23 - h) * 60;
+    int minRem = 60 - m;
+    cout << hourMin + minRem << endl;
+
 }
 
 
