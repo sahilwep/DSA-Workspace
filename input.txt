@@ -1,6 +1,13 @@
-5
-coolforsez
-cadafurcie
-codeforces
-paiuforces
-forcescode
+4
+2 2
+C M
+Y Y
+3 2
+W W
+W W
+B B
+1 1
+W
+2 3
+W W W
+B G Y
