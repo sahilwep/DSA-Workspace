@@ -1,7 +1,9 @@
 /*
-//  
+//  A. Floor Number
 
 
+// Observations: 
+    * Implement the given conditions...
 
 
 */
@@ -22,11 +24,17 @@ typedef pair<int,int> pi;
 #define SQ(a) (a)*(a);
 
 
-
 void solve(){
-    int n;
+    int n, x;
+    cin >> n >> x;
     
-    
+    int i = 2;
+    int cnt = 1;
+    while(i < n){
+        i = i + x;
+        cnt++;
+    }
+    cout <<  cnt << endl;
 }
 
 
