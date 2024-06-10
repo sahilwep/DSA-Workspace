@@ -1,9 +1,10 @@
-8
-7 3
-1 5
-22 5
-987 13
-38 4
-2 2
-2 3
-2 4
+2
+4
+Icosahedron
+Cube
+Tetrahedron
+Dodecahedron
+3
+Dodecahedron
+Octahedron
+Octahedron
