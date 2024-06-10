@@ -1,17 +1,10 @@
 /*
-//  B. Honest Coach
+//  
 
 
-// observations: 
-    * we have to find the min diff of the number, if we carefully observe..
-
-// Intrusion: 
-    * We cna sort the array..
-    * After sorting the array we can compare the {arr[i] - arr[i-1]}, & find the min of throughout
 
 
 */
-
 
 #include<bits/stdc++.h>
 using namespace std;
@@ -28,19 +21,14 @@ typedef pair<int,int> pi;
 #define el cout << endl;
 #define SQ(a) (a)*(a);
 
-void solve(){ 
+
+
+void solve(){
     int n;
-    cin >> n;
-    vector<int> arr(n);
-    arrInp;
-    sort(arr.begin(), arr.end());
-    int res = INT_MAX;
-    for(int i=1;i<n;i++){
-        int temp = arr[i] - arr[i-1];
-        res = min(res, temp);
-    }
-    cout << res << endl;
+    
+    
 }
+
 
 int main(){
     int t = 1;     // Change the testcase according to question...
