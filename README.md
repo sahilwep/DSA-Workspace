@@ -4,26 +4,34 @@ Welcome to my personal Data Structures and Algorithms Workspace! This repository
 
 ## Introduction
 
-This repository is my personal space for diving deep into the world of data structures and algorithms using C++. It is tailored to my learning style and preferences, providing a hands-on experience to enhance my programming skills.
+This repository is my personal space for diving deep into the world of Competitive programming & DSA using C++. It is tailored to my learning style and preferences, providing a hands-on experience to enhance my programming skills and document my competitive programming journey.
+
+
+## Sub-Repo
+
+- [Codeforces](/Codeforces/)
+- [Leetcode](/Leetcode/)
+- [Striver CP Sheet](/Striver_CP_Sheet)
+- [GFG Self Placed](/GFG_Complete_A_Z/)
+- [Striver A_to_Z](/Striver_DSA_A-to-Z/)
+- [Contest Snippet](/Contest_Snippet/code.cpp)
 
 ## Topics Covered
 
 The following topics are covered in this repository:
-  - Arrays and Strings
-  - Linked Lists
-  - Stacks and Queues
-  - Trees and Graphs
-  - Sorting and Searching
-  - Dynamic Programming
-  - Greedy Algorithms
+  - Constructive Algorithms
+  - Maths Impl.
   - Hashing
+  - Arrays and Strings
+  - Recursion & tail optimizations.
+  - Linked Lists 
+  - Stacks and Queues
+  - Sorting and Searching
+  - Trees, Binary Tree, Binary-Search Tree and Graphs
+  - Dynamic Programming, Memoization, Tabulation
+  - Greedy Algorithms
   - Backtracking
   - and more...
-
-## Course Covered
-
-- GFG Self Placed
-- Striver A_to_Z
 
 Each topic includes detailed explanations, sample code, and illustrations to help you grasp the concepts effectively.
 
