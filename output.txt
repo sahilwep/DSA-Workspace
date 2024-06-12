@@ -1,5 +1,3 @@
-YES
-YES
-NO
-NO
-YES
+.t.o.r
+.c.o.d.f.o.r.c.s
+.b.c.b
