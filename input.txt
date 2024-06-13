@@ -1,4 +1,3 @@
-3
-tour
-Codeforces
-aBAcAba
+2
+1
+2
