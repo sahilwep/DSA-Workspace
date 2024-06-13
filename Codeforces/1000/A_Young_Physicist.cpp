@@ -1,8 +1,9 @@
 /*
 //  A. Young Physicist
 
-
-
+// Observations: 
+    * We have to carefully observe, instead of observing horizontally, observe the sum values vertically..
+    * for each iteration the value should be 0, then only we return "YES" : else we return "NO"
 
 */
 
@@ -22,11 +23,20 @@ typedef pair<int,int> pi;
 #define SQ(a) (a)*(a);
 
 
-
 void solve(){
     int n;
-    
-    
+    cin >> n;
+    int x, y, z;
+    int xSum = 0, ySum = 0, zSum = 0;
+    for(int i=0;i<n;i++){
+        cin >> x >> y >> z;
+        xSum += x;
+        ySum += y;
+        zSum += z;
+    }
+    (xSum == 0 && ySum == 0 && zSum == 0) ? cout << "YES" : cout << "NO" ;
+    el;
+
 }
 
 
