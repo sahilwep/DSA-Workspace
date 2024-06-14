@@ -1,4 +1,4 @@
-hello
-YES
-hel
-NO
+6
+0
+10
+17
