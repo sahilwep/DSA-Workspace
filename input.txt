@@ -1,8 +1,14 @@
-8
-cAPS
-Lock
-cAPSlOCK
-rist
-z
-OOPS
-CAPSlOCK
+4
+2 2
+1 99
+100 0
+10 1
+100 100
+999 2
+1010 10
+67 89
+1 2
+1 0
+1 0
+
+
