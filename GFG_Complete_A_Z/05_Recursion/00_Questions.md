@@ -10,3 +10,4 @@
 6. Tail Recursion: Must visit
 7. Writing base case in Recursion:
 8. Natural Number sum using recursion: 
+9. Palindrome check using recursion: must visit
