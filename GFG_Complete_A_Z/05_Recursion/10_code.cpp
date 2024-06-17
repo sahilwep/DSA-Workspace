@@ -17,6 +17,9 @@ O/p: 1
                                         |--->return getSum(0) + 2 => 0 + 2 = 2
                                                     |---> base case hit: return 0
 
+// TC: O(log10(n) + 1) or O(d) -> gives no of digits
+// SC: O(d)
+
 */
 
 
