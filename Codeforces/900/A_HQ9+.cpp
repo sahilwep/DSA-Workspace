@@ -2,7 +2,7 @@
 //  A. HQ9+
 
 // Observations: 
-    * We have to query the characters of string, if they contains expected characters, we print "YES", : "NO"
+    * We have to query the characters of string, if they contains expected characters, we print "YES", : NO
 
 
 */
