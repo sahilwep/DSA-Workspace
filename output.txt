@@ -1,4 +1,7 @@
-bab
-oops
-z
-sahilsh
+YES
+NO
+YES
+YES
+NO
+YES
+YES
