@@ -1,5 +1,5 @@
 /*
-//  B. Fix You
+// B. Fix You
 
 
 // Observations: 
@@ -26,8 +26,6 @@
     * So, instead we will count only those box's which has possibility to go on the counter...
     * If we carefully observe, the box's goes to the conveyor belt is only those box's which are in the last column & last row..
     * We only have those box in that way so that they can reach to Counter...
-
-
 
 */
 
