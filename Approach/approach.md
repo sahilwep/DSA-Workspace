@@ -152,3 +152,44 @@ int func(){
 ```
 
 * Useful in variety of question where we need searching..
+
+
+## Sliding Window: 
+
+* This technique is used to efficiently solve problems that involve `subrange` of window of elements within a large dataset.
+* It is particularly useful for problems involving array or string where you need to examine contagious subarray or substring.
+* The main idea is to maintain a window(a substring) & slide it over array or string to achieve the desired result with reduced time complexity compared to bruteforce approach.
+* `Key Concept`: 
+  * `Window size`: the length of subarray or substring that you are interested in.
+  * `Sliding the window`: moving the window one element at a time from the start to the end of the array or string.
+  * `Maintaining the window`: keep tracking of elements within the window and updating the result based on the elements currently in the window.
+* `Types of sliding window`:
+  * `Fixed size sliding window`: The window size is fixed and does not change.
+  * `Dynamic size sliding window`: The window size can change dynamically based on condition specified in program.
+* Example: find the sum of a subarray of size `k` in a given array:
+
+```cpp
+int maxSumSubarray(vector<int>& nums, int k) {
+    if (nums.size() < k) return -1;     // when window size is grater than the array size.
+    
+    // Compute the sum of the first window of size k
+    int max_sum = 0;
+    for (int i = 0; i < k; i++) {   // iterate from 0 to k-1
+        max_sum += nums[i];
+    }
+    
+    int window_sum = max_sum;   // first window size will be the size of k element of array that we get.
+    
+    // Slide the window from start to the end of the array
+    for (int i = k; i < nums.size(); i++) {
+        // Slide the window right by subtracting the element left of the window
+        // and adding the element that comes into the window
+        window_sum += nums[i];  // adding the new element that comes into the window.
+        window_sum -= nums[i - k];  // removing the element value from the window sum that goes out of the window.
+        max_sum = max(max_sum, window_sum); // at last we will compare the maximum sum with each iterated sliding window, & last we store it on max_sum variable.
+    }
+    
+    return max_sum;
+}
+```
+
