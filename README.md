@@ -9,6 +9,7 @@ This repository is my personal space for diving deep into the world of Competiti
 
 ## Sub-Repo
 
+- [Approach](/Approach)
 - [Codeforces](/Codeforces/)
 - [Leetcode](/Leetcode/)
 - [Striver CP Sheet](/Striver_CP_Sheet)
