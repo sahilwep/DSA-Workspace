@@ -18,7 +18,7 @@
 
     I/p: arr[] = {3, 0, 1, 2, 5}
     O/p: 6
-    Explanation:        
+    Explanation:
       bar 5                     |
       bar 4                     |
       bar 3         |  W  W  W  |
