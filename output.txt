@@ -1,5 +1,9 @@
-i
-lost
-the
-game
-aaaaaaaa
+1
+2
+5
+0
+3
+1
+0
+2
+4
