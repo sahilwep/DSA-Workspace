@@ -1,7 +1,5 @@
-YES
-YES
-NO
-NO
-YES
-YES
-NO
+i
+lost
+the
+game
+aaaaaaaa
