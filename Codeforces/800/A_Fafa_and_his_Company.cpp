@@ -22,7 +22,6 @@
     // If we carefully observe, we just need to check the divisibility of numbers...
     // there is no test cases, so we can use this solutions...
 
-
 */
 
 #include<bits/stdc++.h>
