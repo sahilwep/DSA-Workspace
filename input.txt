@@ -1,6 +1,13 @@
-5
-2 3
-10 10
-2 4
-7 4
-9 3
+6
+aba
+cb
+er
+cf
+mmm
+mmm
+contest
+test
+cde
+abcefg
+aa
+a
