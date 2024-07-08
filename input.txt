@@ -1,13 +1,4 @@
+3
+3
 6
-aba
-cb
-er
-cf
-mmm
-mmm
-contest
-test
-cde
-abcefg
-aa
-a
+7
