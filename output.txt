@@ -1,2 +1,3 @@
-ABC
-A
+YES
+NO
+NO
