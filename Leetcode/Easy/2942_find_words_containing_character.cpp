@@ -17,7 +17,20 @@
     Explanation: "z" does not occur in any of the words. Hence, we return an empty array.
 
 
-// TC : O(n*m)
+
+// Bruteforce Solutions: 
+    * we can iterate each outer string..
+        * For each string we will iterate each character..
+        * If we found, we push 'i'  into the vector & break out for next i..
+        * TC : O(n*m)
+
+
+// Efficient solution: 
+        * using str.find() functions...
+        * using size_t to store the index..
+        * either it return the index or very large value, i.e equal to string::npos
+        * we check & push into the vector if it's found...
+        * TC : O(n)
 
 
 */
@@ -25,7 +38,7 @@
 using namespace std;
 
 // Solution: TC : O(n*m)
-vector<int> findWordsContaining(vector<string>& words, char x) {
+vector<int> findWordsContaining_(vector<string>& words, char x) {
     vector<int> v;
     for(int i=0;i< words.size();i++){
         string temp = words[i];
@@ -39,6 +52,18 @@ vector<int> findWordsContaining(vector<string>& words, char x) {
     return v;
 }
 
+// Efficient Solution: TC : O(n)
+vector<int> findWordsContaining(vector<string>& words, char x) {
+    vector<int> res;
+    // optimal solutions:
+    for(int i=0;i<words.size();i++){
+        size_t found = words[i].find(x);
+        if(found != string::npos){
+            res.push_back(i);
+        }
+    }
+    return res;
+}
 
 int main(void){
     vector<string> s;
