@@ -1,5 +1,10 @@
-2
-6
-7 1 5 3 6 4
-6
-7 6 5 4 3 1
+3
+ABC
+C?B
+BCA
+BCA
+CA?
+ABC
+?AB
+BCA
+ABC
