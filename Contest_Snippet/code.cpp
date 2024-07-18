@@ -1,6 +1,9 @@
 /*
-//  
+//  B. Fun Game
 
+
+// Observations: 
+    * 
 
 
 
@@ -26,7 +29,23 @@ typedef size_t s_t;  // use during string traversal
 
 void solve(){
     int n;
-    
+    cin >> n;
+    string s, t;
+    cin>> s >> t;
+    if(n == 1){
+        cout << "NO" << endl;
+        return;
+    }
+
+    else if(s == t){
+        cout << "YES" << endl;
+        return;
+    }
+    else{
+        cout << "YESSS" << endl;
+        return;
+    }
+
     
 }
 
