@@ -1,12 +1,6 @@
 /*
 //  B. Fun Game
 
-
-// Observations: 
-    * 
-
-
-
 */
 
 #include<bits/stdc++.h>
@@ -26,27 +20,20 @@ typedef size_t s_t;  // use during string traversal
 #define SQ(a) (a)*(a);
 
 
-
 void solve(){
     int n;
     cin >> n;
     string s, t;
-    cin>> s >> t;
-    if(n == 1){
-        cout << "NO" << endl;
-        return;
+    cin >> s >> t;
+    string res = "YES";
+    for(int i=0;i<n;i++){
+        if(s[i] == '1') break;
+        if(t[i] == '1'){
+            res = "NO";
+            break;
+        }
     }
-
-    else if(s == t){
-        cout << "YES" << endl;
-        return;
-    }
-    else{
-        cout << "YESSS" << endl;
-        return;
-    }
-
-    
+    cout << res << endl;
 }
 
 
