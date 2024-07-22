@@ -1,13 +1,4 @@
-YES
-ocdeforces
-NO
-YES
-xxxyx
-YES
-oc
-NO
-YES
-untdealer
-YES
-wmistht
-NO
+1 2
+13 26
+2 4
+-1 -1
