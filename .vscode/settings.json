@@ -117,6 +117,8 @@
         "stop_token": "cpp",
         "syncstream": "cpp",
         "__verbose_abort": "cpp",
-        "execution": "cpp"
+        "execution": "cpp",
+        "generator": "cpp",
+        "text_encoding": "cpp"
     }
 }
