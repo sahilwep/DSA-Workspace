@@ -79,9 +79,6 @@ void solve(){
         res[i] = pow(2, k++);
     }
 
-    for(auto i: res) cout << i << " ";
-    el;
-
     // Forming Groups:
     int G1 = 0, G2 = 0;
     // Insertion of elements in G1
