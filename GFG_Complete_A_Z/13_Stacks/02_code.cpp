@@ -6,6 +6,9 @@
     * We will create an array at runtime, using new keyword..
     * we will maintain top pointer that will point the top element of stack
 
+// NOTE: Insertion & deletion in an array will be at end, this will make TC: O(1)
+    * If we perform these operation at the beginning, this will make TC linear, which is costly..
+
 */
 
 #include <bits/stdc++.h>
