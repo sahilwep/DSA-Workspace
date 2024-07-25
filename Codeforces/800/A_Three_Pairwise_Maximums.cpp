@@ -12,6 +12,15 @@
 
     * for the condition to be true, two element need to be equal & Third number should be lesser than both of them..
 
+// Key observations: 
+    * As we have give conditions: 
+        a <= b <= c && 
+        x = max(a,b)
+        y = max(a, c)
+        z = max(b, c)
+    * The grater number should comes twice..
+    * Then only we can have this condition satisfied..
+    * What we can do, we can sort th element & check last two digits that are equal or not.
 
 */
 
