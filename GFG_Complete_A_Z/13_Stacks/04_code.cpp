@@ -1,5 +1,5 @@
 /*
-// linked list implementation of stack : 
+// linked list implementation of stack: 
 
     
 
@@ -7,9 +7,12 @@
     * push()
     * pop()
 
+// NOTE: 
+    * In linked list implementations push() & pop() operations will perform at front.
+
 */
 
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 
 struct Node{
