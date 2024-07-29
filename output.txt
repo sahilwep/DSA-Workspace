@@ -1,4 +1,6 @@
-balanced
-balanced
-HELLo
-not balanced
+NO
+YES
+NO
+YES
+YES
+NO
