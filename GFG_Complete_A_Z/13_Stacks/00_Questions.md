@@ -6,4 +6,4 @@
 2. Array implementation of Stack.
 3. Vector implementation of stack.
 4. Linked list implementation of stack.
-5. 
+5. Applications of Stack.
