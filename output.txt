@@ -1,4 +1,3 @@
-0
-1
-16
-1
+ad
+Empty String
+abcdef
