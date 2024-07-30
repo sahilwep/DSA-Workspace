@@ -18,6 +18,13 @@
     * At last we will check the cost of newly formed string & old..
     * store the maxCost newly formed result string.
 
+// Example:
+    * aaa
+        * best possible cost: 
+            abaa    1st
+            baaa    2nd
+            aaaa    3rd
+
 
 */
 
