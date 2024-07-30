@@ -1,3 +1,4 @@
-ad
-Empty String
-abcdef
+ba
+abaa
+abab
+pasasword

@@ -1,4 +1,5 @@
-3
-aaabbaaccd
-aaaa
-aaabbbcccdddefff
+4
+a
+aaa
+abb
+password
