@@ -1,4 +1,1 @@
-ba
-abaa
-abab
-pasasword
+3 4 
