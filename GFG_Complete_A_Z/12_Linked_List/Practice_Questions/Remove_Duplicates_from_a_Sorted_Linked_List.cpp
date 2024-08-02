@@ -39,7 +39,7 @@ void print(Node *root){
 }
 
 // Approach 1: using set data structure
-Node* removeDuplicates(Node *root){
+Node* removeDuplicates_A1(Node *root){
     set<int> s; // set DS is used to store unique elements only
     // first we will store all the unique value into set..
     Node *curr1 = root; 
@@ -47,7 +47,7 @@ Node* removeDuplicates(Node *root){
         s.insert(curr1->data);
         curr1 = curr1->next;
     }
-    
+
     // then we transfer unique value from set to linked list..
     int x = s.size();   // we use size that will help us to insert all the value...
     Node *curr2 = root;
@@ -64,6 +64,25 @@ Node* removeDuplicates(Node *root){
     delete temp;    // finally deleting the temp reference..
 
     return root;    // last returning the root node to the parent call..
+}
+
+// Approach 2: Normal compare & delete method
+Node *removeDuplicates(Node *head){
+    Node *curr = head;
+    // we are iterating with condition curr->next = NULL, because we can comparing two element curr & curr->next
+    while(curr->next != NULL){
+        // whenever we encounter with duplicate values..
+        if(curr->data == curr->next->data){
+            Node *temp = curr->next;    // storing the reference of curr->next, so that we can delete
+            curr->next = curr->next->next;  // changing the curr->next reference to one after the curr->next, i.e curr->next->next
+            delete temp;    // finally delete curr->next reference which is stored in temp..
+            // we don't increment curr pointer to next, because we have to remove duplicate value, means it will execute until we have two unique values....
+        }else{
+            curr = curr->next;  // when we have unique values...
+        }
+    }
+
+    return head;    // at last we return head...
 }
 
 int main(){
@@ -85,9 +104,10 @@ int main(){
             }
         }
 
-        Node *result  = removeDuplicates(head);
+        // Node *result  = removeDuplicates_A1(head);  // approach 1 call
+        Node *result  = removeDuplicates(head); // approach 2 call
         print(result);
-        cout<<endl;
+        cout << endl;
     }
 
     return 0;
