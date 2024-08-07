@@ -1,7 +1,7 @@
 /*
 
 // Add Number Linked list: 
-
+    * We are given two linked list, we have to perform sum operations, nodes by nodes, & return the newly allcoated linked list that contains solutions..
 
 // Observations: 
     * we have to add a number from two linked list: 
@@ -13,28 +13,33 @@
         ---------
          3  9  0
 
-    * We have to return the result in linked list...
+    * if we carefully observe, we are doing sum from left to right...
+    * every time we are storing single digit & the remaining front value will become addon to the next sum operations...
+    * In this scenario, we can use stack data structure..
+        * first we store all the value in stack..
+        * second we sum the result, & store it..
+    * Once we are done with all the operations, we just have to return the allocated linked list that contains values of result, into it...
 
 // Intrusion: 
-    // Approach 1: using stack or array data structure:
-        * We can use stack to perform all of this operations...
-        * We will perform all of of the operations & then we will return the result of it in linked list...
-        * First use stack to store all the value of linked list..
-        * Second we can pop() out values one by one & sum up the result.
-        * Lastly we will return all the result in linked list...
+    // Approach 1: using stack:
+        * idea is to store all the values into the stack first...
+            * we will use two stack that store the values..
+            * Stack 1 : stores element of first list
+            * stack 2 : stores element of second list
+        * Once we are done with this, we will pop() value one by one from both the stack & sum up the result...
+            * we have to take care of the double digits, when we are storing value in solutions..
+            * when we have double digits: 
+                *  we store the last value as remaining sum for next sum operations...
+            * when we have single digits:
+                * we can directly store the sum & make remaining '0'
+        * We have to take care of edge cases like: 
+            * when first stack is empty & second stack contains some values, & vice versa...
+            * When both the stack is empty & we have value in remaining variable...
+        
+        * At last when we get our sum, we just have to allocate the values one by one into the linked list & return the head pointer of allocated nodes..
 
-
-            4 5
-          3 4 5 + 
-        ---------
-
-
-        (0 + 0) * 10 0
-
-
-
-
-
+        * TC: O(n)
+        * AC: O(n)
 */
 
 #include<bits/stdc++.h>
@@ -84,13 +89,18 @@ void printList(Node* n) {
     cout << endl;
 }
 
+
 class Solution {
   public:
     // Function to add two numbers represented by linked list.
     Node* addTwoLists(Node* num1, Node* num2){
+        // Initiallization of two stack to perform all the actions:
         stack<int> s1;
         stack<int> s2;
+
+
         // insertion of both the linked list values into the stack:
+        // insertion of first list into first stack:
         int size1 = 0;
         Node *c1 = num1;
         while(c1 != NULL){
@@ -98,7 +108,7 @@ class Solution {
             s1.push(c1->data);
             c1 = c1->next;
         }
-
+        // insertion of second list into second stack:
         int size2 = 0;
         Node *c2 = num2;
         while(c2 != NULL){
@@ -107,28 +117,30 @@ class Solution {
             c2 = c2->next;
         }
 
-        // Now we pop() out all of the element one by one & sum up all the results...
-        int size = max(size1, size2);   // we need to iterate to max size element, so we are getting the max size.
-        int remaining = 0;
-        int solu = 0;
-        string res = "";
-        for(int i=0;i<size;i++){
-            // When we have values in both the stack...
-            if(s1.empty() == 0 && s2.empty() == 0){
-                int v1 = s1.top();
-                s1.pop();
-                int v2 = s2.top();
-                s2.pop();
 
+        // Now we pop() out all of the element one by one & sum up all the results...
+        int size = max(size1, size2);   // we need to iterate to max size element, so we are getting the max size from it.
+        int remaining = 0;  // use to store the remaining number when we have our value grater than 10...
+        string res = "";    // we will use string store the result
+        // iteration till max size of list:
+        for(int i=0;i<size;i++){
+            // when both that stacks have values in it.
+            if(s1.empty() == 0 && s2.empty() == 0){
+                int v1 = s1.top();  // storing the top element from fist stack
+                s1.pop();   // popping the top element from first stack
+                int v2 = s2.top();  // storing the top element from first stack
+                s2.pop();   // popping the top element from second stack
+
+                // as we have to store the single digit, so use temp to store the sum & then we can filter out what we have to store & what we have to store in remaining variable.
                 int temp = v1 + v2 + remaining;
+                // when we have value grater than 9, means we have double digits..
                 if(temp > 9){
-                    remaining = temp % 10;
-                    temp = temp / 10;
-                    solu += temp;
-                    res += to_string(temp);
-                }else{
+                    remaining = temp / 10;  // storing remaining the first value of the sum
+                    res += to_string(temp % 10);    // storing the last value in solution..
+                }
+                // when we have single digits..
+                else{
                     remaining = 0;
-                    solu += temp;
                     res += to_string(temp);
                 }
             }
@@ -136,41 +148,60 @@ class Solution {
             else if(s1.empty() == 1 && s2.empty() == 0){
                 int v1 = s2.top() + remaining;
                 s2.pop();
-                // when the sum of remaining & current values become grater than 9, means single digit
+                // when sum are in double digits...
                 if(v1 > 9){
-                    remaining = v1 % 10;
-                    v1 = v1 / 10;
-                    solu += v1;
-                    res += to_string(v1);
-                }else{
-                    solu += v1;
+                    remaining = v1 / 10;
+                    res += to_string(v1 % 10);
+                }
+                // when sum are in single digits...
+                else{
                     res += to_string(v1);
                     remaining = 0;
                 }
             }
-            // when first stack is empty & second stack contains some values: 
+            // when first stack is empty & second stack contains some values:
             else if(s2.empty() == 1 && s1.empty() == 0){
                 int v2 = s1.top() + remaining;
                 s1.pop();
-                // when the sum of remaining & current values become grater than 9, means single digit
+                // when sum are in double digits...
                 if(v2 > 9){
-                    remaining = v2 % 10;
-                    v2 = v2 / 10;
-                    solu += v2;
-                    res += to_string(v2);
-                }else{
-                    solu += v2;
+                    remaining = v2 / 10;
+                    res += to_string(v2 % 10);
+                }
+                // when sum are in single digits...
+                else{
                     res += to_string(v2);
                     remaining = 0;
                 }
             }
+            // case when both the stack is empty, but we have some value leftover in remaining variable...
+            if(s1.empty() == 1 && s2.empty() == 1 && remaining > 0 ){
+                res += to_string(remaining);    // storing it into the solutions...
+            }
         }
-        reverse(res.begin(), res.end());
-        cout << "solu: " << solu << " & " << res <<  endl;
 
-        return NULL;
+        // Now we have done all the operations we just have to create a linked list & store all the values in that..
+        // allocation of nodes: we will allocate nodes at beginning of linked list, because TC: O(1)
+        Node *head = NULL;  // allocation of nodes
+        for(int i=0;i<res.size();i++){
+            // allocation of nodes: 
+            head = insertBeg(head, int(res[i] - '0'));  // function call for every character of string..
+        }
+        return head;    // at last we return head to the parent function call..
     }
+
+    // Allocations of Nodes at beginning: TC: O(1)
+    Node *insertBeg(Node *head, int x){
+        Node *temp = new Node(x);
+        if(head == NULL){
+            return temp;
+        }
+        temp->next = head;
+        return temp;
+    }
+
 };
+
 
 int main() {
     int t;
