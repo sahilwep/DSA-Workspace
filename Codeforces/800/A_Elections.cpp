@@ -1,6 +1,15 @@
 /*
 //  A. Elections
 
+// Observations: 
+    * The election that happens recently ended..
+    * There where three candidate,
+        * first candidate receives a votes..
+        * Second candidate receives b votes..
+        * third candidate receives c votes..
+    * for each candidate to win how many votes they needed to win this elections..
+    * We need to print how many votes are needed to win election for each candidate..
+
 */
 
 #include<bits/stdc++.h>
@@ -20,15 +29,36 @@ typedef size_t s_t;  // use during string traversal
 #define SQ(a) (a)*(a);
 
 void solve(){
-    long a, b, c;
+    ll a, b, c;
     cin >> a >> b >> c;
-    long mx = (a > b) ? a : b; mx = (mx > c) ? mx : c;
-    bool tie = (((a == mx) + (b == mx) + (c == mx)) > 1);
-    long u = (a == mx) ? tie : (mx + 1 - a);
-    long v = (b == mx) ? tie : (mx + 1 - b);
-    long w = (c == mx) ? tie : (mx + 1 - c);
-    cout << u << " " << v << " " << w << endl;
-    
+    ll maxVal = max(a, max(b, c));
+    // if we a == max val, means a == 0, & we need to find the difference that we need to win for a, b, & c..
+    // case when (a == b == c)
+    if(a == b && b == c){
+        cout << "1 1 1" << endl;
+        return;
+    }
+    // when a maximum among all
+    if(a == maxVal){
+        // a == 0
+        cout << 0 << " ";
+        cout << a - b + 1 << " ";
+        cout << a - c + 1 << " ";
+    }
+    // when b is maximum among all
+    else if(b == maxVal){
+        cout << b - a + 1 << " ";
+        cout << 0 << " ";
+        cout << b - c + 1 << " ";
+    }
+    // when c is maximum among all
+    else if(c == maxVal){
+        cout << c - a + 1 << " ";
+        cout << c - b + 1 << " ";
+        cout << 0 << " ";
+    }
+    el;
+    // we are adding 1 to every value after subtraction, because that is what they need to win...
 }
 
 int main(){
