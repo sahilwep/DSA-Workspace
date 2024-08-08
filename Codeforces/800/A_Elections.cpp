@@ -10,6 +10,16 @@
     * for each candidate to win how many votes they needed to win this elections..
     * We need to print how many votes are needed to win election for each candidate..
 
+    * we are adding 1 to every value after subtraction, because that is what they need to win...
+
+0 3 4
+Answer: 5 2 0
+
+0 5 5
+Answer: 6 1 1
+
+
+
 */
 
 #include<bits/stdc++.h>
@@ -28,37 +38,24 @@ typedef size_t s_t;  // use during string traversal
 #define el cout << endl;
 #define SQ(a) (a)*(a);
 
+
 void solve(){
-    ll a, b, c;
+    long a, b, c;
     cin >> a >> b >> c;
-    ll maxVal = max(a, max(b, c));
-    // if we a == max val, means a == 0, & we need to find the difference that we need to win for a, b, & c..
-    // case when (a == b == c)
     if(a == b && b == c){
         cout << "1 1 1" << endl;
         return;
     }
-    // when a maximum among all
-    if(a == maxVal){
-        // a == 0
-        cout << 0 << " ";
-        cout << a - b + 1 << " ";
-        cout << a - c + 1 << " ";
-    }
-    // when b is maximum among all
-    else if(b == maxVal){
-        cout << b - a + 1 << " ";
-        cout << 0 << " ";
-        cout << b - c + 1 << " ";
-    }
-    // when c is maximum among all
-    else if(c == maxVal){
-        cout << c - a + 1 << " ";
-        cout << c - b + 1 << " ";
-        cout << 0 << " ";
-    }
-    el;
-    // we are adding 1 to every value after subtraction, because that is what they need to win...
+    long mx = max(a, max(b, c));
+
+    bool tie = ((a == mx) + (b == mx) + (c == mx) > 1); // used to find how many value are equal to maxValue, if there wll more than two value, we store 1, else 0
+    
+    // compare & print the results:
+    long u = (a == mx) ? tie : (mx + 1 - a);
+    long v = (b == mx) ? tie : (mx + 1 - b);
+    long w = (c == mx) ? tie : (mx + 1 - c);
+    cout << u << " " << v << " " << w << endl;
+    
 }
 
 int main(){
