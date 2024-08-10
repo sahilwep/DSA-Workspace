@@ -41,34 +41,9 @@
                     |                 |
                     swapped          swapped
 
-                * The swapping logic that we are doing in array, we have to perform similary, but we need to take care about previous & next nodes that we are swapping:
-
-                * Edge case: 
-                    * when we are swapping 1'st nodes from starting & end, 
-                    * then we have to take care about last previous, & first next nodes, because nodes contains links..
-
-
-                            [1]-->[5]-->[3]-->[4]-->[2]-->[6]
-                             |                             |
-                        swapped                         swapped
-
-                            [Head node ref]           [end Node Ref]
-                                t1                          t2
-                            
-                        * These are the two operations that we have to preform:
-                            t2->next = head->next   // changing the last node ref to the first node ref..
-                            t1->next = NULL
-
-                        * First ref contains the location of r1 = head->next
-                        * second ref contains the location of r2 = secondLast (we can find this location by iterating)
-
-
-                * 
-
-
-
-
-
+    * Conclusion: 
+        * We need to maintain two pointer while iterating the kth node from end & from start.
+        * These pointer will help us to track before & current node locations...
 
 */
 
@@ -124,46 +99,68 @@ bool check(const vector<Node*>& before, const vector<Node*>& after, int num, int
 // Function to swap Kth node from beginning and end in a linked list.
 class Solution {
   public:
-    Node* swapkthnode(Node* head, int k) {
+    Node* swapKthNode(Node* head, int k) {
         // first we have to find the size of linked list, & work accordingly:
-        Node * c1 = head;
-        int size = 1;
-        while(c1->next != NULL){
-            c1 = c1->next;
+        Node *curr = head;
+        int size = 0;
+        while(curr){
             size++;
+            curr = curr->next;
         }
+
         // case when given kth value is grater than the size..
         if(k > size){
             return head;
         }
-
-        // Edge case when k = 1 & size = 1
-        if(size == 1 && k == 1){
+        // when we are given k as middle position, means size/2 position of k, no need to swap..
+        if(k * 2 - 1 == size){
             return head;
         }
+        
+        // Finding the kth node from beginning: 
+        Node *x = head; // this reference will point the targeted kth node.
+        Node *xPrev = NULL; // this reference will point before the targeted kth node from beg.. 
+        for(int i=1;i<k;i++){
+            xPrev = x;
+            x = x->next;
+        }
 
-        // handling k = 1: 
+        // finding the kth node from end: 
+        Node *y = head; 
+        Node *yPrev = NULL;
+        for(int i=1;i<size - k + 1;i++){
+            yPrev = y;
+            y = y->next;
+        }
+
+        // if xPrev exist, then new next will be y.
+        // consider the case when y->next is x. In this case xPrev & yPrev are same.
+        // So the statement "xPrev->next = y" create a self loop, this self loop will be broken when we change y->next
+        if(xPrev != NULL){
+            xPrev->next = y;
+
+        }
+        // same things applies to y
+        if(yPrev != NULL){
+            yPrev->next = x;
+        }
+
+        // swap the next pointer x & y. These statements also break self loop if x->next is y or y->next is x.
+        Node *temp = x->next;
+        x->next = y->next;
+        y->next = temp;
+
+        // change head pointer when k is 1 or n
         if(k == 1){
-            // storing the reference: 
-            Node *c2 = head;
-            while(c2->next->next != NULL){
-                c2 = c2->next;
-            }
-            Node *t1 = head->next;   // storing the reference of first node.
-            Node *t2 = c2;    // storing second last node reference.
-            c2 = c2->next;  // changing the reference of current iterator.
-
-            // changing the reference: 
-            t2->next = t1;
-            t1->next = c2;
-
-
+            return y;
+        }
+        if(k == size){
+            return x;
         }
 
         return head;
     }
 };
-
 
 int main() {
     int t;
@@ -202,7 +199,7 @@ int main() {
         addressstore(before, head);
 
         Solution obj;
-        obj.swapkthnode(head, k);
+        obj.swapKthNode(head, k);
 
         vector<Node*> after(num);
         addressstore(after, head);
