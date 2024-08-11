@@ -6,7 +6,6 @@
     * if n is divisible by 2, both the values are n/2
     * else we have 1 & n-1 values..
 
-
 */
 
 #include<bits/stdc++.h>
