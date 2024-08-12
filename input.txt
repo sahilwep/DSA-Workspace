@@ -1,11 +1,5 @@
 2
-4 3
-codeforces codesecrof
-contest round
-letter message
-codeforces contest letter contest
-5 3
-joll wuqrd
-euzf un
-hbnyiyc rsoqqveh
-hbnyiyc joll joll euzf joll
+1 3 4
+2
+1 2 3 4
+0
