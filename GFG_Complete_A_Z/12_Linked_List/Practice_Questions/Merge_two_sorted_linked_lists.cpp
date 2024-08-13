@@ -12,11 +12,24 @@
 // Intrusion: 
     * Easy Approach:
         * We can use auxilary array to merge & at last we can transfer all the merged values into linked list.
-        * 
+        * TC: O(n+m)
+        * AS: O(n+m)
 
-    * Efficient Approach: 
-        * we can perform this merging operations in linked list itself..
-        * 
+    * Better Solution:
+        * We can merge the linked list, by using auxilary linked list.
+        * While merging we allocate every node in new linked list chain.
+        * TC: O(n+m)
+        * AS: O(n+m)
+
+    * Efficient Approach:
+        * we can perform this merging operations in linked list itself.
+        * We can use two pointer approach: 
+            * first pointer point the first linked list node
+                * we can increase first pointer once we found lower value node.
+            * Second pointer point the second linked list
+                * we can increase second pointer once we found lower value node.
+        * TC: O(n+m)
+        * AS: O(1)
 
 
 
@@ -50,7 +63,7 @@ void printList(struct Node *head) {
 class Solution {
   public:
     // using basic Approach: 
-    Node* sortedMerge(Node* head1, Node* head2) {
+    Node* sortedMerge_(Node* head1, Node* head2) {
         // finding size: 
         Node *c1 = head1;
         int s1 = 0;
@@ -112,7 +125,60 @@ class Solution {
         
 
         return head1;   // return first head pointer..
+    }   // end of the first function:
+
+    // Better Solution: 
+    Node* sortedMerge(Node* head1, Node* head2){
+        Node *c1 = head1;   // pointer 1
+        Node *c2 = head2;   // pointer 2
+
+        // final node that contains the linked list chain
+        Node *chain = NULL;
+        while(c1 != NULL && c2 != NULL){
+            if(c1->data <= c2->data){
+                chain = insertEnd(chain, c1->data);
+                c1 = c1->next;  // moving first pointer
+            }else{
+                chain = insertEnd(chain, c2->data);
+                c2 = c2->next;  // moving second pointer
+            }
+        }
+
+        // inserting left over:
+        while(c1 != NULL){
+            chain = insertEnd(chain, c1->data);
+            c1 = c1->next;
+        }
+        while(c2 != NULL){
+            chain = insertEnd(chain, c2->data);
+            c2 = c2->next;
+        }
+
+        return chain;   // returning new chain that we have created..
     }
+
+    // insert node at linked list:
+    Node *insertEnd(Node *head, int x){
+        Node *temp = new Node(x);
+        if(head == NULL){
+            return temp;
+        }
+        else if(head->next == NULL){
+            head->next = temp;
+            return head;
+        }
+        Node *curr = head;
+        while(curr->next != NULL){
+            curr = curr->next;
+        }
+        curr->next = temp;
+        return head;
+    }
+    // Efficient Solution: 
+    Node *sortedMergeEff(Node *head1, Node head2){
+
+    }
+
 };
 
 int main() {
