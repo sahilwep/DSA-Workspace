@@ -28,6 +28,7 @@
                 * we can increase first pointer once we found lower value node.
             * Second pointer point the second linked list
                 * we can increase second pointer once we found lower value node.
+        * We will maintain a third reference pointer, that will hold the final linked list..
         * TC: O(n+m)
         * AS: O(1)
 
@@ -128,7 +129,7 @@ class Solution {
     }   // end of the first function:
 
     // Better Solution: 
-    Node* sortedMerge(Node* head1, Node* head2){
+    Node* sortedMergeBetter(Node* head1, Node* head2){
         Node *c1 = head1;   // pointer 1
         Node *c2 = head2;   // pointer 2
 
@@ -174,9 +175,39 @@ class Solution {
         curr->next = temp;
         return head;
     }
-    // Efficient Solution: 
-    Node *sortedMergeEff(Node *head1, Node head2){
 
+    // Efficient Solution: 
+    Node *sortedMerge(Node *head1, Node *head2){
+
+        // node that help to merge two linked list: 
+        Node *dummy = new Node(0);      // reference that contains the starting point of linked chain
+        Node *tail = dummy; // this reference keep on changing..
+
+        // using two pointer head1 & head2 that will compare & iterate
+        while(head1 != NULL && head2 != NULL){
+            if(head1->data <= head2->data){
+                tail->next = head1;     // making tail next equal to head1
+                head1 = head1->next;    // moving head1 pointer forward
+            }else{
+                tail->next = head2;     // making tail next equal to head2
+                head2 = head2->next;    // moving head2 pointer forward
+            }
+            // at last we need to move tail also, because we need this tail reference to attach further compared nodes..
+            tail = tail->next;  // after every iteration we need to move tail to tail next, so that we can add next node with it..
+        }
+
+        // inserting left over nodes from any of the linked list: as we only one node left from any of these nodes..
+        if(head1 != NULL){
+            tail->next = head1;
+        }else{
+            tail->next = head2;
+        }
+
+        // Store the result in final node & free dummy node
+        Node *final = dummy->next;  // storing the dummy->next reference that is starting point
+        delete dummy;   // free memory
+
+        return final;   // returning final node..
     }
 
 };
