@@ -1,7 +1,7 @@
 3
-abcd
-defgh
-a
-a
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaacccccccccccccccccccccccccccccccccccccccccccccccccc
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadddddddddddddddddddddddddddddddddddddddddddddddddd
+1 3 4
+2
+8 4 5 5 3
+3
+1 1 1 1
+0
