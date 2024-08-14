@@ -26,6 +26,7 @@
         * We have to find the maximum number of pair that we can get from the string...
 
 
+
 */
 
 #include<bits/stdc++.h>
@@ -83,6 +84,9 @@ void solve(){
     }
 
     cout << ans << endl;
+    unordered_map<int, int> mp;
+    // hashing:
+    
 }
 
 

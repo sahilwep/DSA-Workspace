@@ -6,6 +6,17 @@
     * We have to get all the data from it & make it one.
     * At last we have to return the linked list..
 
+// Example: 
+    Input: arr = [1->2->3, 4->5, 5->6, 7->8]
+    Output: 1->2->3->4->5->5->6->7->8
+    Explanation:
+        The test case has 4 sorted linked 
+        list of size 3, 2, 2, 2
+        1st    list     1 -> 2-> 3
+        2nd   list      4->5
+        3rd    list      5->6
+        4th    list      7->8
+        The merged list will be
 
 // Intrusion:
 
@@ -38,12 +49,16 @@ class Solution {
   public:
     // Function to merge K sorted linked list.
     Node* mergeKLists(vector<Node*>& arr) {
+        
         Node *curr = arr[0];
-        for(int i=0;i<arr.size();i++){
-            if(arr[i]->next == NULL){
-                
+        for(int i=1;i<arr.size();i++){ 
+            while(curr->next != NULL){
+                curr = curr->next;
             }
+            curr->next = arr[i];
         }
+
+        return curr;
     }
 };
 
