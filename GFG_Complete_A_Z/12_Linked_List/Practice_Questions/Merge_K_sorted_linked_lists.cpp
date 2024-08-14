@@ -18,7 +18,8 @@
         4th    list      7->8
         The merged list will be
 
-// Intrusion:
+// Key Observations: 
+    * 
 
 
 */
@@ -49,7 +50,7 @@ class Solution {
   public:
     // Function to merge K sorted linked list.
     Node* mergeKLists(vector<Node*>& arr) {
-        
+
         Node *curr = arr[0];
         for(int i=1;i<arr.size();i++){ 
             while(curr->next != NULL){
