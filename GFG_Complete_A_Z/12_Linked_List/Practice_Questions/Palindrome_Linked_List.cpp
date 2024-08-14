@@ -10,8 +10,9 @@
         * we can push all the element of linked list into stack..
         * Once we have pushed all the element into the stack, we can iterate from front by using iterator reference & simultaneously we can pop element from stack, & match...
         * at any movement we encounter with distinct value we can return 0, else 1
-
-
+    
+    // Approach 2: using any n size Auxilary space data-structure like array or vector.
+        * we can use array or vector or doubly linked list..
 
 */
 
@@ -42,7 +43,7 @@ struct Node {
 class Solution {
   public:
     // Function to check whether the list is palindrome.
-    bool isPalindrome(Node *head) {
+    bool isPalindrome_Stack(Node *head) {
         if(head == NULL) return 0;  // when there is no element in linked list..
         if(head->next == NULL) return 1;    // when there is single element in linked list..
 
@@ -67,6 +68,29 @@ class Solution {
         }
 
         return 1;   // else all the element is same..
+    }
+
+    // Approach 2: using Auxilary space data structure..
+    bool isPalindrome(Node *head) {
+        if(head == NULL) return 0;  // when there is no element in linked list..
+        if(head->next == NULL) return 1;    // when there is single element in linked list..
+
+        // using deque data structure:
+        Node *c = head;
+        vector<int> v;
+        while(c != NULL){
+            v.push_back(c->data);
+            c = c->next;
+        }
+
+        // comparing the elements: using two pointers
+        int p1 = 0;
+        int p2 = v.size() - 1;
+        while(p1 <= p2){
+            if(v[p1++] != v[p2--]) return 0;
+        }
+
+        return 1;   // else all the element is same..e
     }
 };
 
