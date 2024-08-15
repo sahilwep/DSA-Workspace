@@ -42,13 +42,20 @@ class Solution{
                 break;
             }
         }
+        // case when one of the element is missing from array:
+        if(flag1 == 1 && flag2 == 0){
+            return x;
+        }else if(flag1 == 0 && flag2 == 1){
+            return y;
+        }
+
         // returning the result:
         if(xOccur < yOccur){
             return y;
         }else if(xOccur > yOccur){
             return x;
         }else{
-            return max(x, y);
+            return min(x, y);
         }
     }
 };
