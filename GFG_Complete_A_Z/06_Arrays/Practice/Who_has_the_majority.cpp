@@ -22,7 +22,7 @@ using namespace std;
 class Solution{
   public:
     // Using hashing: 
-    int majorityWins(int arr[], int n, int x, int y) {
+    int majorityWins_Method_1(int arr[], int n, int x, int y) {
         unordered_map<int, int> mp; // use map to store frequency
         for(int i=0;i<n;i++){
             mp[arr[i]]++;
@@ -57,6 +57,18 @@ class Solution{
         }else{
             return min(x, y);
         }
+    }
+    // Using counter method:
+    int majorityWins(int arr[], int n, int x, int y){
+        int xCnt = 0;
+        int yCnt = 0;
+        for(int i=0;i<n;i++){
+            if(arr[i] == x) xCnt++;
+            if(arr[i] == y) yCnt++;
+        }
+        if(xCnt == yCnt) return min(x, y);
+        else if(xCnt > yCnt) return x;
+        else return y;
     }
 };
 
