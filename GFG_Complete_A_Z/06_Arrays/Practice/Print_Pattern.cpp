@@ -22,7 +22,6 @@
 using namespace std;
 
 class Solution{
-
 public:
     // iterative solution: 
     vector<int> pattern(int n){
