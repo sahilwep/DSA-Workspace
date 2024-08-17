@@ -1,3 +1,4 @@
-ac
-q
-codeforces
+Yes
+No
+Yes
+Yes

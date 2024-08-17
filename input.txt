@@ -1,7 +1,10 @@
+4
+4
+3 4 1 2
 3
-8
-abacabac
-5
-qzxcq
-20
-ccooddeeffoorrcceess
+1 2 3
+4
+9020 24193 22750 32658
+4
+3 4 1 2
+
