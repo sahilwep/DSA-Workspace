@@ -35,8 +35,35 @@
                         j++
                     else
                         i++
+        * Example Observations: 
 
-    // 
+                34 8 10 3 2 80 30 33 1
+
+                    leftMin = 34 8 8 3 2 2 2 2 1    -> i
+                    Idx       0  1 2 3 4 5 6 7 8
+
+                    rightMax = 80 80 80 80 80 80 33 33 1    -> j
+                    Idx        0  1  2  3  4  5  6  7  8
+
+                    (leftMin[i] <= rightMax[j]) i = 0, j = 0, maxDiff = 0, j++
+                    (leftMin[i] <= rightMax[j]) i = 0, j = 1, maxDiff = 1, j++
+                    (leftMin[i] <= rightMax[j]) i = 0, j = 2, maxDiff = 2, j++
+                    (leftMin[i] <= rightMax[j]) i = 0, j = 3, maxDiff = 3, j++
+                    (leftMin[i] <= rightMax[j]) i = 0, j = 4, maxDiff = 4, j++
+                    (leftMin[i] <= rightMax[j]) i = 0, j = 5, maxDiff = 5, j++
+                    (leftMin[i] > rightMax[j]) i = 0, j = 6, maxDiff = 5, i++
+                    (leftMin[i] > rightMax[j]) i = 1, j = 6, maxDiff = 5, i++
+                    ...
+                    ...
+                    ...
+                    At last we will have maximum difference 5
+
+        * These pointer approach will help us to find the maximum difference..
+        * Because we are iterating these pointer according to our condition & need..
+        * TC: O(n)
+        * AS: O(n)
+
+    
 */
 
 #include <bits/stdc++.h>
