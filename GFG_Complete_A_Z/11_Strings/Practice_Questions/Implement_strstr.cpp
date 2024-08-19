@@ -27,6 +27,9 @@ indexing).
 
     // Approach 2: 
         * Using sting::npos
+        * We can use string string.find(substring) functions..
+        * which will return npos if not found, else return the starting index..
+        * TC : O(n*m)
 
 */
 
@@ -34,7 +37,7 @@ indexing).
 using namespace std;
 
 // Using normal iterations & comparision logic:
-int strstr(string s, string x){
+int strstr_(string s, string x){
     int pos = -1;   // initialize pos = -1, if substring is not found..
     // iteration start from original string in which we have to found
     for(int i=0;i<s.size();i++){
@@ -66,6 +69,13 @@ int strstr(string s, string x){
     return pos;     // returning the string..
 }
 
+int strstr(string s, string x){
+    int found = s.find(x);
+    if(found != string::npos){
+        return found;
+    }
+    else return -1;
+}
 
 
 
