@@ -1,7 +1,3 @@
-3
-4
-1111
-5
-01101
-6
-000100
+2
+GeeksForGeeks Fr
+GeeksForGeeks For
