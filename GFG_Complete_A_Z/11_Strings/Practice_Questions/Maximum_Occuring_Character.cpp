@@ -26,7 +26,6 @@ public:
         char maxChar;
         int max = INT_MIN;
         for(auto i=mp.begin();i!=mp.end();i++){
-            cout << i->first << " " << i->second << endl;
             if(i->second > max){
                 max = i->second;
                 maxChar = i->first;
