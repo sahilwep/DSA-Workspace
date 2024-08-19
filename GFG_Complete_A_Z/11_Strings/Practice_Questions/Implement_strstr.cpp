@@ -23,6 +23,7 @@ indexing).
 // Intrusion:
     // Approach 1:
         * Using Normal iterative logic, & maintaining pointer to compare the string characters..
+        * TC: O(n*m)
 
     // Approach 2: 
         * Using sting::npos
@@ -34,29 +35,38 @@ using namespace std;
 
 // Using normal iterations & comparision logic:
 int strstr(string s, string x){
-    int pos = -1;
+    int pos = -1;   // initialize pos = -1, if substring is not found..
+    // iteration start from original string in which we have to found
     for(int i=0;i<s.size();i++){
-        int ptr = i;
+        int ptr = i;    // maintaining the ptr, so that we can compare the string portions with substring..
+        // if substring first character is matched with string character
         if(s[ptr] == x[0]){
-            bool flag = 0;
+            bool flag = 0;  // making flag that will help us to know if the string portions is not matched with substring..
+            // iterations in substring to match with original string
             for(int j=0;j<x.size();j++){
-                if(s[ptr++] == x[j]){
-                    continue;
+                // if string portions is matching with substring portions
+                if(s[ptr] == x[j]){
+                    ptr++;  // increment the string portions, so that we can continue matching with substring portions iterations..
+                    continue;   // skipping the rest of logic, as the character of original string & substring is matched..
                 }
+                // else if character of string & substring is not matched, we can break out from this matching of selected ptr of outer loop, means original string..
                 else{
                     flag = 1;
                     break;
                 }
             }
+            // If we have the matching of substring & original string portions, we can break out from the loop & return the position of starting matched character of the original string.
             if(flag == 0){
-                pos = i;
+                pos = i;    // storing the position as substring is matched with string portions..
                 break;
             }
         }
     }
     
-    return pos;
+    return pos;     // returning the string..
 }
+
+
 
 
 int main(){
