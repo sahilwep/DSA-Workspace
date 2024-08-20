@@ -15,11 +15,7 @@
     // Efficient Approach: 
         * we can use hashing approach.
         * We can extract data which are unique, & then sort them & perform the searching operations..
-        * TC: O(max(s1.size(),s2.size()) * (log(max(s1, s2))))
-        
-                aacdb
-                gafd
-
+        * TC: O(nlogn), n = maximum size string.
 
 
 */
@@ -29,50 +25,32 @@ using namespace std;
 
 class Solution{
     public:
-    // Efficient Solution: 
-    // function to find the character from string.
-    bool searchString(string s, int start, int end, char x){
-        int mid = (start + end) / 2;
-        while(start <= end){
-            if(x == s[mid]){
-                return 1;
-            }else if(x > s[mid]){
-                start = mid + 1;
-            }else{
-                end = mid - 1;
-            }
-            mid = (start + end) / 2;
-        }
-        return 0;
-    }
-
+    // Efficient Solution:
     string concatenatedString(string s1, string s2){
-        map<char, int> mp;
-        for(char c : s1) mp[c]++;
-        for(char c : s2) mp[c]++;
-
+        map<char, int> mp1;
+        map<char, int> mp2;
+        for(char c : s1) mp1[c]++;
+        for(char c : s2) mp2[c]++;
+        
         string res = "";
-        for(auto i=mp.begin();i!=mp.end();i++){
-            if(i->second == 1){
-                res += i->first;
+        // Checking the character from first string, by comparing from the frequency of second string...
+        for(char c : s1){
+            // if character from first string does not exist in the map of second string
+            if(mp2.find(c) == mp2.end()){
+                res += c;
             }
         }
-        string final = "";
-        sort(res.begin(), res.end());
-        for(int i=0;i<s1.size();i++){
-            bool found = searchString(res, 0, res.size(), s1[i]);
-            if(found){
-                final += s1[i];
+        // Checking the character from the second string by comparing from the frequency fo first string...
+        for(char c : s2){
+            // if character from second string does not exist in the map of first string
+            if(mp1.find(c) == mp1.end()){
+                res += c;
             }
         }
-        for(int i=0;i<s2.size();i++){
-            bool found = searchString(res, 0, res.size(), s2[i]);
-            if(found){
-                final += s2[i];
-            }
+        if(res.empty()){
+            return "-1";
         }
-
-        return final;
+        return res;
     }
 
     // Bruteforce Solution:
