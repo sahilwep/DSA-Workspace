@@ -1,5 +1,4 @@
-2
-geeksforgeeks
-forgeeksgeeks
-mightandmagic
-andmagicmigth
+3
+geeksforgeeks forgeeksgeeks
+allergy allergic
+b d
