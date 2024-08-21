@@ -1,11 +1,5 @@
-5
-4
-abab
-7
-abacaba
-6
-aaaaaa
-7
-abcdefg
-5
-babdd
+2
+geeksforgeeks
+forgeeksgeeks
+mightandmagic
+andmagicmigth
