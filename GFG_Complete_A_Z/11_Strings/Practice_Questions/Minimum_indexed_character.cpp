@@ -41,6 +41,13 @@
         * TC : O(n)    
         * AS : O(1), because we just store only 26 alphabets in hash array
 
+    // Approach 2: Using Hashmap:
+        * We can use map, unordered_map, or set data structure to store frequency of stirng patt.
+        * Then we will look over the string str, & return the index if the character from hashmap is found in string str.
+        * Else we return -1
+        * TC : O(n)    
+        * AS : O(1), because we just store only 26 alphabets in hashmap.
+
 
 */
 
@@ -61,8 +68,9 @@ class Solution{
         }
         return -1;
     }
+
     // Frequency Array Approach: 
-    int minIndexChar(string str, string patt){
+    int minIndexChar_Freq(string str, string patt){
         // storing the frequency of patt into hash array:
         vector<int> hash(26, 0);            // we have only 26 character in alphabet, so we can hash them in 26 size array..
 
@@ -80,6 +88,24 @@ class Solution{
         }
 
         return -1;  // else return -1
+    }
+
+    // using hashmap: map or set
+    int minIndexChar(string str, string patt){
+        // Using Unordered map:
+        unordered_map<char, bool> mp;
+        for(auto i : patt){
+            mp[i] = 1;
+        }
+
+        // Looking over the string str:
+        for(int i=0;i<str.size();i++){
+            // if character is found, we will return the index.
+            if(mp[str[i]]){
+                return i;
+            }
+        }
+        return -1;  // else we will return -1.
     }
 
 };
