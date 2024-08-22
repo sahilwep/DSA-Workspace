@@ -1,5 +1,7 @@
-4
-aabbbcc
-aaaaa
-a
-aabbccdd
+3
+aabaacaadaabaaabaa
+aaba
+aabaacaadaabaaabaa
+ccda
+sahilwep
+hilw
