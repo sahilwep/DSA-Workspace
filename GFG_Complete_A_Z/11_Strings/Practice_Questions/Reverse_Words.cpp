@@ -23,6 +23,32 @@ using namespace std;
 
 class Solution{
 public:
+    // Method 1:
+    string reverseWords_M1(string s){
+        int n = s.size();
+        string solu = "";
+        string temp = "";
+        
+        for(int i=0;i<n;i++){
+            if(s[i] == '.'){
+                solu = '.' + solu;
+                solu = temp + solu;
+                temp = "";
+            }else{
+                temp += s[i];
+            }
+        }
+        
+        solu = temp + '.' + solu;
+        
+        for(int i=0;i<s.size();i++){
+            s[i] = solu[i];
+        }
+        
+        return s;
+    } 
+
+    // Method 2:
     string reverseWords(string s){
         vector<string> res;
         string temp = "";
