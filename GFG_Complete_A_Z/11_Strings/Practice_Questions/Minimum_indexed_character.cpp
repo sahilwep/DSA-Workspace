@@ -34,7 +34,12 @@
         * AS: O(1)
     
 
-
+    // Approach 2: Using Frequency array:
+        * We can use frequency array to store the frequency of patt, as we have to look in str, & return their minimum index..
+        * We will create 26 size array that will store all the character frequency.
+        * We can then iterate into the str, & return the minimum index once we found..
+        * TC : O(n)    
+        * AS : O(1), because we just store only 26 alphabets in hash array
 
 
 */
@@ -45,7 +50,7 @@ using namespace std;
 class Solution{
   public:
     // Bruteforce Solution:
-    int minIndexChar(string str, string patt){
+    int minIndexChar_Brute(string str, string patt){
 
         for(int i=0;i<str.size();i++){
             for(int j=0;j<patt.size();j++){
@@ -56,7 +61,27 @@ class Solution{
         }
         return -1;
     }
-    
+    // Frequency Array Approach: 
+    int minIndexChar(string str, string patt){
+        // storing the frequency of patt into hash array:
+        vector<int> hash(26, 0);            // we have only 26 character in alphabet, so we can hash them in 26 size array..
+
+        for(char c : patt){
+            hash[c - 'a']++;    // subtracting 'a' from ascii value wll give the range b/w 0-26
+        }
+
+        // checking for minimum index character.
+
+        for(int i=0;i<str.size();i++){
+            // if character from string str, is found from hash, we will return the str index
+            if(hash[str[i] - 'a']){
+                return i;
+            }
+        }
+
+        return -1;  // else return -1
+    }
+
 };
 
 
