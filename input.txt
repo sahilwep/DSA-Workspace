@@ -1,5 +1,5 @@
-2
-geeksforgeeks
-set
-adcffaet
-onkl
+4
+aabbbcc
+aaaaa
+a
+aabbccdd
