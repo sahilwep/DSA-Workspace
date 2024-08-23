@@ -1,4 +1,3 @@
-3
-i.like.this.program.very.much
-pqr.mno
-sahil.wep
+2
+10
+21
