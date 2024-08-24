@@ -27,14 +27,30 @@
         a = amazon, b = azonam
 
                 am azon
-                azonam
+                azon am clockwise   -> azonam
 
-                am azon
-                ma noza
-
-                azonam
+                amaz on
+                on amaz Anti-clockwise   ->  onamaz
 
 
+// Key Observations:
+        * n = end()
+        * Clockwise rotations: 
+                amazon
+                am azon 
+                ma noza -> rev (0, 1) & rev(2, n)
+                azonam  -> rev(0, n)
+
+        * Anticlockwise rotations: 
+                amazon
+                amaz on
+                zama no -> rev(0, n-2) & rev(n-2, n)
+                onamaz  -> rev(0, n)
+
+
+// Intrusion: 
+    * rotate string by 2 place in clockwise & anticlockwise direction,
+    * Check if any of these two matched with solution or not?
 
 */
 
@@ -44,9 +60,27 @@ using namespace std;
 class Solution{
 public:
     bool isRotated(string a, string b){
-        if(a == b) return 0;
-        map<char, int> mp;
-        
+        // common cases: 
+        if(a.size() != b.size()) return 0;  // if size is not equal
+        if(a == b) return 0;    // if string is same
+        if(a.size() <= 2 || b.size() <= 2) return 0;    // if string size is less than 2
+
+        // Clockwise:
+        string clock = a;
+        reverse(clock.begin(), clock.begin() + 2);
+        reverse(clock.begin()+2, clock.end());
+        reverse(clock.begin(), clock.end());
+
+
+        // Anticlockwise: 
+
+        string antiClock = a;
+        reverse(antiClock.begin(), antiClock.end() - 2);
+        reverse(antiClock.end()-2, antiClock.end());
+        reverse(antiClock.begin(), antiClock.end());
+
+        // checking clockwise or anticlockwise to match with string b.
+        return (b == clock || b == antiClock);
 
     }
 
