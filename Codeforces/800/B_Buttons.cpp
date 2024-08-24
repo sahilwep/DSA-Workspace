@@ -3,8 +3,6 @@
 //  B. Buttons
 
 
-
-
 */
 
 #include<bits/stdc++.h>
