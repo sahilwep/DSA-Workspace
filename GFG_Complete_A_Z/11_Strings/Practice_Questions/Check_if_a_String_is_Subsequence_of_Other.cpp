@@ -23,6 +23,10 @@ public:
     // Function to check if a string is subsequence of other string.
     // a is subsequence, & b is original string
     bool isSubSequence(string a, string b){
+        // Base case: 
+        if(a.size() == 0) return 1; // as empty string is always be the subsequence
+        if(b.size() == 0) return 0; // if original string is empty, we can't have subsequence..
+
         // iteration start from original string:
         for(int i=0;i<b.size();i++){
             // if current element is matched with sequence first character:
