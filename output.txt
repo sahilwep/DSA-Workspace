@@ -1,4 +1,2 @@
-False
-True
-True
-False
+100
+600
