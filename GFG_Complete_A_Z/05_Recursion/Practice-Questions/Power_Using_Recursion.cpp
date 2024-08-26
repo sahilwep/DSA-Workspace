@@ -33,7 +33,9 @@
         * 32 return to parent call
 
 
-
+// Modulo with [% (1000000007)]
+    * % (1000000007)
+    * Modulo with this value will round the range.
 
 
 */
