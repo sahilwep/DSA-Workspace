@@ -1,2 +1,1 @@
- a 
- a ab abc ac b bc c 
+true

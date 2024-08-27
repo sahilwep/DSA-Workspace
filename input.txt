@@ -1,11 +1,3 @@
-5
-?????
-xbx
-ab??e
-abcde
-ayy?x
-a
-ab??e
-dac
-paiu
-mom
+1
+1 2 5 4 0
+2 4 5 0 1
