@@ -1,4 +1,2 @@
-2
-1
-5
-9
+ a 
+ a ab abc ac b bc c 
