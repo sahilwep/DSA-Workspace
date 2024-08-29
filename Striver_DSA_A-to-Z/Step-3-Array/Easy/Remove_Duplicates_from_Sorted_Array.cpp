@@ -20,6 +20,11 @@
             * TC: O(n)
             * SC: O(1)
 
+    // Using set data Structure:
+        * We can use set data-structure which stores the unique element.
+        * TC: O(nlogn)
+        * AS: O(n)
+
 
 // Example Observations:
         arr[] = [1,1,2,2,3,3,4,4], n = 8
@@ -86,9 +91,9 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-
 class Solution {
 public:
+    // Approach 1: Using two pointer
     int removeDuplicates(vector<int>& nums) {
         int n = nums.size();
         if(n == 0) return 0;   // if array has no element, there is no duplicates
@@ -104,5 +109,16 @@ public:
         }
 
         return ptr1+1;  // returning the size of unique elements  ((ptr1 + 1), because we have compute index from 0, & answer is counting index is from 1)
+    }
+
+    // Approach 2: Using set data-structure
+    int removeDuplicates_Using_Set_DS(vector<int>& nums) {
+        set<int> s; // using set DS
+        for(auto i : nums) s.insert(i); // insert will take O(logn)
+        int k = 0;
+        for(auto i: s){
+            nums[k++] = i;
+        }
+        return s.size();
     }
 };
