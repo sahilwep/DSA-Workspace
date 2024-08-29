@@ -15,7 +15,10 @@
         * AS: O(1)
     
     // Rabin Karp Algo: 
-        * 
+        * We are calculating the hash of pattern & the hash of string, of size n(n is the pattern size) window which is the.
+        * We are using rolling hash function:
+            * we can create a hash window of pattern size, & while sliding window, we subtract the last value in window, & add new upcoming value in window.
+            * We will use the rolling function that will iterate & find the window size 
 
 
 */
