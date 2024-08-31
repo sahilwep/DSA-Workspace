@@ -38,18 +38,52 @@
         * TC: O(n^2)    -> TLE
 
     // Efficient Approach: 
-
-
+        * We can use hashing & prefix sum logic: 
+            * We can use hashing & prefix sum logic to find the longest maxSum.
+        * TC: O(n)
+        * AS: O(n)
 
 */
 
 #include <bits/stdc++.h>
 using namespace std;
 
-
 class Solution{
     public:
+    // Efficient Approach: O(n)
     int lenOfLongSubarr(int arr[],  int n, int k){
+        map<int, int> mp; // declare the map to hash the prefix sum
+        int prefixSum = 0;
+        int maxLen = 0;
+
+        for(int i=0;i<n;i++){
+            // calculating the prefix sum:
+            prefixSum += arr[i];
+
+
+            // Operations for finding the maxLength:
+            // When prefixSum itself equal to k, we can set maxLen = i+1
+            if(prefixSum == k){
+                maxLen = i + 1;
+            }
+            // If (prefixSum - k) is found in hashmap
+            else if(mp.find(prefixSum - k) != mp.end()){
+                maxLen = max(maxLen, i - mp[prefixSum - k]);    // store the maximum length.
+            }
+
+
+            // Operations for storing the prefixSum int hashmap:
+            // Store the prefixSum into hashmap if not already present
+            if(mp.find(prefixSum) == mp.end()){
+                mp[prefixSum] = i;  // Store the prefixSum in hashmap
+            }
+        }
+
+        return maxLen;
+    }
+
+    // Bruteforce Approach: O(n^2)
+    int lenOfLongSubarr_Brute(int arr[],  int n, int k){
         int maxSubarray = 0;
         for(int i=0;i<n;i++){
             int currSum = 0;
