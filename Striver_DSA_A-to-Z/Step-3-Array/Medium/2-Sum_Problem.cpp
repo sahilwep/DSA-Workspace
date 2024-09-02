@@ -33,13 +33,14 @@ public:
         unordered_map<int, int> mp; // declaring map
 
         for(int i=0;i<n;i++){
-            int need = target - nums[i];    // getting the needed value, by subtracting arr[i] it from the target. 
+            int x = nums[i];
+            int need = target - x;    // getting the needed value, by subtracting arr[i] it from the target. 
             // if the needed value found in the map, we will return the indexes
             if(mp.find(need) != mp.end()){
                 return {mp[need], i};   // returning the index.
             }
             // hashing the index & the value into the hashmap.
-            mp[nums[i]] = i;
+            mp[x] = i;
         }
 
         return {-1, -1};
