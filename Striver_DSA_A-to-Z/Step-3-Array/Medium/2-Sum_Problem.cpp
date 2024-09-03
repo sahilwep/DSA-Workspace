@@ -7,6 +7,7 @@
     * We need to return two index in vector.
 
 
+
 // Intrusion: 
     // Bruteforce Approach: 
         * We will use nested loop approach, & try to find two index which sum up target.
