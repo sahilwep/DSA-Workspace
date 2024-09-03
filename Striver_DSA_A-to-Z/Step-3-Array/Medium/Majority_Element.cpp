@@ -19,6 +19,11 @@
         * We will use nested loop, we will select element one by one and iterating in array and counting the number of times.
         * TC: O(n^2)
         * AS: O(1)
+    
+    // Approach 2: using Hashing: 
+        * we will sort the array & return n/2th element, that element will be our majority element.
+        * TC: O(nlogn)
+
 
 */
 
@@ -44,4 +49,12 @@ public:
         }
         return -1;  // when we don't have any majority element
     }
+    // Using Sorting:
+    int majorityElement(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        int n = nums.size();
+        return nums[n/2];   // returning the n/2th element
+    }
+
+
 };
