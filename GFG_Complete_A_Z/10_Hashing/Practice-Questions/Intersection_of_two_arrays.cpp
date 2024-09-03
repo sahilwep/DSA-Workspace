@@ -36,16 +36,16 @@
         * We can use nested loop to count the number of element that falls in intersection region.
         * We need to remove the duplicate values from both the array.
         * We have to take care of unique value.
-        * TC: O(n^2)    -> TLE
-        * AS: O(n)
+        * TC: O(n*m)    -> TLE
+        * AS: O(n + m)
 
     // Approach 2: Using Set data structure:
         * We can use set data structure to perform this operations.
         * First we have to remove the duplicate values from both the array.
         * We will use two set that stores the both the array elements.
         * once, it's done, we can simply iterate on one set, & find the values in other set by using find() function, if the values exist, we will increase counter.
-        * TC: O(n)
-        * AS: O(n)
+        * TC: O(nlogn + mlogm)
+        * AS: O(n+m)
 
 
 */
