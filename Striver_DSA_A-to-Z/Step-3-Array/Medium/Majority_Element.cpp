@@ -23,7 +23,22 @@
     // Approach 2: using Hashing: 
         * we will sort the array & return n/2th element, that element will be our majority element.
         * TC: O(nlogn)
+        * AS: O(1)
 
+    // Approach 3: Using hashing:
+        * hash all the values in an array, & if the element is garter than (n/2) return that.
+        * TC: O(n)
+        * AS: O(n)
+    
+    // Approach 4: Using Moore Voting Algorithm
+        * This algorithm works on the constrains that the element should appears more than n/2 times.
+        * If elements appears more than n/2, this algorithm definitely will works, because in whatever arrangement we will have the most occurring element.
+        * Steps: 
+            * first we will find the most occurring element.
+            * Second we will find how many times it's appears in an array.
+            * If that appears more than n/2 we will return that element else we will return (-1), which means not found.
+        * TC: O(n)
+        * AS: o(1)
 
 */
 
@@ -55,6 +70,52 @@ public:
         int n = nums.size();
         return nums[n/2];   // returning the n/2th element
     }
+    // Using Hashing:
+    int majorityElement(vector<int>& nums) {
+        // hash the values in 
+        unordered_map<int, int> mp;
+        for(auto i : nums){
+            mp[i]++;
+        }
+        int n = nums.size();
+        for(auto i=mp.begin();i!=mp.end();i++){
+            if(i->second > n/2) return i->first;
+        }
 
+        return -1;  // as there is no majority element.
+    }
 
+    // Using Moore Voting Algorithm: O(n)
+    int majorityElement_E(vector<int>& arr) {
+        // first step to find the most occurring elements
+        int n = arr.size();
+        int res = 0;    //position 
+        int count = 1;  //setting the counter 1, at starting.
+        for(int i=1;i<n;i++){
+            // Condition to increase frequency, if element has occurring..
+            if(arr[i] == arr[res]){
+                count++;    
+            }
+            else {
+                count--;    // else decreasing the counter...
+            }
+            // Changing the (arr[res])-> element that we are comparing...
+            if(count == 0){
+                res = i;    // making the candidate as new current (arr[i])->element.
+                count = 1;  // reseting the counter..
+            }
+        }
+        // Second step is to finding the frequency of that element.
+        count = 0;  // resiting the counter
+        for(int i=0;i<n;i++){
+            if(arr[i] == arr[res]){
+                count++;
+            }
+        }
+        // Checking the condition if that element is less than or equal n/2, we return -1
+        if(count <= n/2){
+            return 0;
+        }
+        return arr[res];    // returning the most occurring element..
+    }
 };
