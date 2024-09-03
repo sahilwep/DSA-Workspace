@@ -36,7 +36,7 @@
         * We can use nested loop to count the number of element that falls in intersection region.
         * We need to remove the duplicate values from both the array.
         * We have to take care of unique value.
-        * TC: O(n^2)
+        * TC: O(n^2)    -> TLE
         * AS: O(n)
 
     // Approach 2: Using Set data structure:
@@ -56,8 +56,34 @@ using namespace std;
 class Solution {
 public:
     // Approach 1: Bruteforce solution:
-    int NumberofElementsInIntersection(int a[], int b[], int n, int m) {
+    // function to remove the duplicate from the array: order is not maintained, as it's not needed in parent function.
+    int removeDuplicate(int arr[], int n){
+        unordered_map<int, int> mp;
+        for(int i=0;i<n;i++){
+            mp[arr[i]]++;
+        }
+        int k = 0;
+        for(auto i=mp.begin();i!=mp.end();i++){
+            arr[k++] = i->first;
+        }
         
+        return mp.size();
+    }
+    int NumberofElementsInIntersection_Brute(int a[], int b[], int n, int m) {
+        // Removing the duplicate values:
+        n = removeDuplicate(a, n);  // this will return new size of n, if duplicate exist
+        m = removeDuplicate(b, m);  // this will return new size of m, if duplicate exist
+        int cnt = 0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(a[i] == b[j]){
+                    cnt++;
+                    break;
+                }
+            }
+        }
+
+        return cnt;
     }
 
     // Approach 2: Using Set data structure:
