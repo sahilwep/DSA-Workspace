@@ -40,7 +40,7 @@ public:
         }
         return 1;
     }
-    vector<int> filterByDigits_IterativeLogic(const vector<int>& arr) {
+    vector<int> filterByDigits(const vector<int>& arr) {
         int n = arr.size();
         vector<int> v;
         for(int i=0;i<n;i++){
