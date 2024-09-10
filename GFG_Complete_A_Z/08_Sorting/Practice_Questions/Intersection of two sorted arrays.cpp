@@ -16,11 +16,11 @@
     
     // Efficient Solution: 
         * We can use hashing approach in to find the intersection
-        * 
+        * We can use set data structure to store the elements, because this will ignore the duplicate values.
         * TC: O(nlogn + mlogm + nlogm)
 
 
-*/
+
 
 #include <bits/stdc++.h>
 using namespace std;
