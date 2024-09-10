@@ -13,6 +13,11 @@
         * we will be having duplicate values, so we need to remove that values from both the array.
         * We can use set-data structure, that will store only unique elements.
         * TC: O(n*m)    -> TLE
+    
+    // Efficient Solution: 
+        * We can use hashing approach in to find the intersection
+        * 
+        * TC: O(nlogn + mlogm + nlogm)
 
 
 */
@@ -23,7 +28,7 @@ using namespace std;
 class Solution {
 public:
     // Bruteforce Solution: O(n*m)
-    vector<int> printIntersection(vector<int> &arr1, vector<int> &arr2){
+    vector<int> printIntersection_Brute(vector<int> &arr1, vector<int> &arr2){
         // Discarding duplicates values:
         // Storing Unique data from first array:
         set<int> s1;
@@ -44,6 +49,30 @@ public:
                 }
             }
             if(isFound){
+                res.push_back(*i);
+            }
+        }
+        if(res.size() == 0){
+            res.push_back(-1);
+        }
+
+        return res;
+    }
+    // Efficient Solution: O(nlogn + mlogm + nlogm)
+    vector<int> printIntersection(vector<int> &arr1, vector<int> &arr2){
+        // Discarding duplicates values:
+        // Storing Unique data from first array:
+        set<int> s1;
+        for(auto i: arr1) s1.insert(i);
+
+        // Storing Unique data from first array:
+        set<int> s2;
+        for(auto i: arr2) s2.insert(i);
+
+        // Now Finding the intersection values from both the array:
+        vector<int> res;
+        for(auto i=s1.begin();i!=s1.end();i++){
+            if(s2.find(*i) != s2.end()){
                 res.push_back(*i);
             }
         }
