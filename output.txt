@@ -1,3 +1,5 @@
-YES
-YES
-NO
+codeforces
+fft
+algorithm
+w
+meetinthemiddle
