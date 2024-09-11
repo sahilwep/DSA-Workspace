@@ -29,15 +29,33 @@
         * One important point about multimap, it keeps all their keys in sorted order.
         * TC: O(nlogn)
 
+    // Using "stable_sort()"
+        * Simillar to std::sort(), but it keeps the relative order of element with equivalent value, it comes under <algorithm> header file.
+            
+            stable_sort() =>  void stable_sort( RandomIterator first, RandomIterator last, Compare comp ); 
+                * first: first iterator
+                * second: second iterator
+                * comp: predict function that accept two arguments & return true if the two arguments are in the order and false otherwise.
+                * Ref: https://www.geeksforgeeks.org/stable_sort-c-stl/
+
+        * We will write our compare function which is of boolean type:
+                
+                stable_sort(arr, arr+n, [x](int a, int b){
+                    if(abs(a - x) < abs(b - x)) return true;    // if (a-x) is lesser than (b-x), return true: else return false.
+                    else return false;
+                });
+
+
 */
 
 #include <bits/stdc++.h>
+#include <algorithm>
 using namespace std;
 
 class Solution {
   public:
     // Using multimap:
-    void sortABS(int k, vector<int> &arr) {
+    void sortABS_Multi(int k, vector<int> &arr) {
         // storing value in map: this will store the values in sorted fashion.
         multimap<int, int> mp;
         for(int i=0;i<arr.size();i++){
@@ -49,6 +67,15 @@ class Solution {
         for(auto i=mp.begin();i!=mp.end();i++){
             arr[idx++] = i->second;
         }
+    }
+
+    // // Using stable_sort():
+    void sortABS(int k, vector<int> &arr) {
+        // Using Stable sort:
+        stable_sort(arr.begin(), arr.end(), [k](int a, int b){
+            if(abs(k - a) < abs(k - b)) return 1;
+            else return 0;
+        });
 
     }
 };
