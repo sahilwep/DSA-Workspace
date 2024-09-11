@@ -1,5 +1,5 @@
 2
-5
-edsab
-13
-geeksforgeeks
+7
+10 5 3 9 2
+6
+1 2 3 4 5
