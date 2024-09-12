@@ -1,9 +1,7 @@
-4
-3
-3 5 4
-5
-6 4 9 7 8
 6
-26 9 27 22 16 27
-4
-4 6 3 7
+cbabc
+ab
+zza
+ba
+a
+nutforajaroftuna

@@ -1,4 +1,11 @@
-1
-10
-17
-3
+YES
+acbabc
+YES
+aab
+YES
+zzaa
+YES
+baa
+NO
+YES
+nutforajaroftunaa
