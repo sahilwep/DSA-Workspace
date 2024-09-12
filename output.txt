@@ -1,11 +1,1 @@
-YES
-acbabc
-YES
-aab
-YES
-zzaa
-YES
-baa
-NO
-YES
-nutforajaroftunaa
+2
