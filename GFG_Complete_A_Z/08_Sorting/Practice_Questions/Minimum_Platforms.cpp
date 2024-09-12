@@ -26,7 +26,7 @@
     Input:  arr[] = [0900, 1235, 1100]
             dep[] = [1000, 1240, 1200]
     Output: 1
-    Explanation: All train times are mutually exlusive. So we need only one platform
+    Explanation: All train times are mutually exclusive. So we need only one platform
     // Example Observations: 
         arr[] = [0900, 1100, 1235]
         dep[] = [1000, 1200, 1240]
