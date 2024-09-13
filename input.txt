@@ -1,13 +1,4 @@
-12
-YES
-esYes
-codeforces
-es
-se
-YesY
-esYesYesYesYesYesYe
-seY
-Yess
-sY
-o
-Yes
+1
+8
+3 1 2 2 1 2 3 3
+4
