@@ -3,6 +3,7 @@
 
 // Observations: 
     * We are given a string that we have to find whether it's match the given condition or not?
+    * given string is the part of combinations "YesYesYes...."
 
 
 // Key Observations: 
