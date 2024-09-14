@@ -1,6 +1,14 @@
 /*
 //  Count 1's in binary array
 
+// Observations: 
+    * We are given a binary array sorted in non-increasing order, we need to print the count of 1's in binary array.
+
+
+// Intrusion: 
+    // Approach 1: Bruteforce
+        * Using counter variable that count the number of 1's in an array.
+        * TC: O(n)
 
 
 
@@ -25,7 +33,12 @@ typedef size_t s_t;  // use during string traversal
 class Solution{
 public:
     int countOnes(int arr[], int n){
-        
+            int cnt = 0;
+            for(int i=0;i<n;i++){
+                if(arr[i] == 1) cnt++;
+            }
+
+            return cnt;
     }
 };
 
