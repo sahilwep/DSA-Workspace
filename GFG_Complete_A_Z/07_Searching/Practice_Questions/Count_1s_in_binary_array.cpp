@@ -10,11 +10,15 @@
         * Using counter variable that count the number of 1's in an array.
         * TC: O(n)
 
-
+    // Efficient Approach: Using Binary Search:
+        * Using upper_bound Function
+        * Grater is used when it's non-descending order
+        * TC: O(logn)
 
 */
 
 #include<bits/stdc++.h>
+#include<algorithm>
 using namespace std;
 typedef long long ll;
 typedef vector<int> vi;
@@ -32,7 +36,19 @@ typedef size_t s_t;  // use during string traversal
 
 class Solution{
 public:
+    // Efficient Solution:
     int countOnes(int arr[], int n){
+        // Using upper_bound, & greater<int>() because it's sorted in non-descending order.
+        auto it = upper_bound(arr, arr+n, 1, greater<int>());
+
+        // subtracting arr(first address pointer of array) from it(found pointer of it), will give the index of element.
+        int cnt = it - arr;
+
+        return cnt;
+    }
+    
+    // Brute Force Solution:
+    int countOnes_Brute(int arr[], int n){
             int cnt = 0;
             for(int i=0;i<n;i++){
                 if(arr[i] == 1) cnt++;
