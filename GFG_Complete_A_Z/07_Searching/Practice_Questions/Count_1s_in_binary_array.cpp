@@ -15,6 +15,7 @@
         * Grater is used when it's non-descending order
         * TC: O(logn)
 
+
 */
 
 #include<bits/stdc++.h>
@@ -46,7 +47,7 @@ public:
 
         return cnt;
     }
-    
+
     // Brute Force Solution:
     int countOnes_Brute(int arr[], int n){
             int cnt = 0;
