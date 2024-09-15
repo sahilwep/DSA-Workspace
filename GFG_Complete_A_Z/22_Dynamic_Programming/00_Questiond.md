@@ -2,3 +2,4 @@
 
 1. Intro to Dynamic Programming
 2. Dynamic Programming Memoization: must visit
+3. Dynamic Programming Tabulations: must visit
