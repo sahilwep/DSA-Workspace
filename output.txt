@@ -1,5 +1,4 @@
-YES
-co
-NO
-YES
-om
+3
+4
+3
+0

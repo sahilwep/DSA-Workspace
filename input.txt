@@ -1,7 +1,13 @@
-3
-10
-codeforces
-5
-aaaaa
-5
-oomph
+4
+6 6
+ABCDGH
+AEDFHR
+6 7
+AGGTAB
+GXTXAYB
+3 3
+XYZ
+XYZ
+3 2
+ABC
+XY
