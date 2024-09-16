@@ -1,4 +1,5 @@
-1
-4
-3
-0
+YES
+co
+NO
+YES
+om
