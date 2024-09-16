@@ -4,7 +4,7 @@
 
 
 // Observations:
-    * we are given string s, & we need to find the substring of string s,
+    * we are given string s, & we need to find the substring of string s.
 
 */
 
