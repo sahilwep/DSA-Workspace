@@ -55,11 +55,6 @@
 				* We use an interesting fact here. If arr[low] <= arr[high], then the current subarray must be sorted. so we return arr[low]
 				* This optimizes the code drastically as we do not have explicitly check the whole sorted array.
 
-
-
-
-
-
 		* TC: O(logn)
 
 
