@@ -35,6 +35,31 @@
 
 
 	// Binary Search: 
+		* In Binary search:
+			* we find the middle element and then decided whether to stop or go to left half or right half.
+			* How do we decide in this case. Let's take few example:
+				
+				{4, 5, 6, 9, 0, 1, 2}, mid = (0 + 7) / 2 = 3
+				arr[3] = 9
+					* How do find out that we need to go to the right half (Note that the smallest element is in right half)
+					* we can say if arr[mid] > arr[high], then we go the right half. So we change low = mid + 1
+
+				{50, 10, 20, 30, 40}, , mid = (0 + 4) / 2 = 2
+				arr[2] = 20
+					* if arr[mid] is smaller than or equal to arr[high], then we go to the left half.
+
+
+			* How do we terminate the search?
+				* One way could be to check if the mid is smaller than both of it's adjacent, then we return mid.
+				* This would required a lot of condition check like if adjacent indexes are valid or not and then comparing mid with both.
+				* We use an interesting fact here. If arr[low] <= arr[high], then the current subarray must be sorted. so we return arr[low]
+				* This optimizes the code drastically as we do not have explicitly check the whole sorted array.
+
+
+
+
+
+
 		* TC: O(logn)
 
 
