@@ -1,6 +1,6 @@
 /*
 
-//  A. Vasya and Chocolate
+//  A. Vasya and Chocolate  
 
 
 */
