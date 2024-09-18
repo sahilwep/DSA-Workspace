@@ -28,10 +28,17 @@
 
 
 // Intrusion:
-    * We will use hashing, & store all the element of array into the hashmap.
-    * then we will iterate from 1 to 10e7+1 (10^7 is constrain value).
-    * TC: O(n)
-    * AS: O(n)
+    // Using Boolean array:
+        * We will use hash array that will mark the array position with true & false, then we can iterate & find the smallest positive element:
+        * TC: O(n)
+        * AS: O(n)
+
+
+    // Using Hashing:
+        * We will use hashing, & store all the element of array into the hashmap.
+        * then we will iterate from 1 to 10e7+1 (10^7 is constrain value).
+        * TC: O(n)
+        * AS: O(n)
 
 
 */
@@ -56,6 +63,24 @@ typedef size_t s_t;  // use during string traversal
 
 class Solution{
 public:
+    // Using boolean array:
+    int missingNumber_boolean(int arr[], int n){
+        int size = n+1;
+        bool present[size] = {false};
+
+        for(int i=0;i<n;i++){
+            if(arr[i] > 0 && arr[i] <= n){
+                present[arr[i]] = true;
+            }
+        }
+
+        for(int i=1;i<=n;i++){
+            if(!present[i]) return i;
+        }
+
+        return n+1;
+    }
+    // Hashing Approach: 
     int missingNumber(int arr[], int n){ 
         unordered_map<int, int> mp;
         for(int i=0;i<n;i++) mp[arr[i]]++;
