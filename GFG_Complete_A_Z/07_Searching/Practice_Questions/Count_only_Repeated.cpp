@@ -28,6 +28,10 @@
         * We can select each element one by one & count the number of occurrence, whenever we have repeated element, we will return that number & count.
         * O(n^2) -> TLE
     
+    // Hashing Approach: 
+        * Store the frequency of each element, then pick the element that is repeated..
+        * TC: O(n)
+        * AS: O(n)
 
 
 */
@@ -38,7 +42,7 @@ using namespace std;
 class Solution{
 public:
     // Bruteforce Approach: O(n^2) -> TLE
-    pair<long, long> findRepeating(long *arr, int n){
+    pair<long, long> findRepeating_Brute(long *arr, int n){
         int num = -1;
         int cnt = -1;
         for(int i=0;i<n;i++){
@@ -57,6 +61,25 @@ public:
         p.first = num;
         p.second = cnt;
 
+        return p;
+    }
+
+    // Hashing Approach: O(n)
+    pair<long, long> findRepeating(long *arr, int n){
+        unordered_map<int, int> mp;
+        for(int i=0;i<n;i++) mp[arr[i]]++;
+
+        pair<long, long> p;
+        for(auto i: mp){
+            if(i.second > 1){
+                p.first = i.first;
+                p.second = i.second;
+                return p;
+            }
+        }
+
+        p.first = -1;
+        p.second = -1;
         return p;
     }
 };
