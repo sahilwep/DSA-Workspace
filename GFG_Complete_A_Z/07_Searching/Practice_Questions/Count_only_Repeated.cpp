@@ -13,11 +13,11 @@
 
     Input: n = 5, arr[] = {1,2,3,3,4}
     Output: 3 2
-    Explanation: In the given array, 3 is occuring two times.
+    Explanation: In the given array, 3 is occurring two times.
 
     Input: n = 5, arr[] = {2,3,4,5,5}
     Output: 5 2
-    Explanation: In the given array, 5 is occuring two times.
+    Explanation: In the given array, 5 is occurring two times.
 
     Input: n = 3, arr[] = {1,2,3}
     Output: -1 -1
@@ -34,9 +34,39 @@
         * AS: O(n)
 
 
+    // Searching Method:
+        * We need to find two things:
+            To find the number of times the element repeats:
+                Suppose there is no repeated element for given, then the least element will be at arr[0] and highest element will be the arr[n-1].
+                Now each time an element is repeated the highest element will decrease by 1 each time.
+                Based on this idea since the array is sorted and max-different of two adjacent element is 1, then:
+
+            Count the unique elements = arr[n-1] - arr[0]
+            Therefore, the length of repeated element = n - count of unique elements = n - (arr[n-1] - arr[0])
+
+            To find value of repeated element:
+                To find the repeated value, we can use Binary Search
+
+        * In Simple Word: 
+            * Condition 0: if two consecutive elements are same, we have found the duplicate element.
+            * Condition 1: arr[mid] >= mid + arr[0]
+                * The key insight here is that, in a sorted array without duplicates, every element at index i should satisfy arr[i] == i + arr[0].
+                * If arr[mid] >= mid + arr[0], then no repeating element exists in the left half (start..mid). Thus, shift the search window to the right (start = mid + 1).
+            * Condition 2: arr[mid] < mid + arr[0]
+                * If arr[mid] < mid + arr[0], there is a repetition in the left half, so the search window is adjusted to focus on that part by setting end = mid.
+            * Extracting the Result:
+                * After the binary search completes, start will point to the repeating element in the array. So p.first = arr[start] assigns the repeating element to the result.
+                * To compute how many times the element repeats:
+                    * The range of unique elements should be (arr[n-1] - arr[0] + 1). However, the actual number of unique elements is less by n - (arr[n - 1] - arr[0]). This difference gives us the count of repetitions, which is assigned to p.second.
+
+        * TC: O(logn), if we exclude the count.
+        * TC: O(n)
+
+
 */
 
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
 class Solution{
@@ -65,7 +95,7 @@ public:
     }
 
     // Hashing Approach: O(n)
-    pair<long, long> findRepeating(long *arr, int n){
+    pair<long, long> findRepeating_Hashing(long *arr, int n){
         unordered_map<int, int> mp;
         for(int i=0;i<n;i++) mp[arr[i]]++;
 
@@ -80,6 +110,58 @@ public:
 
         p.first = -1;
         p.second = -1;
+        return p;
+    }
+    // Binary Search: O(logn)
+    pair<long, long> findRepeating(long *arr, int n){
+
+        pair<long, long> p;
+        if(n == 0){
+            p.first = -1;
+            p.second = -1;
+            return p;
+        }
+        
+        // Binary Search:
+        int start = 0;
+        int end = n-1;
+        long repeating_Element = -1;
+
+        while(start < end){
+            int mid = (start + end)/2;
+
+            // If the element at mid is equal to the next element, we have found the repetitions
+            if(arr[mid] == arr[mid+1]){
+                repeating_Element = arr[mid];
+                break;
+            }
+            
+            // Standard Binary Search Conditions:
+            // if arr[mid] = mid + arr[0], there is no repeating element in range [start..mid]
+            if(arr[mid] >= mid + arr[0]){
+                start = mid + 1;
+            }
+            // if arr[mid] <  mid + arr[0], there is repeating element in range [start..mid]
+            else{
+                end = mid;
+            }
+        }
+
+        if(repeating_Element == -1){
+            p.first = -1;
+            p.second = -1;
+            return p;
+        }
+
+        // Count the no of occurrence:
+        int cnt = 0; 
+        for(int i=0;i<n;i++){
+            if(arr[i] == repeating_Element) cnt++;
+        }
+
+        p.first = repeating_Element;
+        p.second = cnt;
+
         return p;
     }
 };
