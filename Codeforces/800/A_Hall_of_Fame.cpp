@@ -1,6 +1,10 @@
 /*
 
-//  B. Upscaling
+//  A. Hall of Fame
+
+//  Observations: 
+
+
 
 */
 
@@ -24,31 +28,8 @@ typedef size_t s_t;  // use during string traversal
 
 void solve(){
     int n;
-    cin >> n;
-
-    string s, t;
-    for(int p = 0; p < n; p++){
-        if(p % 2 == 1){
-            s += "..";
-        }else{
-            s += "##";
-        }
-        if(p % 2 == 1){
-            t += "##";
-        }else{
-            t += "..";
-        }
-    }
-
-    for(int i=0;i<2*n;i++){
-        if(i % 4 < 2){
-            cout << s;
-        }else{
-            cout << t;
-        }
-        el;
-    }
-
+    
+    
 }
 
 
