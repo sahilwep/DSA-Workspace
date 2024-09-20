@@ -12,8 +12,8 @@
     // Bruteforce: 
         * Select each element, & count the number of occurrence,
         * once we got the repeated element we will break out..  
-        * TC: O(n^2)
-        * AS: O(1)
+        * TC: O(n^2)    ->  TLE
+        * AS: O(1)  
     
     // Hashing: 
         * we will use hashing approach to find the number of element that occur twice..
@@ -46,8 +46,51 @@ typedef size_t s_t;  // use during string traversal
 
 class Solution {
 public:
+    // Using Bruteforce: 
+    vector<int> twoRepeated(int n, int arr[]) {
+
+        // First finding the two repeated element:
+        n = n+2;
+        vector<int> v;
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                if(arr[i] == arr[j]){
+                    v.push_back(arr[i]);
+                }
+            }
+        }
+
+        // Now finding the order of these two element:
+        vector<int> res;
+        int first = v[0];
+        int firstCnt = 0;
+        int second = v[1];
+        int secondCnt = 0;
+
+        // flag to store these element at only once & break out the iterations once we are done.
+        bool firstDone = 0;
+        bool secondDone = 0;
+        for(int i=0;i<n;i++){
+            if(arr[i] == first) firstCnt++;
+            if(arr[i] == second) secondCnt++;
+            if(firstCnt == 2 && firstDone == 0){
+                res.push_back(first);
+                firstDone = 1;
+            }
+            if(secondCnt == 2 && secondDone == 0){
+                res.push_back(second);
+                secondDone = 1;
+            }
+            // If both the element is done break;
+            if(firstDone == 1 && secondDone == 1){
+                break;
+            }
+        }
+
+        return res;
+    }
     // Using Hashing: 
-    vector<int> Func(int n, int arr[]) {
+    vector<int> twoRepeated_(int n, int arr[]) {
         n = n + 2;
         unordered_map<int, int> mp;
         vector<int> v;
@@ -76,7 +119,7 @@ int main() {
 
         Solution obj;
         vector<int> res;
-        res = obj.Func(n, arr);
+        res = obj.twoRepeated(n, arr);
         cout << res[0] << " " << res[1] << endl;
     }
     return 0;
