@@ -2,11 +2,6 @@
 
 //  B. Upscaling
 
-//  Observations: 
-
-
-/opt/homebrew/Cellar/gcc/14.2.0/include/c++/14/bits
-
 */
 
 #include<bits/stdc++.h>
@@ -27,19 +22,32 @@ typedef size_t s_t;  // use during string traversal
 #define SQ(a) (a)*(a);
 #define mod 1000000007
 
-
-
 void solve(){
     int n;
     cin >> n;
-    string hash = "##";
-    string dot = "..";
-    for(int i=0;i<n;i++){
-        cout << hash << endl;
-        cout << dot << endl;
+
+    string s, t;
+    for(int p = 0; p < n; p++){
+        if(p % 2 == 1){
+            s += "..";
+        }else{
+            s += "##";
+        }
+        if(p % 2 == 1){
+            t += "##";
+        }else{
+            t += "..";
+        }
     }
 
-    cout << endl;
+    for(int i=0;i<2*n;i++){
+        if(i % 4 < 2){
+            cout << s;
+        }else{
+            cout << t;
+        }
+        el;
+    }
     
 }
 
