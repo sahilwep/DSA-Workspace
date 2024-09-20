@@ -2,11 +2,9 @@
 
 //  3 01 Knapsack Recursive 
 
-
 // Identification of Knapsack: 
     * Choice is given, Then
     * Use DP -> First apply Recursion -> Then apply Topdown
-
 
 // Example:
     Input: 
@@ -122,7 +120,7 @@
 #include<algorithm>
 using namespace std;
 
-// Knapsack function: 
+// Knapsack function: O(2^n)
 int knapsack(int wt[], int val[], int W, int n){
     // base Condition:
     if(n == 0 || W == 0){
