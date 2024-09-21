@@ -35,11 +35,18 @@ Explanation: There is no subarray with sum 2
 
 
     // Sliding Window Approach:
-        * We will use sliding window approach, In this approach we will continuously increase window size until we will reach the subarray size.
+        * We will use sliding window approach, 
+        * In this approach we will continuously increase window size until we will reach the subarray size.
         * If our window size is increased above than the subarray size, we will start removing the elements from the start until we got equal or lesser size of that window.
         * this is how we can find the subarray sum of window, if there is available, else we will return -1.
-
-    // 
+        * Example Working
+            * We will maintain two pinter start & end:
+                * start pointer used to remove element if our window size more than the curent sum.
+                * end pointer adds element one by one, & try to get equal to the subarray sum size.
+            * At the end we will match the window size with given subarray, if it's get matched we will return the [start, end] index, else return -1.
+ 
+        * TC: O(n)
+        * AS: O(1)
 
 
 */
@@ -67,7 +74,7 @@ using namespace std;
 
 class Solution {
 public:
-    // Bruteforce Approach:
+    // Bruteforce Approach: O(n^2)
     vector<int> subarraySum_Brute(vector<int> arr, int n, long long s){
         vector<int> res;
         for(int i=0;i<n;i++){
@@ -100,46 +107,31 @@ public:
         return res;
     }
 
-    // Iterative, Prefix-Suffix Sum Approach:
+    // Sliding Window: O(n)
     vector<int> subarraySum(vector<int> arr, int n, long long s){
-        // Finding in Normal Iterations:
+        int start = 0;  // starting index
+        long long currSum = 0;  // this will maintain the window sum
         vector<int> res;
-        bool isFound = 0;
-        for(int i=0;i<n;i++){
-            if(arr[i] == s){
-                res.push_back(i+1);
-                res.push_back(i+1);
-                isFound = 1;
-                break;
+
+        for(int end=0;end<n;end++){
+            // Expanding window size by adding arr[end]
+            currSum += arr[end];
+
+            // Shrink the currSum while currSum is grater than s
+            while(currSum > s && start <= end){
+                currSum -= arr[start];
+                start++;
+            }
+
+            // Check if we'he found the subarray with the target sum
+            if(currSum == s){
+                // 1-based index
+                res.push_back(start+1);
+                res.push_back(end+1);
+                return res;
             }
         }
-        if(isFound) return res;
-        
-        // Finding in Prefix Sum:
-        int pSum = arr[0];
-        for(int i=1;i<n;i++){
-            pSum += arr[i];
-            if(pSum == s){
-                res.push_back(1);
-                res.push_back(i);
-                isFound = 1;
-                break;
-            }
-        }
-        if(isFound) return res;
-        
-        // Finding in Suffix Sum:
-        int sSum = arr[n-1];
-        for(int i=n-2;i>0;i--){
-            sSum += arr[i];
-            if(sSum == s){
-                res.push_back(i+1);
-                res.push_back(n);
-                isFound = 1;
-                break;
-            }
-        }
-        if(isFound) return res;
+
         res.push_back(-1);
         return res;
     }
