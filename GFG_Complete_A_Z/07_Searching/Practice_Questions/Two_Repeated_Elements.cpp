@@ -9,12 +9,18 @@
     * NOTE: we need to maintain the order of occurrence also.
 
 // Intrusion: 
-    // Bruteforce: 
+    // Bruteforce 1: 
         * Select each element, & count the number of occurrence,
         * once we got the repeated element we will break out..  
         * TC: O(n^2)    ->  TLE
         * AS: O(1)  
     
+    // Bruteforce 2: 
+        * We will Store the second occurrence of each repeated element
+        * At last we will compare 
+        * TC: O(n^2)
+        * AS: O(1)
+
     // Hashing: 
         * we will use hashing approach to find the number of element that occur twice..
         * Hash values int the hashmap, & specify the condition that when it's find that element again, it will store the element into the vector, 
@@ -46,7 +52,7 @@ typedef size_t s_t;  // use during string traversal
 
 class Solution {
 public:
-    // Using Bruteforce: 
+    // Using Bruteforce 1: 
     vector<int> twoRepeated(int n, int arr[]) {
 
         // First finding the two repeated element:
@@ -89,6 +95,41 @@ public:
 
         return res;
     }
+
+    // Bruteforce Approach 2:
+    vector<int> twoRepeated(int n, int arr[]) {
+        // Your code here
+        n = n + 2;
+        vector<pair<int, int>> v;
+        for(int i=0;i<n;i++){
+            int findCnt = 0;
+            bool isFind = 0;
+            for(int j=i+1;j<n;j++){
+                if(arr[i] == arr[j]){
+                    v.push_back({arr[i], j});
+                    findCnt++;
+                }
+                if(findCnt == 2){
+                    isFind = 1;
+                    break;
+                }
+            }
+            if(isFind) break;
+        }
+        
+        vector<int> res;
+        if(v[0].second <= v[1].second){
+            res.push_back(v[0].first);
+            res.push_back(v[1].first);
+        }
+        else{
+            res.push_back(v[1].first);
+            res.push_back(v[0].first);
+        }
+        
+        return res;
+    }
+
     // Using Hashing: 
     vector<int> twoRepeated_(int n, int arr[]) {
         n = n + 2;

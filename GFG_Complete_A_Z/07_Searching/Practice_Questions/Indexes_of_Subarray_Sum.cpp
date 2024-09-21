@@ -34,6 +34,13 @@ Explanation: There is no subarray with sum 2
         * TC: O(n^2)    -> TLE
 
 
+    // Sliding Window Approach:
+        * We will use sliding window approach, In this approach we will continuously increase window size until we will reach the subarray size.
+        * If our window size is increased above than the subarray size, we will start removing the elements from the start until we got equal or lesser size of that window.
+        * this is how we can find the subarray sum of window, if there is available, else we will return -1.
+
+    // 
+
 
 */
 
@@ -61,7 +68,7 @@ using namespace std;
 class Solution {
 public:
     // Bruteforce Approach:
-    vector<int> subarraySum(vector<int> arr, int n, long long s){
+    vector<int> subarraySum_Brute(vector<int> arr, int n, long long s){
         vector<int> res;
         for(int i=0;i<n;i++){
             int curSum = arr[i];
@@ -79,6 +86,10 @@ public:
                     isFound = 1;
                     break;
                 }
+                // Optimizations: if current sum is greater than the given subarray sum break
+                if(curSum > s){
+                    break;
+                }
             }
             if(isFound) break;
         }
@@ -86,6 +97,50 @@ public:
             res.push_back(-1);
         }
 
+        return res;
+    }
+
+    // Iterative, Prefix-Suffix Sum Approach:
+    vector<int> subarraySum(vector<int> arr, int n, long long s){
+        // Finding in Normal Iterations:
+        vector<int> res;
+        bool isFound = 0;
+        for(int i=0;i<n;i++){
+            if(arr[i] == s){
+                res.push_back(i+1);
+                res.push_back(i+1);
+                isFound = 1;
+                break;
+            }
+        }
+        if(isFound) return res;
+        
+        // Finding in Prefix Sum:
+        int pSum = arr[0];
+        for(int i=1;i<n;i++){
+            pSum += arr[i];
+            if(pSum == s){
+                res.push_back(1);
+                res.push_back(i);
+                isFound = 1;
+                break;
+            }
+        }
+        if(isFound) return res;
+        
+        // Finding in Suffix Sum:
+        int sSum = arr[n-1];
+        for(int i=n-2;i>0;i--){
+            sSum += arr[i];
+            if(sSum == s){
+                res.push_back(i+1);
+                res.push_back(n);
+                isFound = 1;
+                break;
+            }
+        }
+        if(isFound) return res;
+        res.push_back(-1);
         return res;
     }
 };
