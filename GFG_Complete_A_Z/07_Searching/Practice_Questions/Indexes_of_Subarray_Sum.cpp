@@ -2,7 +2,7 @@
 
 //  Indexes of Subarray Sum
 
-//  Observations: 
+//  Observations:
     * We are given array of size n that contains non-negative number, find a sub-array that has equal to s.
     * We mainly return the left & right index of subarray,(1-based index).
     * In case of multiple sub-array, we have to return the first subarray.
@@ -42,9 +42,10 @@ Explanation: There is no subarray with sum 2
         * Example Working
             * We will maintain two pinter start & end:
                 * start pointer used to remove element if our window size more than the curent sum.
+                    * Note: While current sum is greater than the Given Subarray sum & start pointer is less than the end till we remove the start elements from the array.
                 * end pointer adds element one by one, & try to get equal to the subarray sum size.
             * At the end we will match the window size with given subarray, if it's get matched we will return the [start, end] index, else return -1.
- 
+
         * TC: O(n)
         * AS: O(1)
 
@@ -69,8 +70,6 @@ typedef size_t s_t;  // use during string traversal
 #define SQ(a) (a)*(a);
 #define mod 1000000007
 
-#include <bits/stdc++.h>
-using namespace std;
 
 class Solution {
 public:
@@ -117,8 +116,8 @@ public:
             // Expanding window size by adding arr[end]
             currSum += arr[end];
 
-            // Shrink the currSum while currSum is grater than s
-            while(currSum > s && start <= end){
+            // Shrink the currSum while currSum is grater than s, & start less than end
+            while(currSum > s && start < end){
                 currSum -= arr[start];
                 start++;
             }
