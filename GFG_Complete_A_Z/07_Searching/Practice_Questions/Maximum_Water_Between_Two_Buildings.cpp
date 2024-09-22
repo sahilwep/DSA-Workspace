@@ -32,8 +32,55 @@
         * we will select every building one by one & try to find the maximum water b/w two buildings.
         * TC: O(n^2)
 
-    
-    
+    // Using Two pointer Approach:
+        * Take two pointer i and j pointing to the first & the last building respectively and calculate the water that can be stored between these two buildings.
+        * Now increment i if(height[i] < height[j]), else decrement j. This is because the water that can be trapped is depended on the
+        * height of small building and moving from the greater height building will just reduce the amount of water instead of maximizing it.
+        * In the end, print the maximum amount of water calculated so far.
+
+        * Example:
+            arr [] = 2 1 3 4 6 5    -> n = 6
+            maxWater = 0
+
+                while(i < j):
+
+                    i = 0, j = 5
+                        (2 < 5):
+                            maxWater = max((j-i-1) * height[i], maxWater)
+                            maxWater = max(4*2, 0) = 8
+                            i++
+
+                    i = 1, j = 5
+                        (1 < 5):
+                            maxWater = max((j-i-1) * height[i], maxWater)
+                            maxWater = max(3*1, 8) = 8
+                            i++
+
+                    i = 2, j = 5
+                        (3 < 5):
+                            maxWater = max((j-i-1) * height[i], maxWater)
+                            maxWater = max(2 * 3, 8) = 8
+                            i++
+
+                    i = 3, j = 5
+                        (4 < 5):
+                            maxWater = max((j-i-1) * height[i], maxWater)
+                            maxWater = max(1 * 4, 8) = 8
+                            i++
+
+                    i = 4, j = 5
+                        (6 > 5):
+                            maxWater = max((j-i-1) * height[i], maxWater)
+                            maxWater = max(0 * 5, 8) = 8
+                            j--;
+                    
+                    -> Break out from loop:
+                            maxWater = 8 so far.
+
+
+        * TC: O(n)
+        * AS: O(1)
+
 
 
 */
@@ -44,8 +91,39 @@ using namespace std;
 
 class Solution{
 public:
+    // Two-Pointers Approach: O(n)
+    int maxWater(int height[], int n){
+        int i = 0;  // starting index
+        int j = n-1;    // ending index
+        
+        int maxCap = 0;
+
+        // While water can be stored b/w the currently choosen building.
+        while(i < j){
+            
+            // if height[i] is lesser than the height[j] we will increment i.
+            if(height[i] < height[j]){
+                // getting the distance b/w these two given building & multiply it with smaller number.
+                int currCap = (j-i-1) * height[i];
+                // storing the maximum water capacity so far:
+                maxCap = max(maxCap, currCap);
+                i++;    // increment i
+            }
+            // when height[i] is greater or equal to height [j], we will decrement the j
+            else{
+                // getting the distance b/w these two given building & multiply it with smaller number if there, otherwise if it's equal we will multiply with it.
+                int currCap = (j-i-1) * height[j];
+                // storing the maximum water capacity so far:
+                maxCap = max(maxCap, currCap);
+                j--;    // decrement i
+            }
+        }
+
+        return maxCap;
+    }
+
     // Bruteforce Solution: O(n^2) -> TLE
-    int maxWater(int arr[], int n){
+    int maxWater_brute(int arr[], int n){
         int maxCap = 0;
         for(int i=0;i<n;i++){
             int currCap = 0;
