@@ -21,6 +21,11 @@
     Printing it in snake pattern will lead to 
     the output as 45 48 54 87 89 21 70 78 15.
 
+// Intrusion:
+    // Method 1: TC: O(n^2)
+
+    // Method 2: TC: O(n^2)
+
 
 */
 
@@ -30,7 +35,30 @@ using namespace std;
 
 class Solution{
 public:
-    vector<int> snakePattern(vector<vector<int> > matrix){   
+    // Method 1: Simple approach
+    vector<int> snakePattern(vector<vector<int> > matrix){
+        // finding size of every row:
+        int n = matrix.size();
+        int rowSize = matrix[0].size(); // size of every row
+        
+        vector<int> res;
+        for(int i=0;i<n;i++){
+            if(i % 2 == 0){
+                for(int j=0;j<rowSize;j++){
+                    res.push_back(matrix[i][j]);
+                }
+            }
+            else{
+                for(int j=rowSize-1;j>=0;j--){
+                    res.push_back(matrix[i][j]);
+                }
+            }
+        }
+
+        return res;
+    }
+    // Method 2: Using single inner loop to print from starting to end & end to starting.
+    vector<int> snakePattern_M2(vector<vector<int> > matrix){   
         vector<int> res;
         int n = matrix.size();
 
