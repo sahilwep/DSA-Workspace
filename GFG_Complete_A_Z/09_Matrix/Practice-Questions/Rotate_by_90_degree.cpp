@@ -84,7 +84,7 @@
                             j = i + 1 -> n
                                 swap(arr[i][j], arr[j][i])
 
-        * TC: O(n)
+        * TC: O(n*n)
         * AS: O(1)
 
 */
