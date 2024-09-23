@@ -5,8 +5,6 @@
 //  Observations:
     * Write a program to find the transpose of a matrix of size N*N.
 
-
-
 // Example:
     Input:
     N = 4
@@ -30,9 +28,20 @@
     {2, -2}}
 
 // Intrusion: 
-    * Transpose in simple word, we need to print our matrix in column wise.
-    * TC: O(n^2)
+    // Using Auxilary Array:
+        * Transpose in simple word, we need to print our matrix in column wise.
+        * TC: O(n^2)
+        * AS: O(n^2)
+        
+    // Without use of Auxilary Array
+        * We can swap the value of row & columns by:
 
+            i = 0 -> n
+                j = i+1 -> n
+                    swap(matrix[i][j], matrix[j][i]);
+        
+        * TC: O(n^2)
+        * AS: O(1)
 
 */
 
@@ -43,9 +52,19 @@ typedef long long ll;
 
 class Solution{   
 public:  
-    //Function to find transpose of a matrix.
+    // Without using Auxilary Array: Transpose of matrix
+    void transpose(vector<vector<int> >& matrix, int n){
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                swap(matrix[i][j], matrix[j][i]);
+            }
+        }
+    }
+
+    // Using Auxilary Array:
     void transpose(vector<vector<int> >& matrix, int n){ 
-        vector<vector<int> > temp(n, vector<int> (n));
+
+        vector<vector<int> > temp(n, vector<int> (n));  // Using Auxilary Array
 
         // Storing the transpose of original matrix into temp matrix
         for(int i=0;i<n;i++){
