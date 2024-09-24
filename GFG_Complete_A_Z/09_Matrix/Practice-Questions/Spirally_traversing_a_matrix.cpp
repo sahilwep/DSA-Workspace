@@ -94,11 +94,14 @@
                         * from the above logic, first we will print the (left -> right)
                         * then top is increased so the (top -> bottom) will not be printed, as this condition will not be executed because {(top <= bottom), & top = bottom = 1, so when top++ => top = 2, & condition hit}.
                         * then we are printing (left -> right), But here we are not checking whether our top is in the bound of bottom or not, it will print again, so we need to fix this by using check if(top <= bottom).
-                        * the for (bottom -> top), this condition will check properly.
+                        * the for (bottom -> top), we need to check (left <= bottom)
 
-                * Fix: we need to take care of the case: if(top <= bottom):  Then only goes in right to left matrix:  
+                * Fix: we need to take care of the case: 
+                    if(top <= bottom): Then only goes in right to left in matrix: 
+                    if(left <= right): Then only goes in bottom to top in matrix
                   
 
+    * TC: O(n*m)
 
 */
 
@@ -144,10 +147,13 @@ public:
             }
 
             // Bottom -> Top:
-            for(int i=bottom;i>=top;i--){
-                v.push_back(matrix[i][left]);  
+            // Edge case: This Condition will make sure when we have only one element in our row; as right is already 0, & with right-- -> it goes to -1, so this condition will restrict it to get executed..
+            if(left <= right){
+                for(int i=bottom;i>=top;i--){
+                    v.push_back(matrix[i][left]);  
+                }
+                left++;     // moving left to right
             }
-            left++;     // moving left to right
         }
 
         return v;
