@@ -25,6 +25,34 @@
         * TC: O(nlogm)
 
 
+    // Using Iterative Searching By Comparing the range:
+        * We know that our matrix is sorted: 
+            * So, for every i, we will check whether our element is present in that range, by comparing it by last value.
+            * If it's not equal then Comparing the value with x:
+                * if current matrix value is grater then: decrement column range
+                * else increment row range 
+
+                n = 3, m = 3
+                x =  51
+                Matrix: 
+                    [3,   30,  38]
+                    [36,  43,  60]
+                    [40,  51,  69]
+
+                Initially: i = 0, j = m -1
+
+                        i = 0, j = 2: (38 < 51)
+                            i++
+                        i = 1, j = 2: (60 > 51)
+                            j--
+                        i = 1, j = 1: (43 < 51)
+                            i++
+                        i = 2, j = 1: (51 == 51) -> return
+
+        * TC: O(n + m)
+            Because, we are only iterating (n + m) times in worse case.
+
+
 */
 
 #include<bits/stdc++.h>
@@ -33,8 +61,26 @@ using namespace std;
 
 class Solution {
 public:
-    // Using Binary Search:
+    // Using Iterative Searching By Comparing the range:
     bool search(vector<vector<int> > &matrix, int n, int m, int x) {
+         
+        int i = 0, j = m - 1;
+        
+        while(i < n && j >= 0){
+            if(matrix[i][j] == x) return 1;
+            else if(matrix[i][j] > x){
+                j--;    // moving to previous column
+            }
+            else {
+                i++;    // moving to next row
+            }
+        }
+        
+        return 0;
+    }
+
+    // Using Binary Search:
+    bool search_Binary(vector<vector<int> > &matrix, int n, int m, int x) {
         for(int i=0;i<n;i++){
             if(binary_search(matrix[i].begin(), matrix[i].end(), x)) return 1;
         }
