@@ -26,10 +26,26 @@
         XOR -> If the bits are same return 0, else return 1
 
 // Intrusion: 
-    // Converting decimal -> boolean string
+    // Method 1: Converting decimal -> boolean string
         * Convert decimal to bool string..
         * Make sure that the total digits of string is 32, because for 4 bytes we have 32 bits.
         * Then compare it by iterating..
+    
+    
+    // Method 2: Using XOR Logic
+        * First we will found the XOR of (a, b) => (a ^ b)
+        * Then we will convert our value into string, & count the number of 1's in result.
+        * XOR: Same Values false, & different value true.
+
+        * Example:
+            A  = 01010
+            B  = 10100   ^ 
+            -----------
+                11110
+
+            XOR -> same false, different true
+
+
 
 */
 
@@ -38,9 +54,11 @@
 #include<algorithm>
 using namespace std;
 
+
 class Solution{
 public:
-    int countBitsFlip(int a, int b){
+    // Method 1: Converting decimal
+    int countBitsFlip_M1(int a, int b){
         // Convert decimal to binary:
         string strA = "";
         string strB = "";
@@ -86,6 +104,32 @@ public:
 
         return cntDiff;
     }
+
+/*
+
+*/
+
+    // Method 2: Using XOR Logic
+    int countBitsFlip(int a, int b){
+        
+        // Taking XOR:
+        int result = a ^ b;
+
+        // Converting decimal to binary string:
+        string num = "";
+        while(result > 0){
+            int ld = (result % 2);  // taking last value, this will be our bits of binary.
+            num += to_string(ld);
+            result /= 2;    // after every operations, we will divide it by 2, this will make sure for next bit to take.
+        }
+
+        // Now we will count the number of 1's in string.
+        int cnt = 0;
+        for(auto i: num) if(i == '1') cnt++;
+
+        return cnt;
+    }
+
 };
 
 
