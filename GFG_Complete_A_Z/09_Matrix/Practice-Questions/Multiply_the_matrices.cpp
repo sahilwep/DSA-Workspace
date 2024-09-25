@@ -81,7 +81,7 @@ public:
 
         // Check if multiplications is not possible
         if(m1 != n2){
-            return {};   // return empty if multiplications is not possible
+            return vector<vector<int> >();   // return an empty 2D vector in case of multiplications is not possible.
         }
         
 
