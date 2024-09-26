@@ -71,7 +71,38 @@
             * mxn =>  Insertion of all the relative elements from second array into result
             * nlogn => Insertion of leftover.
 
+    // Hashing Approach:
+        * first we will remove duplicate form the second array, that will take O(m)
+        * Then we will store the frequency of first array int map.
+        * After that we will iterate in second array, & find the element in hashmap, if it's present, we will store that element into our result by number of times their frequency.
+        * Then after we will store the leftover element from map into result.
 
+
+        * Example:
+            Input:
+                A1[] = {2, 1, 2, 5, 7, 1, 9, 3, 6, 8, 8}    -> N
+                A2[] = {2, 1, 8, 2, 1, 3}   -> M
+            
+            Output: 2 2 1 1 8 8 3 5 6 7 9
+
+            * Step 1: Remove duplicates from the second array:
+                A2[] = {2, 1, 8, 3}
+            * Step 2: Store frequency of first array into map:
+                map:
+                    1 -> 2
+                    2 -> 2
+                    3 -> 1
+                    5 -> 1
+                    6 -> 1
+                    7 -> 1
+                    8 -> 2
+                    9 -> 2
+
+            * Step 3: Iterate in Second array & Store elements into result, & remove the stored element from the map.
+            * Step 4: after that store the left element from the map to the result array.
+
+
+        * TC: O(m*logn + n)
 
 
 
@@ -98,7 +129,7 @@ typedef size_t s_t;  // use during string traversal
 class Solution{
 public:
     // Bruteforce Approach:  O(mlogm + m×n + nlogn) TLE 
-    vector<int> sortA1ByA2(vector<int> a1, int n, vector<int> a2, int m){
+    vector<int> sortA1ByA2_Brute(vector<int> a1, int n, vector<int> a2, int m){
         // Step 1: First Removing duplicates form the second array:
         vector<int> arr2 = removeDupOrder(a2);
 
@@ -150,6 +181,56 @@ public:
             if(mp[arr[i]] != -1){
                 res.push_back(arr[i]);
                 mp[arr[i]] = -1;
+            }
+        }
+
+        return res;
+    }
+
+    // Hashing Approach:
+    vector<int> sortA1ByA2(vector<int> a1, int n, vector<int> a2, int m){
+        vector<int> res;    // result array
+
+        // Step 1: Remove Duplicates from the Second array: O(m)
+        vector<int> arr2;
+        unordered_map<int, int> mp;
+        for(int i=0;i<m;i++){
+            if(mp.find(a2[i]) == mp.end()){
+                arr2.push_back(a2[i]);
+                mp[a2[i]]++;
+            }
+        }
+        m = arr2.size();    // changing size of second array after removing duplicates.
+
+        // Step 2: Storing the frequency of first array:    O(n)
+        map<int, int> freq;
+        for(int i=0;i<n;i++){
+            freq[a1[i]]++;
+        }
+
+        // Step 3: Iterate in Second array & store element into result, & remove elements form the map: O(m*logn)
+        for(int i=0;i<m;i++){
+            // If element is found in map: insert values into map
+            if(freq.find(arr2[i]) != freq.end()){
+                int occur = freq[arr2[i]];
+                int value = arr2[i];
+                while(occur > 0){
+                    res.push_back(value);
+                    occur--;
+                }
+
+                // After Insertion, remove element from map:
+                freq.erase(value);
+            }
+        }
+
+        // Step 4: insert leftover elements from map into result: we have choosen map, so elements are already in sorted order: O(n)
+        for(auto i: freq){
+            int val = i.first;
+            int occur = i.second;
+            while(occur > 0){
+                res.push_back(val);
+                occur--;
             }
         }
 
