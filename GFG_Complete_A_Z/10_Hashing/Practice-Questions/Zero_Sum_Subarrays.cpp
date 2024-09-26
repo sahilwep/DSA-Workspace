@@ -1,6 +1,6 @@
 /*
 
-//  Zero Sum Subarray:
+//  Zero Sum Subarray
 
 //  Observations: 
     * We are given an array arr[] of size n, & we need to count the number of subarray that has sum equals to 0
@@ -23,6 +23,8 @@
     
     // Hashing Approach:
         * We will use map to store cumulative sum & the frequency of their occurrence, & count the frequency while storing.
+        * Note: When we have sum occurring again in hashmap, we will store the frequency in count.
+        * Note: We have to insert (mp[0] = 1) first so that if we have 0 in starting of an array, we can include these case.
         * TC: O(n*logn)
 
 
