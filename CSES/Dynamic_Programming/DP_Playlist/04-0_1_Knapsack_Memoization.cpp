@@ -1,10 +1,9 @@
 /*
 
-//  Determinant of a Matrix
+//  0 1 Knapsack Memoization 
 
-//  Observations:
-    * We are given square matrix of nxn dimension, we need to find determinant of it
-    // Determinant: 
+//  Observations: 
+    
 
 
 
