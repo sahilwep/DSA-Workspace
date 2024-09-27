@@ -82,10 +82,10 @@ int knapsack_Recur(int wt[], int val[], int W, int n){
     if(n == 0 || W == 0) return 0;  // as we don't have item left or don't have capacity to store item in bag, we will return 0 as max profit.
     // Choice Diagram:
     if(wt[n-1] <= W){
-        return max(val[n-1] + knapsack(wt, val, (W-wt[n-1]), n-1),  knapsack(wt, val, W, n-1)); // check for max profit getting if we include it or not?
+        return max(val[n-1] + knapsack_Recur(wt, val, (W-wt[n-1]), n-1),  knapsack_Recur(wt, val, W, n-1)); // check for max profit getting if we include it or not?
     }
     else{
-        return knapsack(wt, val, W, n-1);   // don't include
+        return knapsack_Recur(wt, val, W, n-1);   // don't include
     }
 }
 
