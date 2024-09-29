@@ -1,12 +1,12 @@
 /*
 
-// 0 - 1 Knapsack Memoization:
+// 0 - 1 Knapsack Memoization (Top-Down):
 
 
 // Steps to make our recursive code into memoization:
-    * In top down we'he created matrix, So memoization is an alternative to that, which is easy to implement, & having same performance as top-down
+    * In Bottom-Up we'he created matrix, So memoization(top-down) is an alternative to that, which is easy to implement, & having same performance as Bottom-up
     * We just need to add few lines in our recursive solution, & it's memoized..
-    * We will create same matrix that we used to make in top-down.
+    * We will create same matrix that we used to make in Bottom-up.
     * First we have to create a matrix where we are going to store the values: let the matrix be 't'
         * How do we decide, what will be our matrix dimensions:
             * Some inputs in our recursive solutions are changing(decreasing in size), & some are not changing
@@ -38,10 +38,10 @@
                 * The recursive calls that we are using, we just have to update with t[n][w] = knapsack(....) 
         * That's it, our recursive solutions now become the Dp solutions.
     
-        * Alway try to write memoization solution, because Memoization & Top-down have same complexity.
+        * Alway try to write memoization solution, because Memoization & Bottom-up have same complexity.
 
 // Minimal Drawback: 
-    * Sometimes Top-down works better in comparision to memoization, vice versa..
+    * Sometimes Bottom-up works better in comparision to memoization, vice versa..
     * The only drawback is size of function call stack is increased..
     * But most of the time it's works perfectly..
 
