@@ -1,7 +1,7 @@
+3
+abciiidef
+3
+aeiou
 2
-4
-1 2 3 4
-5
-5
-3 1 3 4 3
-6
+leetcode
+2
