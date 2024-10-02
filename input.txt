@@ -1,7 +1,10 @@
 3
-abciiidef
+5
+1 0 0 0 1
+1
+5
+1 0 0 0 1
+2
 3
-aeiou
-2
-leetcode
-2
+0 0 1
+1
