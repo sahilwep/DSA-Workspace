@@ -1,7 +1,5 @@
-3
-7
-a a b b c c c 
-8
-a a b b c c d d
-9
-a a b b c c c a a
+2
+abc
+ahbgdc
+axc
+ahbgdc
