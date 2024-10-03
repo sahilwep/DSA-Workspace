@@ -1,4 +1,6 @@
-3
-abc bca
-a aa
-cabbba abbccc
+5
+pf 5
+pf 10
+pb 6
+f
+pp_b
