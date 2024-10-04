@@ -96,8 +96,15 @@ public:
 
 
 void solve(){
-    int n;
-    
+    int n, k;
+    cin >> n >> k;
+    vector<int> nums(n);
+
+    for(int i=0;i<n;i++) cin >> nums[i];
+
+    Solution Obj;
+    (Obj.containsNearbyDuplicate(nums, k)) ? cout << "True" : cout << "False";
+    cout << endl;
     
 }
 
