@@ -37,6 +37,13 @@
         * By this way we can find all the combinations where, we can hold the maximum water..
         * TC: O(n)
 
+
+// NOTE: 
+    * This problem "Container with most water" problem is different from the "Tapping rain water" problem, because,
+    * In tapping rain water we need to return how much rain water that can building hold, there we need find the water that can be hold in two building, & return the total water that can be hold b/w all the building..
+    * But, Here in Container with most water, we need to find two building that can hold maximum water overall, means we are calculating area here....
+
+
 */
 
 #include<bits/stdc++.h>
