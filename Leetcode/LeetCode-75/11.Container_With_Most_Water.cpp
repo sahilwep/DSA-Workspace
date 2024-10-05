@@ -25,6 +25,17 @@
         * We will try to find every possible combinations, from start to end.
         * By selecting every element one by one, we will try to find the maximum water that container can hold.
         * TC: O(n^2) -> TLE
+    
+    // Efficient Solutions: 
+        * We will use two pointer & greedy approach.
+        * We will move the pointer according to our preference..
+        * first pointer is at 0
+        * second pinter is at n-1
+                
+                if(height[ptr1] <= height[ptr2]) ptr1++ // move first pointer
+                else ptr2-- // move second pointer
+        * By this way we can find all the combinations where, we can hold the maximum water..
+        * TC: O(n)
 
 */
 
@@ -49,7 +60,7 @@ typedef size_t s_t;  // use during string traversal
 class Solution {
 public:
     // Bruteforce Solution:
-    int maxArea(vector<int>& height) {
+    int maxArea_Brute(vector<int>& height) {
         int n = height.size();
 
         int maxCap = 0;
@@ -59,6 +70,28 @@ public:
                 int minHei = min(height[i], height[j]);
                 int currCap = idxDiff * minHei;
                 maxCap = max(maxCap, currCap);
+            }
+        }
+
+        return maxCap;
+    }
+    // Efficient Solution: 
+    int maxArea(vector<int>& height) {
+        int n = height.size();
+        int maxCap = 0;
+        
+        int i = 0;
+        int j = n-1;
+        while(i < j){
+            int minH = min(height[i], height[j]);
+            int width = j - i;
+            int area = minH * width;
+            maxCap = max(maxCap, area);
+            // when height of right side element is grater
+            if(height[i] <= height[j]){
+                i++;
+            }else{
+                j--;
             }
         }
 
