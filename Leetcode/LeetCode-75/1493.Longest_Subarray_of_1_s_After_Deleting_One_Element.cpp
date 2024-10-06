@@ -43,6 +43,88 @@
         * We will maintain two pointer i(left) & j(right)..
         * We will iterate j & count the number of '0', we will make sure to ignore one 0's, because that is what we have to remove...
         * Once the zero counter become 2, we will find the size of that window, & that's how we will get the maximum size of subarray by ignoring one 0's from it.
+        * Example: Step-by-Step Execution:
+
+                    Initialization:
+                        zeroCnt = 0: No 0s have been encountered yet.
+                        i = 0: Left pointer starts at the beginning of the array.
+                        cnt = 0: We haven't found any valid subarrays yet.
+                        k = 1: We can ignore at most one 0 (this is the deletion of one element).
+
+                    Iteration Process:
+
+                    We will iterate over nums with j as the right pointer and explain each step:
+
+                        For j = 0:
+                            nums[0] = 0
+                            Increment zeroCnt = 1 (one 0 encountered in the window).
+                            The window is valid since zeroCnt = 1 is not greater than k = 1.
+                            Update cnt = max(0, 0 - 0 + 1) = 1 (current window size is 1).
+
+                        For j = 1:
+                            nums[1] = 1
+                            No change to zeroCnt.
+                            The window is valid (still contains one 0).
+                            Update cnt = max(1, 1 - 0 + 1) = 2 (current window size is 2).
+
+                        For j = 2:
+                            nums[2] = 1
+                            No change to zeroCnt.
+                            The window is valid.
+                            Update cnt = max(2, 2 - 0 + 1) = 3 (current window size is 3).
+
+                        For j = 3:
+                            nums[3] = 1
+                            No change to zeroCnt.
+                            The window is valid.
+                            Update cnt = max(3, 3 - 0 + 1) = 4 (current window size is 4).
+
+                        For j = 4:
+                            nums[4] = 0
+                            Increment zeroCnt = 2 (now the window has two 0s, which exceeds k).
+                            The window is no longer valid because it contains more than one 0.
+                            Shrink the window by moving the left pointer i until the window contains at most one 0:
+                                i = 0: nums[0] = 0, so decrement zeroCnt = 1 and move i = 1.
+                            Now, the window is valid again ([1,1,1,0] from index 1 to 4).
+                            Update cnt = max(4, 4 - 1 + 1) = 4 (current window size is still 4).
+
+                        For j = 5:
+                            nums[5] = 1
+                            No change to zeroCnt.
+                            The window is valid ([1,1,1,0,1]).
+                            Update cnt = max(4, 5 - 1 + 1) = 5 (current window size is 5).
+
+                        For j = 6:
+                            nums[6] = 1
+                            No change to zeroCnt.
+                            The window is valid.
+                            Update cnt = max(5, 6 - 1 + 1) = 6 (current window size is 6).
+
+                        For j = 7:
+                            nums[7] = 0
+                            Increment zeroCnt = 2.
+                            The window is invalid (contains two 0s).
+                            Shrink the window:
+                                i = 1: nums[1] = 1 (no change to zeroCnt).
+                                i = 2: nums[2] = 1 (no change to zeroCnt).
+                                i = 3: nums[3] = 1 (no change to zeroCnt).
+                                i = 4: nums[4] = 0, so decrement zeroCnt = 1 and move i = 5.
+                            Now the window is valid again ([1,1,0] from index 5 to 7).
+                            Update cnt = max(6, 7 - 5 + 1) = 6 (window size remains 6).
+
+                        For j = 8:
+                            nums[8] = 1
+                            No change to zeroCnt.
+                            The window is valid.
+                            Update cnt = max(6, 8 - 5 + 1) = 6 (window size remains 6).
+
+                    * Final Calculation:
+
+                    * After finishing the iteration, we return cnt - 1, because the problem requires us to delete exactly one element. So the final result is 6 - 1 = 5.
+                    Final Result:
+
+                    * For the input nums = [0, 1, 1, 1, 0, 1, 1, 0, 1], the size of the longest subarray containing only 1s after deleting one element is 5. 
+        
         * TC: O(n)
 
 
@@ -124,6 +206,7 @@ public:
         return cnt - 1;
     }
 };
+
 
 void solve(){
     int n;
