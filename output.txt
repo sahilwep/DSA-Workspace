@@ -1,2 +1,4 @@
-Yes
-No
+aaabcbc
+accaccacc
+abcabccdcdcdef
+acxxcxxcxxcxxcxxcxxcxxcxxcxxcxxcxxcxxcxxyacxxcxxcxxcxxcxxcxxcxxcxxcxxcxxcxxcxxcxxy
