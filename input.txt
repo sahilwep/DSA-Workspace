@@ -1,7 +1,3 @@
-3
-3
-flower flow flight
-3
-dog racecar car
-3
-sahil sahohil sahivam
+2
+sadbutsad sad
+leetcode leeto
