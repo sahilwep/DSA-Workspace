@@ -1,3 +1,2 @@
-bab
-abba
-bb
+Yes
+No
