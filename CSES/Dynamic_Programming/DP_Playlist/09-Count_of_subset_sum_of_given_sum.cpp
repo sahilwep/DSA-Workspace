@@ -43,7 +43,12 @@
                 * In the place of True, we are filling as 1, & in the place of false we are filling as 0.
                 * Because, for (sum = 0 & n = whatever) we will have at least 1 subset, i.e {} empty set.
                 * if we have (n = 0, & sum > 0) we will don't have any subset, because there is no element in our subset & still we have some sum value.
-    
+                
+                * But here, we need to find the count of it: 
+                    * So, instead of 1, 0, we need to fill some legit integer values, because these are count..
+
+
+
     * Decision Tree: filling the rest of the item:
 
             if(nums[i] <= sum){
@@ -86,6 +91,33 @@
     * AS: O(n*sum)
 
 
+
+
+// NOTE:
+    * We are initialising first Column to 1, assuming there is only 1 way to make subset sum equal to 0,
+    * i.e null Subset, But this fails if we have 0's as element of array.
+    * If we have a single 0 present in the array, then the subset will be '{}' and '{0}', whose sum will be 0..
+    * Hence, there can be more than 1 way to make (sum == 0)
+
+                arr[] = {0}, sum = 0
+                    Possible Subsets: 
+                        {}, {0}     -> 2 subsets possible
+                
+
+                arr[] = {0, 0}, sum = 0
+                    Possible Subsets:
+                        {0} {0}
+                        {0, 0} {}   -> 4 subsets possible
+
+        Fix: We don't need have to initialise first column to 1, assuming there is only 1 way to make subset sum equal to 0.
+            Everything will be initialized to 0 except the first cell in the table, 
+                i.e dp[0][0] = 1 
+                Because, for sum = 0 & n = 0 => we only have 1 subset i.e {} empty set.
+
+            And j will start from 0, instead of 1.
+
+
+
 */
 
 #include<bits/stdc++.h>
@@ -98,15 +130,15 @@ int countSubsetSum(vector<int>& nums, int sum){
     // Initialization: Create a 2D DP table
     vector<vector<int> > t(n+1, vector<int> (sum+1));
 
-    // Base case: For sum = 0, there's one subset (the empty set)
-    for(int i=0;i<n+1;i++) t[i][0] = 1;
 
-    // Base case: For n = 0, with sum > 0, there are no subsets
-    for(int i=1;i<sum+1;i++) t[0][i] = 0;
+    // There is only 1 subset when n = 0 & sum = 0 -> (t[0][0] = 1)
+    t[0][0] = 1;
+
 
     // Filling the DP table using the decision tree logic
     for(int i=1;i<n+1;i++){
-        for(int j=1;j<sum+1;j++){
+        // start iteration from 0, because we have to take care of (sum = 0) for array having only 0's in it..
+        for(int j=0;j<sum+1;j++){
             if(nums[i-1] <= j){
                 // Include or exclude the current element
                 t[i][j] = t[i-1][j-nums[i-1]] + t[i-1][j];
