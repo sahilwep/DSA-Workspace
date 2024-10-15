@@ -29,8 +29,8 @@
     Thus there are total 6 ways for partition the array arr. 
 
 
-// Observations: 
-    * We are given an array, & We are given the difference of their subset sum
+
+// Observations:
 
                         [array items]
                         /           \
@@ -39,34 +39,134 @@
 
 
               
-            abs(s1 - s2) = diff(given)     -> s1 >= s2
- 
-            s1 = (diff + s2) -> we can get subset 1 sum value.
+            abs(s1 - s2) = diff(given)
 
 
-            s1 + s2 = range(sum of array)
+        * We have to return the output in int, i.e count..
+        * We will have to return the count, How many subsets are there whose difference is "diff", i.e given
+        * Example:
+                diff = 1
+
+                        [1, 1, 2, 3]
+                         /        \
+                 [Subset1]       [Subset1]
+
+                 * Possible subset:
+                        {1, 2}  {1, 3}
+                          (3  - 4) = 1
+
+                        {1, 3}  {1, 2}
+                          (4  - 3) = 1
+
+                                * Note, both 1 are Different, so we have take each one of them..
+                        
+                        {1, 1, 2}   {3}
+                            (4     -  3) = 1
+                        
+                
+                * So, count is 3 
+
+
+        * Now, let's reduce it into simpler problem:
+
+                Diff = 1 -> Denote this by S
+
+                        [1, 1, 2, 3]
+                         /        \
+                 [Subset1]       [Subset1]
+                    S1              S2      -> Sum of these subsets
+
+                    S1 - S2 = S(given)              ------(I)
+
+                    S1 + S2 = Sum or array -> because we are breaking our subset into two.          -----(II)
+
+
+                (I) + (II)
+
+                    S1 - S2 = S
+                 +  S1 + S2 = Sum_Array
+                 -----------------------
+                  2*S1  = S + Sum_Array
+
+                  S1 = (S + Sum_Array) / 2
+                
+                * So, from this equation, we have S(Diff) & Sum_Array(We can get it from our array)
+                * We can easily calculate S1
+                    
+                    (S + Sum_Array)/2
+                    (1 +  7)/2  =  4
+
+                    So, Subset 1 Sum = 4 
+                
+                * From mathematically we calculate Subset 1 Sum = 4
+
+
+            * But, we need to find the count:
+                Count ?? -> How many subsets are there, whose sum difference is 1
+
+                If S1 = 4, then (S1 - S2) = diff
+                    S1 - diff = S2
+                    4 - 1 = 3   -> S2 we can get the sum value of subset 2
             
-            s2 = range - s1
+            * So, this value is reduce to, we need to find the count of subset of an array which sum we recently found..
+
+                        [array]
+                        /     \
+                [subset1]     [subset1]
+                    S1     -    S2      = Diff
+
+                * If we got S1, then we can easily found S2..
+                * If S1 = 4, then S2 = 3
+                * So, we need to find the count of S1, 
+                * means, we need to find the count of an array with given sum
+                * This problem is reduced to:
+                    * We are given an array, whose subset sum is 4, and we need to count how many subset's are there..
+
+                               [array]
+                                 |
+                              {Subset}
+                               Sum = 4
+
+                    * This problem become "Count of Subset Sum"
+                    * Sum can be found by: (Array_Sum + Diff) / 2
+            
+            * So Concluding, We need to find the number of subset whose subset sum are given.
 
 
-            s1 = (diff + s2)
-            s1 = diff + range - s1
-
-            2*s1 = (diff + range)
-            s1 = (diff + range) / 2
-
-            So, we have got s1 value..
 
 
 
-// Iterating from 0 to sum: in inner loop while building dp table.
 
-    * As you build the DP table, you're calculating how many ways you can form subsets with each possible sum j, 
-    * where j ranges from 0 to the target sum. This means you need to check every possible sum from 0 (smallest) to sum (the target).
+// NOTE:
+    * We are initialising first Column to 1, assuming there is only 1 way to make subset sum equal to 0,
+    * i.e null Subset, But this fails if we have 0's as element of array.
+    * If we have a single 0 present in the array, then the subset will be '{}' and '{0}', whose sum will be 0..
+    * Hence, there can be more than 1 way to make (sum == 0)
 
-    * If we only start from j = 1, we'd skip over the case where the subset sum is 0, 
-    * which is necessary for correct propagation of the DP values. 
-    * It ensures that the DP table is built correctly by considering the full range of possible subset sums.
+                arr[] = {0}, sum = 0
+                    Possible Subsets: 
+                        {}, {0}     -> 2 subsets possible
+                
+
+                arr[] = {0, 0}, sum = 0
+                    Possible Subsets:
+                        {0} {0}
+                        {0, 0} {}   -> 4 subsets possible
+
+        Fix: We don't need have to initialise first column to 1, assuming there is only 1 way to make subset sum equal to 0.
+            Everything will be initialized to 0 except the first cell in the table, 
+                i.e dp[0][0] = 1 
+                Because, for sum = 0 & n = 0 => we only have 1 subset i.e {} empty set.
+
+            And j will start from 0, instead of 1.
+
+    
+
+    * We also need to take care of the edge case where it's not possible to partition the array.
+    * In the derived formula, {target = (dff + totalSum) / 2}
+    * Notice, that (diff + totalSum) must be even for target to be a whole number, else it's not possible to find a decimal target in subset sum.
+
+        Fix: Check if it's odd, there is no way --> if((diff + totalSum) % 2 != 0)  return 0
 
 
 */
@@ -75,19 +175,6 @@
 #include<bits/stdc++.h>
 #include<algorithm>
 using namespace std;
-typedef long long ll;
-typedef vector<int> vi;
-typedef pair<int,int> pi;
-typedef size_t s_t;  // use during string traversal
-#define F first
-#define S second
-#define PB push_back
-#define MP make_pair
-#define REP(i,a,b) for (int i = a; i <= b; i++)
-#define arrInp for(int i=0;i<n;i++) cin >> arr[i];
-#define arrOut(k) for(int i=0;i<n;i++) cout << arr[i] <<  k;
-#define el cout << endl;
-#define SQ(a) (a)*(a);
 #define mod 1000000007
 
 
@@ -103,17 +190,18 @@ int countTheNumberOfSubsetWithGivenDifference(vector<int> &nums, int diff) {
     // Find the target sum for one of the subsets (S1)
     int targetSum = (diff + totalSum) / 2;
 
-    // Create a DP table to count subset sums
+
+    // Create a DP table to count Subset sums
     vector<vector<long long int> > t(n + 1, vector<long long int>(targetSum + 1, 0)); // Initialize DP table of size (n+1) x (targetSum+1)
 
-    // Initialize the t table:
-    // If sum is 0, there's always one subset (the empty subset)
-    for (int i = 0; i <= n; i++) {
-        t[i][0] = 1;
-    }
 
-    // DP transition: 
+    // There is only 1 subset when n = 0 & sum = 0 -> (t[0][0] = 1)
+    t[0][0] = 1;
+
+
+    // DP Transition:
     for (int i = 1; i < n + 1; i++) {
+        // start iteration from 0, because we have to take care of (sum = 0) for array having only 0's in it..
         for (int j = 0; j < targetSum + 1; j++) {
             // If the current element is smaller or equal to the current sum, include/exclude it
             if (nums[i - 1] <= j) {
@@ -125,6 +213,7 @@ int countTheNumberOfSubsetWithGivenDifference(vector<int> &nums, int diff) {
             }
         }
     }
+
 
     return t[n][targetSum] % mod; // Return the result modulo 10^9+7
 }
