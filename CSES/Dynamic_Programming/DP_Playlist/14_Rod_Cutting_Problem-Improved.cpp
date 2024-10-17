@@ -119,6 +119,12 @@
                 -----------------
 
 
+// Edge Case:
+    * Example: n = 1 and rodLength = 1: 
+        * This is the smallest possible input where you only have one length of the rod and a rod length of 1. 
+        * The solution should return the price of this single piece directly, instead of going into recursive calls.
+
+
 */
 
 #include<bits/stdc++.h>
@@ -129,6 +135,12 @@ using namespace std;
 int rodCutting_rec(int len[], int price[], int n, int rodLength){
     // base case: when knapsack is full, means rodLength become 0, & all the items are rejected, means n = 0
     if(n == 0 || rodLength == 0) return 0;
+
+
+    // Edge case: only one length available
+    if (n == 1) {
+        return (rodLength / len[0]) * price[0]; // Use len[0] as many times as possible
+    }
 
     // if given length is less or equal to rod length:
     if(len[n-1] <= rodLength){
@@ -155,6 +167,11 @@ int memo(int len[], int price[], int n, int rodLength, vector<vector<int> > &t){
 
     // base case: when knapsack is full, means rodLength become 0, & all the items are rejected, means n = 0
     if(n == 0 || rodLength == 0) return 0;
+
+    // Edge case: only one length available
+    if (n == 1) {
+        return (rodLength / len[0]) * price[0]; // Use len[0] as many times as possible
+    }
 
     // If same subproblem call's again:
     if(t[n][rodLength] != -1){
