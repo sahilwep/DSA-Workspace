@@ -211,6 +211,13 @@
             }
 
 
+    * Also, we have used "INT_MAX - 1" everywhere instead of "INT_MAX":
+        * Because when this value sum up with include case, this will make ((INT_MAX - 1) + 1) = INT_MAX,
+                    1 + t[i][j - coin[i-1]],
+
+        * If we have taken "INT_MAX" only, then the sum up become (INT_MAX + 1) = INT_MIN -> this is why we were using (INT_MAX - 1)
+
+
 
 // TC: O(n * sum)
 
