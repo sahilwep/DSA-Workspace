@@ -139,6 +139,21 @@
             - At, Last return the last element from the table:
                 -  't[n][m]' -> This will store our solution.
 
+
+            - Matrix: 
+            
+                let say: n = 5, n = 5   -> matrix will be:
+
+                                           <------- m + 1 ----->
+                                          0   1   2   3   4   5    
+                                    0   | 0 | 0 | 0 | 0 | 0 | 0 |
+                             ^      1   | 0 |   |   |   |   |   |
+                             |      2   | 0 |   |   |   |   |   |
+                            n+1     3   | 0 |   |   |   |   |   |
+                             |      4   | 0 |   |   |   |   |   |
+                             |      5   | 0 |   |   |   |   |   |   matrix = t[n+1][m+1]
+
+
 // Complexity:
 
     * Time complexity: O(n*m)
