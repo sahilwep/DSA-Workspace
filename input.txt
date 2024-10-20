@@ -1,6 +1,2 @@
-5
-abcde ace
-abc abc
-abc def
-abcdefghijklmnop abcghijkmno
-abcdgh acdghr
+1
+acbcf abcdaf
