@@ -9,7 +9,8 @@
         "logn",
         "monocarp",
         "perticullarly",
-        "subarray"
+        "subarray",
+        "Supersequence"
     ],
     "files.associations": {
         "iostream": "cpp",
