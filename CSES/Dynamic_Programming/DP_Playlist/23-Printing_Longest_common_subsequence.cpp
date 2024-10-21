@@ -76,7 +76,7 @@
                     c    |  0  |  1  |  1  |  2  |  2  |  2  |  2  |
                     b    |  0  |  1  |  2  |  2  |  2  |  2  |  2  |
                     c    |  0  |  1  |  2  |  3  |  3  |  3  |  3  |
-                    g    |  0  |  1  |  2  |  3  |  3  |  3  |  4  |        -> Table
+                    f    |  0  |  1  |  2  |  3  |  3  |  3  |  4  |        -> Table
 
                 - We will start traversing from back:
                     i = n, j = m
@@ -97,7 +97,7 @@
                         i   c    |  0  |  1  |  1  |  2  |  2  |  2  |  2  |
                         |   b    |  0  |  1  |  2  |  2  |  2  |  2  |  2  |
                         |   c    |  0  |  1  |  2  |  3  |  3  |  3  |  3  |
-                        |   g    |  0  |  1  |  2  |  3  |  3  |  3  | {4} |        -> Table
+                        |   f    |  0  |  1  |  2  |  3  |  3  |  3  | {4} |        -> Table
 
                         -> start from here, i = n, j = m
 
@@ -107,7 +107,7 @@
                         i   c    |  0  |  1  |  1  |  2  |  2  |  2  |  2  |
                         |   b    |  0  |  1  |  2  |  2  |  2  |  2  |  2  |
                         |   c    |  0  |  1  |  2  |  3  |  3  |  3  | [3] |
-                        |   g    |  0  |  1  |  2  |  3  |  3  | [3] | {4} |        -> Table
+                        |   f    |  0  |  1  |  2  |  3  |  3  | [3] | {4} |        -> Table
 
                         -> Compare if s[i-1] == s[j-1] => f,f -> Yes
                             -> store result in string = "f"
@@ -119,7 +119,7 @@
                         i   c    |  0  |  1  |  1  |  2  |  2  |  2  |  2  |
                         |   b    |  0  |  1  |  2  |  2  |  2  | [2] |  2  |
                         |   c    |  0  |  1  |  2  |  3  | [3] | {3} |  3  |
-                        |   g    |  0  |  1  |  2  |  3  |  3  |  3  |  4  |        -> Table
+                        |   f    |  0  |  1  |  2  |  3  |  3  |  3  |  4  |        -> Table
 
                         -> Compare if s[i-1] == s[j-1] => c,a -> No
                             -> get maximum from both of them: 
@@ -134,7 +134,7 @@
                         i   c    |  0  |  1  |  1  |  2  |  2  |  2  |  2  |
                         |   b    |  0  |  1  |  2  |  2  | [2] |  2  |  2  |
                         |   c    |  0  |  1  |  2  | [3] | {3} |  3  |  3  |
-                        |   g    |  0  |  1  |  2  |  3  |  3  |  3  |  4  |        -> Table
+                        |   f    |  0  |  1  |  2  |  3  |  3  |  3  |  4  |        -> Table
 
                         -> Compare if s[i-1] == s[j-1] => c,d -> No
                             -> get maximum from both of them:
@@ -149,7 +149,7 @@
                         i   c    |  0  |  1  |  1  |  2  |  2  |  2  |  2  |
                         |   b    |  0  |  1  |  2  | [2] |  2  |  2  |  2  |
                         |   c    |  0  |  1  | [2] | {3} |  3  |  3  |  3  |
-                        |   g    |  0  |  1  |  2  |  3  |  3  |  3  |  4  |        -> Table
+                        |   f    |  0  |  1  |  2  |  3  |  3  |  3  |  4  |        -> Table
 
                         -> Compare if s[i-1] == s[j-1] => c,c -> Yes
                             -> store result in string = "fc"
@@ -161,7 +161,7 @@
                         i   c    |  0  |  1  | [1] |  2  |  2  |  2  |  2  |
                         |   b    |  0  | [1] | {2} |  2  |  2  |  2  |  2  |
                         |   c    |  0  |  1  |  2  |  3  |  3  |  3  |  3  |
-                        |   g    |  0  |  1  |  2  |  3  |  3  |  3  |  4  |        -> Table
+                        |   f    |  0  |  1  |  2  |  3  |  3  |  3  |  4  |        -> Table
 
                         -> Compare if s[i-1] == s[j-1] => b,b -> Yes
                             -> store result in string = "fcb"
@@ -173,7 +173,7 @@
                         i   c    | [0] | {1} |  1  |  2  |  2  |  2  |  2  |
                         |   b    |  0  |  1  |  2  |  2  |  2  |  2  |  2  |
                         |   c    |  0  |  1  |  2  |  3  |  3  |  3  |  3  |
-                        |   g    |  0  |  1  |  2  |  3  |  3  |  3  |  4  |        -> Table
+                        |   f    |  0  |  1  |  2  |  3  |  3  |  3  |  4  |        -> Table
 
                         -> Compare if s[i-1] == s[j-1] => c,a -> NO
                                 -> get maximum from both of them:
@@ -188,7 +188,7 @@
                         i   c    |  0  |  1  |  1  |  2  |  2  |  2  |  2  |
                         |   b    |  0  |  1  |  2  |  2  |  2  |  2  |  2  |
                         |   c    |  0  |  1  |  2  |  3  |  3  |  3  |  3  |
-                        |   g    |  0  |  1  |  2  |  3  |  3  |  3  |  4  |        -> Table
+                        |   f    |  0  |  1  |  2  |  3  |  3  |  3  |  4  |        -> Table
 
                         -> Compare if s[i-1] == s[j-1] => a,a -> Yes
                             -> store result in string = "fcba"
@@ -200,7 +200,7 @@
                         i   c    |  0  |  1  |  1  |  2  |  2  |  2  |  2  |
                         |   b    |  0  |  1  |  2  |  2  |  2  |  2  |  2  |
                         |   c    |  0  |  1  |  2  |  3  |  3  |  3  |  3  |
-                        |   g    |  0  |  1  |  2  |  3  |  3  |  3  |  4  |        -> Table
+                        |   f    |  0  |  1  |  2  |  3  |  3  |  3  |  4  |        -> Table
 
                         -> We are at ∅ -> means there is no element in our string, so, we will exit from the loop.
 
