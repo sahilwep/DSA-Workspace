@@ -1,10 +1,9 @@
 /*
 
-//  24 Shortest Common SuperSequence
+// Shortest Common SuperSequence
 
 //  Problem statement: 
     * we are given two string, s1, & s2, we need to merge them & generate such a string where we will find both the string inside them.
-    * 
 
 
 // Example:
