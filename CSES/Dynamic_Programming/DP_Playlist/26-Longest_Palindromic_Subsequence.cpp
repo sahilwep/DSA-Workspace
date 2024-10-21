@@ -72,7 +72,7 @@
 
 
 // Complexity: 
-    * TC: O(n*m)
+    * TC: O(n*n)
 
 */
 
