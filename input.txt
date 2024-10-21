@@ -1,3 +1,4 @@
 3
 bbabcbcab
-agbcba
+aebcbda
+aba
