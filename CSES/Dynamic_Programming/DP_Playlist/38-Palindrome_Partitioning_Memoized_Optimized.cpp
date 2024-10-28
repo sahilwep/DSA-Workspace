@@ -95,7 +95,7 @@ bool isPalindrome(string s, int i, int j){
 int palindromePartition(string &s, int i, int j, vector<vector<int> > &t){
 
     // for size = 0 & 1, we can't have any further partition:
-    if(i >= j) return 0;
+    if(i >= j) return t[i][j] = 0;
 
     // checking for subproblem result from the memo array:
     if(t[i][j] != -1){
