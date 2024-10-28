@@ -1,6 +1,6 @@
 /*
 
-//  39 Palindrome Partitioning Memoized Optimized -> Fixed.
+//  38 Palindrome Partitioning Memoized Optimized -> Fixed.
 
 
 //  Problem Statement:
@@ -158,7 +158,7 @@ bool isPalindrome(string s, int i, int j){
 int palindromePartition(string &s, int i, int j, vector<vector<int> > &t){
 
     // for size = 0 & 1, we can't have any further partition:
-    if(i >= j) return 0;
+    if(i >= j) return t[i][j] = 0;
 
     // checking for subproblem result from the memo array:
     if(t[i][j] != -1){
@@ -174,16 +174,17 @@ int palindromePartition(string &s, int i, int j, vector<vector<int> > &t){
         // We can check left side Palindrome: instead of checking the table,
         // which will first compute the result by partitioning the string & going into recursive calls.
         if(isPalindrome(s, i, k)){
-            int tempAns = 1 + palindromePartition(s, k+1, j, t);
+            t[k+1][j] = palindromePartition(s, k+1, j, t);
+            int tempAns = 1 + t[k+1][j];
 
             // finding minimum among them..
             ans = min(tempAns, ans);
         }
 
-        // // OR Check right side Palindrome:
+        // OR Check right side Palindrome:
         // if(isPalindrome(s, k+1, j)){
-        //     int tempAns = 1 + palindromePartition(s, i, k, t);
-
+        //     t[i][k] = palindromePartition(s, i, k, t);
+        //     int tempAns = 1 + t[i][k];
         //     // finding minimum among them..
         //     ans = min(tempAns, ans);
         // }
