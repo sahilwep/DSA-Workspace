@@ -1,6 +1,7 @@
 /*
 
-//  Egg Dropping Problem Recursive 
+//  Egg Dropping Problem Memoization:
+
 
 //  Problem Statement:
     * We are given N identical eggs, and we have access to K-floored building from 1 to K.
@@ -13,6 +14,7 @@
         * If the egg break at a certain floor, it will break at any floor above.
         
     * Return the minimum number of moves you need to determine with certainly what the value of 'f' is.
+
 
 
 // Visualization: 
@@ -262,10 +264,29 @@
 
 
 
-// Complexity:
+// Recursive Complexity:
     * TC: O(2^f)
     * AS: O(f)  -> f calls in recursive stack.
 
+
+// Problem with Recursive Solution: 
+    * From given recursive solution, we will have subproblem, called & Computes multiple times.
+    * TC: O(2^n)
+
+
+// Intrusion: 
+    * Solution for that we will use DP solution: 
+        * We will use memoization solution
+        * We will have to maintain memo table of variable size (changing size parameters): (e & f)
+        * Create a 2D table of size (ExF)
+    * Whenever recursive function calls for solution of subproblem, we will apply check that if the value exist, return directly from memo table without going into the recursive calls.
+    * If solution is not exist in table, compute the solution, & store result in table & then return the values.
+
+
+
+// Memoization Complexity:
+    * TC: O(e*f^2)
+    * AS: O(f)
 
 
 */
@@ -274,8 +295,8 @@
 #include<algorithm>
 using namespace std;
 
-// Recursive function to compute Egg Drop:
-int eggDrop(int e, int f){
+// Memoization Solution: 
+int eggDrop(int e, int f, vector<vector<int> > &t){
 
     // If floor is 0 || 1 -> In worse case we will have f attempts.
     if(f == 0 || f == 1) return f;
@@ -283,24 +304,30 @@ int eggDrop(int e, int f){
     // If we have single egg -> In worse case will have to go for f attempts, because we will try from 1st -> 2nd -> 3rd -> so-on till 'F' floor.
     if(e == 1) return f;
 
+    // Checking subproblem solutions from memo-table:
+    if(t[e][f] != -1) return t[e][f];
+
     // k Partitions:
     int ans = INT_MAX;
     for(int k=1;k<=f;k++){  // Partition start from '1' & goes upto 'F' Floors.
         // Choices:   1 attempt +  max(break, Not-Break)
-        int tempAns = 1 + max(eggDrop(e-1, k-1), eggDrop(e, f-k));  // we are computing it in worse case, this is why we are using max() from both the choices..
+        int tempAns = 1 + max(eggDrop(e-1, k-1, t), eggDrop(e, f-k, t));  // we are computing it in worse case, this is why we are using max() from both the choices..
 
         ans = min(ans, tempAns);    // we need minimum number of attempts, So we are taking minimum from all the "tempAns"
     }
 
-    return ans; // return answer
+    return t[e][f] = ans; // Storing the answer in memo table, before returning
 }
 
 
 void solve(){
-    int egg, floor;
-    cin >> egg >> floor;
+    int e, f;
+    cin >> e >> f;
     
-    cout << eggDrop(egg, floor) << endl;
+    vector<vector<int> > t(e+1, vector<int> (f+1, -1));
+
+    cout << eggDrop(e, f, t) << endl;
+    
 }
 
 
