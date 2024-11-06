@@ -1,7 +1,7 @@
 
 /*
 
-// 3011. Find if Array Can Be Sorted            
+// 3011. Find if Array Can Be Sorted  
 
 
 // Question Observations: 
@@ -22,12 +22,12 @@
             8 4 2 30 15 -> numbers
             1 1 1 4  4  -> set bits
 
-            We can swap those values which has same number of bits, & then compare if they were in sorte order or not?
+3011. Find if Array Can Be Sorted            We can swap those values which has same number of bits, & then compare if they were in sorted order or not?
 
     // Visualizations: 
 
         * One thing we are sure about if the values are having same bits we can swap & adjust their positions..
-        * If we carefully observe, for a range, if bits are same, only minimum & maximum values are useful, else everyting in middle has no use...
+        * If we carefully observe, for a range, if bits are same, only minimum & maximum values are useful, else everything in middle has no use...
         
         // Example: 
 
@@ -48,18 +48,22 @@
                     1 1 1 | 4  4  |   5   | 7  7
                     mi mx | mn mx | mn mx | mn max
 
-                // And using those values (minimum & maximum) -> we can comapre every ranges
+                // And using those values (minimum & maximum) -> we can compare every ranges
 
                          
                     2    8   | 15   30  |    121   |  127  247
                     min  max   min  max    min max    min  max
                          |______|   |_______|   |______|
                         
-                    These values we have to compare => after sotring minimum & maximum values somewhere
+                    These values we have to compare => after sorting minimum & maximum values somewhere
 
-                // Finally, we have to compare two adjecent values, & based on that we will return our answer.
+                // Finally, we have to compare two adjacent values, & based on that we will return our answer.
                     while(i < arr.size()) -> if(arr[i] < arr[i-1]) return false:
                     else return true
+
+// Complexity:
+    * TC: O(n)
+    * AS: O(n)
 
 
 
