@@ -54,13 +54,13 @@
 
                     -> Also the patterns that we are observing from the given example is: 
                         -> Every time we are taking XOR Operations like:
-                            query[0] = nums[0] XOR k
-                            query[1] = nums[0] XOR nums[1] XOR k
-                            query[2] = nums[0] XOR nums[1] XOR nums[2] XOR k
-                            query[3] = nums[0] XOR nums[1] XOR nums[2] XOR nums[3] XOR k
-                            query[..] = ....
-                            query[..] = ....
-                            query[nth] = nums[0] XOR nums[1] XOR nums[2] XOR nums[3] XOR ...... XOR nums[nums.size()-1] XOR k
+                            query[n-1] = nums[0] XOR k
+                            query[n-1] = nums[0] XOR nums[1] XOR k
+                            query[n-2] = nums[0] XOR nums[1] XOR nums[2] XOR k
+                            query[n-4] = nums[0] XOR nums[1] XOR nums[2] XOR nums[3] XOR k
+                            query[..]  = ....
+                            query[..]  = ....
+                            query[0th] = nums[0] XOR nums[1] XOR nums[2] XOR nums[3] XOR ...... XOR nums[nums.size()-1] XOR k
 
 
                     -> These operations looks something simillar to "prefix sum type"
@@ -118,11 +118,12 @@ public:
         // Then we can find XORed with 2^(maximumBit) - 1
         vector<int> res;
         int k = pow(2, maximumBit) - 1; // maximum possible value of 'k'
+        // We are iterating backward, because are using "PrefixXOR" array, & the last value will store the xor of entire array, & that will be our first query for 'k'
         for(int i=n-1;i>=0;i--){
             int x = k ^ prefXOR[i]; // taking XOR with every Prefix XOR
-            res.push_back(x);
+            res.push_back(x);   // every time we are pushing result into backward, because we have used "prefixXOR" array, & at every iterations last values will be removed, & new query generated........             Think logically
         }
 
-        return res;
+        return res; // last return answer
     }
 };
