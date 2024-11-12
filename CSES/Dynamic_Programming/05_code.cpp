@@ -118,36 +118,25 @@ Example
 
 
 
-// Complexity: 
-    * Logic Implementation is correct, but it's not accepting for test-cases, because it's exceed the time bound, because we are using O(n*sum) size array, SC, which we have to improve...
+// Complexity: Accepted in CSES.
     * TC: O(n*sum)
     * AS: O(n*sum)
+
+// NOTE: 
+    * We can use int, instead of long long
 
 */
 
 #include<bits/stdc++.h>
 #include<algorithm>
 using namespace std;
-typedef long long ll;
-typedef vector<int> vi;
-typedef pair<int,int> pi;
-typedef size_t s_t;  // use during string traversal
-#define F first
-#define S second
-#define PB push_back
-#define MP make_pair
-#define REP(i,a,b) for (int i = a; i <= b; i++)
-#define arrInp for(int i=0;i<n;i++) cin >> arr[i];
-#define arrOut(k) for(int i=0;i<n;i++) cout << arr[i] <<  k;
-#define el cout << endl;
-#define SQ(a) (a)*(a);
 #define mod 1000000007
 
 
 // Function to return the count of subset with given sum:
-int coinCombination_2(vector<ll> &coins, int sum, int n){
+int coinCombination_2(vector<int> &coins, int sum, int n){
 
-    vector<vector<ll> > t(n+1, vector<ll> (sum+1, 0));
+    vector<vector<int> > t(n+1, vector<int> (sum+1, 0));
 
     t[0][0] = 1;    // base case, for {} empty set
 
@@ -162,13 +151,13 @@ int coinCombination_2(vector<ll> &coins, int sum, int n){
         }
     }
 
-    return t[n][sum] % mod;
+    return t[n][sum];
 }
 
 void solve(){
     int n, x;
     cin >> n >> x;
-    vector<ll> coins(n);
+    vector<int> coins(n);
 
     for(int i=0;i<n;i++) cin >> coins[i];
 
