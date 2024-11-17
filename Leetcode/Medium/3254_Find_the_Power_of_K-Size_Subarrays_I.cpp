@@ -40,6 +40,159 @@
         Output: [-1,3,-1,3,-1]
 
 
+// Visualization: 
+    -> we are given an array & and a integer 'k'
+    -> We need to form k size window, we have to check the subarray should be in sorted, & consecutive
+    -> If they are consecutive then, return the maximum element from the window, else return "-1"
+
+    -> NOTE: we are asked to check consecutive: consecutive means one after another: 
+        Example: 
+            1 2 3 4 6 -> sorted, but not consecutive
+            1 2 3 4 5 6 -> Sorted & consecutive
+
+        For finding the answer these two condition satisfy.
+            (consecutive & sorted)
+
+
+    -> Let's come back to the question: 
+
+        Input: nums = [1,2,3,4,3,2,5], k = 3
+        Output: [3,4,-1,-1,-1]
+
+
+                -> First window:
+                    [1 2 3] => Consecutive & sorted, return max element "3"
+                            => ans = {3}
+                
+                -> Second window: 
+                    [2 3 4] => Consecutive & sorted, return max element "4"
+                            => ans = {3, 4}
+                            
+                -> Third window: 
+                    [3 4 3] => Consecutive, but not sorted, return "-1"
+                            => ans = {3, 4, -1}
+                            
+                -> Fourth window: 
+                    [4 3 2] => Consecutive, but not sorted, return "-1"
+                            => ans = {3, 4, -1, -1}
+                
+                -> Fifth window: 
+                    [3 2 5] => Not-Consecutive & not sorted, return "-1"
+                            => ans = {3, 4, -1, -1, -1}
+                
+
+    -> From this above observations we are checking the consecutive & sorted: 
+        -> If we will check consecutive for increasing only we don't need to check for sorted, because increasing consecutive is always in sorted form
+        -> Example: 
+               nums = [1 2 3 4 5]
+                         i
+
+               if(nums[i] == nums[i-1]+1) -> This condition will take care of consecutive & sorted.
+        
+        -> Now what if all the element are in increasing consecutive, then how should be return the maximum element form 'k' size window.
+
+                nums = [1 2 3 4 5]
+                
+                [1 2 3] => 3
+                [2 3 4] => 4
+                [3 4 5] => 5
+
+            every time last element is maximum if we have consecutive element, that we means we will return last element of window, if we have consecutive elements
+            if(elements are consecutive in k window) return last element
+        
+        -> Now, how do we know, how much long array is in increasing consecutive order?
+            
+            we will use consecutive count -> which will maintain maintain the consecutive length
+            if(consecutive_length >= k) => we are sure that elements are in consecutive & sorted, we will return last element of window
+
+        -> Now, how do we increase or decrease consecutive count
+
+            if(nums[i] == nums[i-1]+1){
+                consecutiveCnt++;
+            }
+            else{
+                consecutiveCnt = 1;
+            }
+    
+    -> We will use fixed size sliding window approach:
+
+            Input: nums = [1,2,3,4,3,2,5], k = 3
+
+            -> first, find answer for k size window, and Store answer
+            -> Second find answer for remaining array, with taking k size window, and Store answer
+
+                [1,2,3,4,3,2,5]
+
+                
+                Finding k size window answer:
+                    [1,2,3]
+                        for(i = 1; i < k; i++):
+                            if(arr[j] == arr[j-1]+1) consecutiveCnt++;   // satisfy for all the given answer
+                        
+                        consecutiveCnt = 3;
+                        ans = {3}
+
+                Finding answer for remaining array, by taking k size window
+                
+                    i = 1;  // because first window is already processed
+                    j = k;  // second pointer
+
+                    [1, 2, 3, 4, 3, 2, 5]
+                     0  1  2  3  4  5  6
+                        i     j
+
+                            Checks: 
+                                if(arr[j] == arr[j-1]+1): consecutiveCnt++;     // ConsecutiveCnt = 4
+                                if(consecutive >= k) ans[i] = nums[j];  // storing last element, i.e maximum
+                                i++;
+                                j++;
+
+                            ans = {3, 4}
+
+
+                    [1, 2, 3, 4, 3, 2, 5]
+                     0  1  2  3  4  5  6
+                           i     j
+
+                            Checks: 
+                                if(arr[j] != arr[j-1]+1): consecutiveCnt = 1;     // reseting consecutive count
+                                if(consecutive < k) ans[i] = -1;  // consecutive count is not equal or grater to k
+                                i++;
+                                j++;
+
+                            ans = {3, 4, -1}
+
+
+                    [1, 2, 3, 4, 3, 2, 5]
+                     0  1  2  3  4  5  6
+                              i     j
+
+                            Checks: 
+                                if(arr[j] != arr[j-1]+1): consecutiveCnt = 1;     // reseting consecutive count
+                                if(consecutive < k) ans[i] = -1;  // consecutive count is not equal or grater to k
+                                i++;
+                                j++;
+
+                            ans = {3, 4, -1, -1}
+                
+
+                    [1, 2, 3, 4, 3, 2, 5]
+                     0  1  2  3  4  5  6
+                                 i     j
+
+                            Checks: 
+                                if(arr[j] != arr[j-1]+1): consecutiveCnt = 1;     // reseting consecutive count
+                                if(consecutive < k) ans[i] = -1;  // consecutive count is not equal or grater to k
+                                i++;
+                                j++;
+
+                            ans = {3, 4, -1, -1, -1}
+
+
+                    Loop break, because 'j' is out of bound:
+
+                        ans = {3, 4, -1, -1, -1}
+                
 
 // Approach: 
     -> We will use sliding window concept.
@@ -48,9 +201,8 @@
     -> depending upon that we will fill our answer.
 
 
-
-// TC: O(n)
-
+// Complexity: 
+    -> TC: O(n), because we have visit every element twice
 
 
 */
@@ -69,7 +221,7 @@ public:
         int consecutiveCnt = 1; // variable that check consecutive count
         for(int i=1;i<k;i++){
             if(nums[i-1]+1 == nums[i]){ // if previous element incremented by 1, & gives current element:
-                consecutiveCnt++;// increment counsecutive count
+                consecutiveCnt++;// increment consecutive count
             }
             else{
                 consecutiveCnt = 1; // reset consecutive count
@@ -87,7 +239,7 @@ public:
         while(j < n){
             // if current element is 1 grater than the previous once:
             if(nums[j] == nums[j-1]+1){
-                consecutiveCnt++;   // increment counsecutive count
+                consecutiveCnt++;   // increment consecutive count
             }
             else{
                 consecutiveCnt = 1; // reset consecutive count
