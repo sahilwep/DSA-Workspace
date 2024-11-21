@@ -126,9 +126,11 @@
                 count = '7'
 
 
+
 // Intrusion: 
     -> Perform initial configuration, fill walls, guards, & grid with default value '-1'
     -> Now, start from every guards coordinates & start filling the grid element in every direction until we hit any wall or out of bound to that grid.
+
 
 
 // Complexity:
@@ -137,7 +139,9 @@
     * O(wall.size())    -> Iterating in wall to store their position in grid.
     * O(guard.size()*(n+m)))    -> Iterating in guard : & for every element we are iterating 1 grid row + 1 grid col, in worse case.
         
-        * Overall TC:  O(n*m)+ O(guard.size()) + O(wall.size()) + O(guard.size()*(n+m)))
+        * TC:  O(n*m)+ O(guard.size()) + O(wall.size()) + O(guard.size()*(n+m)))
+        * k = guard.size(), n => row_of_grid, m = col_of_grid
+        * Overall TC: O(k * (n + m))
 
 
 
@@ -152,6 +156,13 @@
 2 2 // Walls
 1 4 // Walls
 
+
+NOTE: 
+    -> To make this whole process easy i have fill default value as '0' in grid
+    -> Represent guard as '2' 
+    -> Represent wall as '3'
+    -> Fill guarded as '1'
+    -> Last count no of '0' in grid after filling...
 
 */
 
@@ -173,60 +184,58 @@ typedef size_t s_t;  // use during string traversal
 #define SQ(a) (a)*(a);
 #define mod 1000000007
 
+
 // Function to fill all 4th direction in grid:
-void fillWithGuards(vector<vector<int> > &grid, int row, int col){
+void fillWithGuards(vector<vector<int>> &grid, int row, int col){
     // we have every guard coordinates, start filling in all the four direction of grind:
     // Grid Bound: we can reach up till these grid bounds.
     int top = 0;
-    int bottom = grid.size()-1; // col size
+    int bottom = grid.size(); // col size
     int left = 0;
-    int right = grid[0].size()-1;   // row size
+    int right = grid[0].size();   // row size
 
-    // NOTE: Wall is represented by '0'
+    // NOTE: Wall is represented by '0' & guard is represented by '1'
 
-    // Fill left from current starting position: 
-    for(int i=col;i>=left;i--){
-        if(grid[row][i] == 0) break;   // wall check
-        grid[row][i] = 1;  // guard can reach
+    // left:
+    for(int i=col-1;i>=left;i--){
+        if(grid[row][i] == 2 || grid[row][i] == 3) break;   // if we have guard || wall break
+        grid[row][i] = 1;  // mark 1 as guarded
     }
 
-
-    // Fill right from current starting position: 
-        for(int i=col;i<=right;i++){
-            if(grid[row][i] == 0) break;
-            grid[row][i] = 1;   // guard can reach
+    // right:
+        for(int i=col+1;i<right;i++){
+            if(grid[row][i] == 2 || grid[row][i] == 3) break;
+            grid[row][i] = 1;   // mark 1 as guarded
         }
 
 
-    // Fill top from current starting position: 
-        for(int i=row;i>=0;i--){
-            if(grid[i][col] == 0) break;
-            grid[i][col] = 1;   // else guard can reach
+    // Top:
+        for(int i=row-1;i>=0;i--){
+            if(grid[i][col] == 2 || grid[i][col] == 3) break;
+            grid[i][col] = 1;   // mark 1 as guarded
         }
 
 
-    // Fill bottom from current starting position: 
-        for(int i=row;i<=bottom;i++){
-            if(grid[i][col] == 0) break;
-            grid[i][col] = 1;
+    // Bottom:
+        for(int i=row+1;i<bottom;i++){
+            if(grid[i][col] == 2 || grid[i][col] == 3) break;
+            grid[i][col] = 1;   // mark 1 as guarded
         }
 
 }
 
-// Function to count the number of unvisited blocks:
-int countUnguarded(int m, int n, vector<vector<int> > &guard, vector<vector<int> > &walls){
+int countUnguarded(int m, int n, vector<vector<int>>& guard, vector<vector<int>>& walls) {
     // Initial Configurations: 
     // Creation of 2D Grid.
-    vector<vector<int> > grid(m, vector<int> (n, -1));  // fill all unvisited '-1'
+    vector<vector<int> > grid(m, vector<int> (n, 0));  // fill all unvisited '0'
     // fill grid guards:
     for(int i=0;i<guard.size();i++){    // coordinates (first,second) in every 'i' position
-        grid[guard[i][0]][guard[i][1]] = 1;    // 1 represent guards.
+        grid[guard[i][0]][guard[i][1]] = 2;    // 2 represent guards.
     }
     // fill grid walls:
     for(int i=0;i<walls.size();i++){
-        grid[walls[i][0]][walls[i][1]] = 0;     // 0 represent walls
+        grid[walls[i][0]][walls[i][1]] = 3;     // 3 represent walls
     }
-
 
     // Intermidiate Traversal & filling all the fourth direction with guards, if we don't encounter with any walls.
     // Starting from:
@@ -234,12 +243,13 @@ int countUnguarded(int m, int n, vector<vector<int> > &guard, vector<vector<int>
         fillWithGuards(grid, guard[i][0], guard[i][1]);
     }
 
-    // last count the number of unvisited blocks by counting '-1' in grid.
+    // last count the number of unvisited blocks by counting '0' in grid.
     int cnt = 0;
     for(auto it: grid){
         for(auto i : it){
-            if(i == -1) cnt++;
+            if(i == 0) cnt++;
         }
+        cout << endl;
     }
     
     return cnt;
