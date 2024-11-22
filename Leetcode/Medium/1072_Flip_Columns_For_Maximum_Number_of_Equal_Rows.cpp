@@ -48,7 +48,44 @@
         -> create temp row, invert or every row
         -> Compare that inverted row with ever row & normal with every row, if they were same, count that...
     -> Now, return the maximum count, as answer... 
+    -> TC: O(n)*O(n*m) = O(n^2*m)
 
+
+
+// Efficient Solution:
+    -> From bruteforce Solution, we can optimize by using map to store the entire row pattern, 
+    -> next time when we have same row present, we can simply increase the count of that pattern..
+
+    // Generating Pattern: 
+        -> either we can generate inverted & normal row into string & then compare & store, 
+        -> or we can simply store the pattern, because pattern for same string & inverted are same:
+            -> Example:
+                    1 0 0 1 0   -> Normal
+                    0 1 1 0 1   -> Inverted
+
+                -> If we observe pattern:
+                    -> Take first character & generate pattern:
+                        1 0 0 1 0   -> Normal
+                        -
+                        take this first character as 'o', & whenever we have some character which is equal to first character we will mark it as 'o', else we will mark it as 'z'
+
+                    -> Similary, if we generate pattern for inverted:d
+                        0 1 1 0 1   -> Inverted
+                        _
+                        take this first character as 'o', & whenever we have some character which is equal to first character we will mark it as 'o', else we will mark it as 'z'
+
+                    -> Pattern:
+                        [1] 0 0 1 0     => ozzoz
+                         o
+
+                        [0] 1 1 0 1     => ozzoz
+                         o
+
+                -> This is how we can generate pattern for normal & inverted one & store the frequency count..
+        -> At the end we can return the maximum count from the map.
+
+        -> TC: O(n*m) + O(n) + O(n) ≈ O(n*m)
+        -> AS: O(n*m)
 
 
 */
@@ -59,8 +96,36 @@ using namespace std;
 
 class Solution {
 public:
-    // BruteForce Solution: TC: O(n * (m + (n*m))) => O(n*(n*m))
+    // Efficient Solution: O(n*m)
     int maxEqualRowsAfterFlips(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        
+        unordered_map<string, int> mp;  // AS: O(n*m)
+
+        for(auto &row: matrix){ // O(n)
+            // Generate pattern for normal & inverted one:
+            string rowPattern = "";
+            int firstVal = row[0];
+            for(int col=0;col<m;col++){ // O(m)
+                rowPattern += (row[col] == firstVal) ? 'o' : 'z';
+            }
+
+            mp[rowPattern]++;   // Now Store that pattern count in map
+        }
+
+        int maxCnt = 0;
+        for(auto i: mp){ // Iterate in map & check maximum count & return => O(n)
+            if(i.second > maxCnt){
+                maxCnt = i.second;
+            }
+        }
+
+        return maxCnt;
+    }
+    
+    // BruteForce Solution: TC: O(n * (m + (n*m))) => O(n*(n*m))
+    int maxEqualRowsAfterFlips_Brute(vector<vector<int>>& matrix) {
         int n = matrix.size();
         int m = matrix[0].size();
         
