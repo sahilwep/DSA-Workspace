@@ -28,6 +28,11 @@
             '#' elements are not fixed, we can move downwards, but if we encounter any other element, we need to break out.
             '.' represent empty box, we can move downwards.
 
+// Time Complexity: 
+    * TC: O(n^2*m)
+        -> O(n*m) => matrix iteration
+        -> O(n) => For every element, we have iterated to whole row of matrix.
+
 
 */
 
