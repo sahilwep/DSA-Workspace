@@ -56,29 +56,25 @@ using namespace std;
 class Solution {
 public:
     bool canMakeSubsequence(string s1, string s2) {
+        int i = 0;  // s1 pointer
+        int j = 0;  // s2 pointer
 
-        int n = s1.size();
-        int m = s2.size();
-        int i = 0, j = 0;
-
-        while(i < n && j < m){
-            // case when string character same or one next: increment both the pointers
-            if(s1[i] == s2[j] || s1[i]+1 == s2[j]){
+        while(i < s1.size() && j < s2.size()){
+            if(s1[i] == s2[j] || s1[i]+1 == s2[j]){ // if both sequence match or one character next matched, then incrmemnet both the pointer.
+                i++;
+                j++;
+            }else if(s1[i] == 'z' && s2[j] == 'a'){ // if s1 has end character 'z' & s2 has starting 'a' then also increment both the pointer.
                 i++;
                 j++;
             }
-            // case when s1 has 'z' end position, & s2 has 'a' starting position: increment both the pointers
-            else if(s1[i] == 'z' && s2[j] == 'a'){
-                i++;
-                j++;
-            }
-            else{   // else only increment 'i', for next several match..
+            else{   // else only increment s1 pointer
                 i++;
             }
-
         }
-        if(j == m) return true; // means we have successfully get the string s2 from s1
-        
-        return false;   // else return false
+
+        // Now compare if s2 pointer has reach to s2 string size, then return true, else return false.
+        if(j == s2.size()) return true;
+
+        return false;
     }
 };
