@@ -33,13 +33,27 @@
 
 
 // Observation:
-    // Bruteforce Solution:
-    -> Try all possible approach, & match every approach with target, if anytime it's matched, return '0'
-        -> recursively try to replace all the place which has 'L' or 'R'
-        
-    -> We will memoize this using DP memoization, because so many same pattern or subproblems is occurring in recursive tree.
 
-    -> This gives us TLE
+    // Bruteforce Solution:
+        -> Try all possible approach, & match every approach with target, if anytime it's matched, return '0'
+            -> recursively try to replace all the place which has 'L' or 'R'
+        -> We will memoize this using DP memoization, because so many same pattern or subproblems is occurring in recursive tree.
+        -> This gives us TLE, because of exponential time complexity
+
+
+
+    // Efficient Solution
+        -> i & j pointer start form 0, & goes up till n, if any of them reach to the limit break the finish the check:
+        -> while(i < n && start[i] == '_') i++;     increment i until we don't get any 'L' or 'R'
+        -> while(j < n && target[j] == '_') j++;     increment j until we don't get any 'L' or 'R'
+        -> if(start[i] != target[j]) return false;      if any character form i and j pointer is not matched return false immediately
+        -> if(start[i] == 'L',  && i < j) return false;      if start is 'L' & i pointer is less than 'j', means j pointer 'L' is ahead of i pointer 'L', & no way we can move start pointer 'L' to right
+        -> if(start[i] == 'R' && i > j)  return false;     if start is 'R' & i pointer is grater than 'j', means j pointer 'R' is before of i pointer 'R', & no way we can move start pointer 'R' to left
+        -> else increment both the pointers i & j
+        -> If we break out from the loop, and, any false condition is not hit, return true.
+
+        * TC: O(n)
+        * AS: O(n)
 
 
 */
@@ -95,3 +109,46 @@ public:
     }
 };
 
+
+// Efficient Solution:
+class Solution {
+public:
+    bool canChange(string start, string target) {
+        int n = start.size();
+        int i = 0;
+        int j = 0;
+
+        while(i < n || j < n){  // iterate until we got any string reach to their limit.
+
+            // while we got empty space, move pointer until we find any 'L' or 'R'
+            while(i < n && start[i] == '_'){
+                i++;
+            }
+            while(j < n && target[j] == '_'){
+                j++;
+            }
+
+            // if any of the pointer reach to the end:
+            if(i == n || j == n){   
+                return (i == n && j == n);  // return true, if both pointer reach to end at same time, else return false here itself.
+            } 
+
+            // if any string character is not matched, return false directly
+            if(start[i] != target[j]) return false;
+
+            // Impossible moves:
+            if(start[i] == 'L' && i < j){   // if start is 'L' & i pointer is less than 'j', means j pointer 'L' is ahead of i pointer 'L', & no way we can move start pointer 'L' to right
+                return false;
+            }
+            if(start[i] == 'R' && i > j){   // if start is 'R' & i pointer is grater than 'j', means j pointer 'R' is before of i pointer 'R', & no way we can move start pointer 'R' to left
+                return false;
+            }
+
+            // else, no rule is violated, increment both the pointers.
+            i++;
+            j++;
+        }
+
+        return true;    // else return true at last, if non of the above false condition has occurred.
+    }
+};
