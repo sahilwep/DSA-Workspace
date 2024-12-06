@@ -55,6 +55,13 @@
         -> TC: O(n^2)
 
 
+    // Efficient Solution: 
+        -> Efficient Solution build upon the concept of Bruteforce Solution.
+        -> For checking banned element, we are taking O(n) -> If we can improve this complexity to O(1) we can have overall O(n) complexity.
+        -> We can use set or map & hash banned element into set, and we can check every value from 1 to n from set, which will take O(1)
+        -> Overall Complexity: O(n)
+
+
 */
 
 #include<bits/stdc++.h>
@@ -62,6 +69,38 @@
 using namespace std;
 
 
+// Efficient Solution:
+class Solution {
+public:
+    int maxCount(vector<int>& banned, int n, int maxSum) {
+        int totalSum = 0;
+        int elementCnt = 0;
+
+        // hash all banned element into set:
+        unordered_set<int> st;
+        for(auto i: banned){
+            st.insert(i);
+        }
+    
+        for(int i=1;i<=n;i++){  // Takes O(n)
+            // check if value is exceeded maxSum or not?
+            if(i <= maxSum){    // we can consider this element:
+                if(st.count(i) == 0){    // if that element is not present in set: Takes O(1)
+                    // check if including that element will exceed the maxSum limit or not, if not then include that element in total Sum & increment elementCount
+                    if(totalSum + i <= maxSum){
+                        totalSum += i;  // include that in total sum
+                        elementCnt++;   // increment element counter
+                    }
+                }
+            }
+        }
+
+        return elementCnt;
+    }
+};
+
+
+// Bruteforce Solution:
 class Solution_Brute{
 private:
     // Function to check whether selected element is banned or not? TC: O(n)
