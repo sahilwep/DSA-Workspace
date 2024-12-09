@@ -15,6 +15,9 @@ The algorithm steps are as follows:
 
 Note: Here, after each iteration, the array becomes sorted up to the last index of the range. That is why the last index of the range decreases by 1 after each iteration. This decrement is achieved by the outer loop and the last index is represented by variable i in the following code. And the inner loop(i.e. j) helps to push the maximum element of range [0….i] to the last index(i.e. index i).
 
+// Optimization: 
+    -> Use flag that will check for every i, whether values are sorted or not, if they are sorted, no need for further iteration, break out immediately.
+
 
 */
 
@@ -30,11 +33,14 @@ public:
         int n = arr.size();
         
         for(int i = n - 1; i >= 0; i--){    // Start iteration from start, because at every iteration of i, maximum element is at last position.
+            bool didSwap = 0;   // flag will help us to know whether the current i iteration has sorted values or not?
             for(int j = 0 ; j <= i - 1; j++){ // now start from 0 to i range:
                 if(arr[j] > arr[j+1]){  // if current element is grater than the next element:
                     swap(arr[j], arr[j+1]); // swap these two values.
+                    didSwap = 1;    // mark didSwap flag as true
                 }
             }
+            if(didSwap == 0) break;     // if didSwap flag is false break out...
         }
     }
 };
