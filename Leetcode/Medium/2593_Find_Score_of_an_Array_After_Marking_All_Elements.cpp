@@ -40,11 +40,87 @@
         -> So that we can ignore them..
 
 
+    // Efficient Approach:
+        -> Whenever we have to choose largest or smallest element -> We usually choose heap, or sorting approach.
+        -> But we can't solve this question by normal sorting, because we may loose the index after sorting.
+        -> If we maintain the index & then sort the value, then we can preserve index & values will be sorted & easy to compute.
+            -> {(element, index), (element, index), (element, index)...(element, index)}
+        -> Example:
+                    nums = [2,1,3,4,5,2]
+                    index   0 1 2 3 4 5
+
+                    vec: {(1, 1), (2, 0), (2, 5), (3, 2), (4, 3), (5, 4)} -> Sorted
+                            -       -               -
+                            - - -   - -
+                    nums = [2,1,3,4,5,2]
+                    index   0 1 2 3 4 5
+
+
+                        -> Get the smallest element & their index:
+                            smallest = vec[i].first
+                            idx = vec[i].second
+
+                        -> Add that smallest element into score:
+                            score += smallest
+
+                        -> We need to mark their adjacent element:
+                            adjacent element: (idx - 1) & (idx + 1)
+                            NOTE: Their adjacent index should exist, should not be out of bound.
+                        
+                        -> To check weather these adjacent marked or not?
+                            we can maintain an array vis[] -> Which will given us information about the element is marked or not?
+                            -> Now, every step we will mark current element if they were not marked
+                            -> and we will mark their adjacent of it, if they were not visited yet
+
+
 */
 
 #include<bits/stdc++.h>
 #include<algorithm>
 using namespace std;
+
+// Efficient Approach: Sorting
+class Solution {
+public:
+    long long findScore(vector<int>& nums) {
+        int n = nums.size();
+
+        // Create a vector vec that hold values & their initial index values:
+        vector<pair<int, int>> vec;
+        for(int i=0;i<n;i++){
+            vec.push_back({nums[i], i});
+        }
+
+        sort(begin(vec), end(vec)); // sort the values of vec according to their values.
+
+        for(int i=0;i<n;i++){
+            cout << vec[i].first << " " << vec[i].second << endl;
+        }
+        cout << endl;
+
+        vector<bool> vis(n); // create a visited array of size n
+
+        long long cost = 0;
+        for(int i=0;i<n;i++){   
+            int smallest = vec[i].first;                // smallest element
+            int idx = vec[i].second;                    // smallest index
+
+            // if the element is not visited?
+            if(!vis[idx]){
+                cost += smallest;       // add value to cost
+                vis[idx] = 1;           // mark them as visited
+                if(idx - 1 >= 0 && !vis[idx-1]){   // now check their is an adjacent element & if it's not visited yet:
+                    vis[idx-1] = 1;     // mark visited the previous adjacent element
+                }
+                if(idx + 1 <= n-1 && !vis[idx+1]){   // now check their is an adjacent element & if it's not visited yet
+                    vis[idx+1] = 1;     // mark visited the next adjacent element
+                }
+            }
+        }
+
+        return cost;
+    }
+};
 
 // BruteForce Solution:
 class Solution_Brute{
