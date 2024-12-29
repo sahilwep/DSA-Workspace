@@ -104,3 +104,43 @@ public:
         return tempImage; // return new constructed image
     }
 };
+
+
+
+// DFS Approach:
+class Solution {
+private:
+    void dfs(vector<vector<int>>& image, int sr, int sc, int color, int orgColor, vector<vector<int>> &vis){
+        vis[sr][sc] = 1;        // mark that current node as visited
+        image[sr][sc] = color;  // mark that current node with given color
+
+        int n = image.size();
+        int m = image[0].size();
+
+        int delRow[] = {-1, +1, 0, 0};
+        int delCol[] = {0, 0, -1, +1};
+        // iterate in all 4 directions:
+        for(int i=0;i<4;i++){
+            int nRow = sr + delRow[i];
+            int nCol = sc + delCol[i];
+
+            // Check valid range & not filled with color:
+            if(nRow >= 0 && nRow < n && nCol >= 0 && nCol < m && !vis[nRow][nCol] && image[nRow][nCol] == orgColor){
+                dfs(image, nRow, nCol, color, orgColor, vis);
+            }
+        }
+    }
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        int n = image.size();
+        int m = image[0].size();
+
+        vector<vector<int>> tempImage = image;
+        vector<vector<int>> vis(n, vector<int> (m, 0));
+        int orgColor = image[sr][sc];
+
+        dfs(tempImage, sr, sc, color, orgColor, vis);
+
+        return tempImage;
+    }
+};
