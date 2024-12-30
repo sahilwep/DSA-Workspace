@@ -43,7 +43,8 @@
 #include<algorithm>
 using namespace std;
 
-class Solution {
+// DFS Approach
+class Solution_DFS {
 private:
     vector<int> delRow = {-1, +1, 0, 0};
     vector<int> delCol = {0, 0, -1, +1};
@@ -92,6 +93,83 @@ public:
             // last col:
             if(grid[i][m-1] == 1 && !vis[i][m-1]){
                 dfs(i, m-1, grid, vis);
+            }
+        }
+
+        // Last check for unvisited 1's & count them:
+        int cnt = 0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j] == 1 && !vis[i][j]){
+                    cnt++;
+                }
+            }
+        }
+
+        return cnt;
+    }
+};
+
+
+
+// BFS Approach:
+class Solution_BFS {
+private:
+    vector<int> delRow = {-1, +1, 0, 0};
+    vector<int> delCol = {0, 0, -1, +1};
+    void bfs(int row, int col, vector<vector<int>> &grid, vector<vector<int>> &vis){
+        int n = grid.size();
+        int m = grid[0].size();
+
+        queue<pair<int, int>> q;    // use queue DS -> queue<row, col>
+        q.push({row, col});         // push the given nodes:
+        vis[row][col] = 1;          // mark that given node as visited
+
+        while(!q.empty()){
+            int row = q.front().first;
+            int col = q.front().second;
+            q.pop();
+
+            // iterate & check in all the 4-directions;
+            // Check Bound, is-land, not-visited Yet
+            for(int i=0;i<4;i++){
+                int nRow = row + delRow[i];
+                int nCol = col + delCol[i];
+                if(nRow >= 0 && nRow < n && nCol >= 0 && nCol < m && grid[nRow][nCol] == 1 && !vis[nRow][nCol]){
+                    vis[nRow][nCol] = 1;
+                    q.push({nRow, nCol});
+                }
+            }
+        }
+    }
+public:
+    int numEnclaves(vector<vector<int>>& grid) {
+        int n = grid.size();
+        int m = grid[0].size();
+
+        vector<vector<int>> vis(n, vector<int> (m, 0));
+
+        // Iterate in first & last row:
+        for(int i=0;i<m;i++){
+            // first row:
+            if(grid[0][i] == 1 && !vis[0][i]){
+                bfs(0, i, grid, vis);
+            }
+            // last row:
+            if(grid[n-1][i] == 1 && !vis[n-1][i]){
+                bfs(n-1, i, grid, vis);
+            }
+        }
+
+        // Iterate in first & last col:
+        for(int i=0;i<n;i++){
+            // first col:
+            if(grid[i][0] == 1 && !vis[i][0]){
+                bfs(i, 0, grid, vis);
+            }
+            // last col:
+            if(grid[i][m-1] == 1 && !vis[i][m-1]){
+                bfs(i, m-1, grid, vis);
             }
         }
 
