@@ -40,8 +40,54 @@
         -> SC: O(n*m)
 
 
+// DFS Approach:
+
+// DFS Approach: 
+    -> Explore all possible direction:
+    -> Check valid Bound range, if element is not visited yet & same type of element -> Then iterate further.
+    -> If element is already visited & same type & it's not the parent means we found the cycle.
+    -> In simple, need to take care of parentRow, from where we are coming.
+
+    // Example:
+            a  a  a
+            a  b  a
+            a  a  a
+
+        -> Index:
+
+            (0, 0)   (0, 1)  (0, 2)
+            (1, 0)   (1, 1)  (1, 2)
+            (2, 0)   (2, 1)  (2, 2)
 
 
+        -> Calls Stack:
+
+                            dfs(0, 0, -1, -1):  
+                                |
+                                |--->dfs(1, 0, 0, 0):
+                                |       |
+                                |       |----> dfs(2, 0, 1, 0)
+                                |               |
+                                |               |----> dfs(2, 1, 2, 0)
+                                |                       |
+                                |                       |----> dfs(2, 2, 2, 1)
+                                |                               |
+                                |                               |----> dfs(1, 2, 2, 2)
+                                |                                       |
+                                |                                       |----> dfs(0, 2, 1, 2)
+                                |                                               |
+                                |                                               |----> dfs(0, 1, 0, 2)
+                                |                                                       |
+                                |                                                       |----> dfs(0, 0, 0, 1)  -> Return true 
+                                |                                                       
+                                |                                                       
+                                |--->dfs(0, 1, 0, 0)    -> Never goes for this call, because above calls return true, & if any call return true, it will return true to their parent.
+
+
+
+    // Complexity:
+        -> TC: O(V + 2E)
+        -> SC: O(V + 2E)
 
 */
 
@@ -49,9 +95,61 @@
 #include<algorithm>
 using namespace std;
 
+// DFS Approach:
+class Solution_DFS {
+private:
+    int delRow[4] = {-1, +1, 0, 0};
+    int delCol[4] = {0, 0, -1, +1};
+    bool solve(int row, int col, int pRow, int pCol, vector<vector<char>>& grid, vector<vector<int>>& vis){
+        vis[row][col] = 1;  // mark current node as visited
+        int n = grid.size();
+        int m = grid[0].size();
+
+        // Explore the adjacent nodes:
+        for(int i=0;i<4;i++){
+            int nRow = row + delRow[i];
+            int nCol = col + delCol[i];
+
+            // Check Valid bound:
+            if(nRow >= 0 && nRow < n && nCol >= 0 && nCol < m){
+                // Check node is not visited & same type of node:
+                if(!vis[nRow][nCol] && grid[nRow][nCol] == grid[row][col]){
+                    // visit that node:
+                    if(solve(nRow, nCol, row, col, grid, vis) == true) return true; // return true if it's found a cycle
+                }
+                // if node is already visited & same type of node && it's not the parent node, means we got a cycle
+                else if(vis[nRow][nCol] && grid[nRow][nCol] == grid[row][col] && !(nRow == pRow && nCol == pCol)){
+                    return true;    // cycle found, return true in this case.
+                }
+            }
+        }
+
+        return false;   // else return false
+    }
+public:
+    bool containsCycle(vector<vector<char>>& grid) {
+        int n = grid.size();
+        int m = grid[0].size();
+
+        vector<vector<int>> vis(n, vector<int> (m, 0)); // visited matrix
+
+
+        // Checking for Multiple Components:
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(!vis[i][j]){ // if node is not visited yet?
+                    if(solve(i, j, -1, -1, grid, vis) == true) return true;   // cycle found
+                }
+            }
+        }
+
+        return false;   // no cycle found
+    }
+};
+
 
 // BFS Approach:
-class Solution {
+class Solution_BFS {
 private:
     int delRow[4] = {-1, +1, 0, 0};
     int delCol[4] = {0, 0, -1, +1};
@@ -99,6 +197,7 @@ public:
 
         vector<vector<int>> vis(n, vector<int> (m, 0)); // visited matrix
 
+        // Checking for Multiple Components:
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
                 if(!vis[i][j]){ // if node is not visited yet?
