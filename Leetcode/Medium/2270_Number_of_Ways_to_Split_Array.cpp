@@ -37,10 +37,6 @@
     -> Use prefix & suffix array & Solve the problem.
 
 
-// Complexity:
-    -> TC: O(n)
-    -> AS: O(n)
-
 */
 
 #include<bits/stdc++.h>
@@ -48,6 +44,7 @@
 using namespace std;
 
 
+// TC -> O(n), AS: O(n)
 class Solution {
 public:
     int waysToSplitArray(vector<int>& nums) {
@@ -71,6 +68,28 @@ public:
         int split = 0;
         for(int i=0;i<n-1;i++){
             if(pSum[i] >= sSum[i+1]) split++;
+        }
+
+        return split;
+    }
+};
+
+// TC: O(n), AS:O(1)
+class Solution {
+public:
+    int waysToSplitArray(vector<int>& nums) {
+        int n = nums.size();
+
+        long long pSum = 0;    // to maintain prefix sum
+        long long sSum;
+        for(auto i: nums) sSum += i;
+
+        // Compute Final Result:
+        int split = 0;
+        for(int i=0;i<n-1;i++){
+            pSum += nums[i];
+            sSum -= nums[i];
+            if(pSum >= sSum) split++;
         }
 
         return split;
