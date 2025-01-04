@@ -3,6 +3,7 @@
         "Bruteforce",
         "coodinateswith",
         "enque",
+        "indegree",
         "Inorder",
         "intilitialization",
         "kadane's",
@@ -13,7 +14,8 @@
         "perticullarly",
         "pickable",
         "subarray",
-        "Supersequence"
+        "Supersequence",
+        "Topo"
     ],
     "files.associations": {
         "iostream": "cpp",
