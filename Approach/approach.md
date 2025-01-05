@@ -193,3 +193,134 @@ int maxSumSubarray(vector<int>& nums, int k) {
 }
 ```
 
+*** 
+
+## Array Difference Technique:
+
+The **difference array technique** is a powerful method to efficiently perform range update operations on an array. It minimizes the time complexity compared to direct element-by-element updates.
+
+
+### **Concept**
+The difference array stores the difference between consecutive elements of the original array. This allows range updates to be applied in constant time.
+
+Given an array `arr[]` of size `n`, the difference array `diff[]` is defined as:
+
+```
+diff[i] = arr[i] - arr[i-1]  (for 1 <= i < n)
+```
+
+### **How It Works**
+If given a range `[low, high]` in the array, and you need to perform some changes (like adding a value `x`) to all elements in this range:
+
+1. Update `diff[low]` by adding the value `x`.
+2. Update `diff[high+1]` by subtracting the value `x` (only if `high+1` is within bounds).
+3. Finally, compute the cumulative sum of the `diff` array to reconstruct the updated array.
+
+
+### **Steps to Implement**
+
+#### Step 1: Update the Difference Array
+For a range `[l, r]` and a value `x` to be added:
+
+- Increment `diff[l]` by `x`:
+  ```
+  diff[l] += x
+  ```
+- Decrement `diff[r+1]` by `x` (only if `r+1 < n`):
+  ```
+  diff[r+1] -= x
+  ```
+
+#### Step 2: Compute the Cumulative Sum
+Take the prefix sum of the `diff` array to get the final values in the original array:
+
+```
+arr[0] = diff[0]
+arr[i] = arr[i-1] + diff[i]  (for 1 <= i < n)
+```
+
+### **Example**
+
+#### Problem:
+Suppose you have an array `arr = [0, 0, 0, 0, 0]` (all zeros) of size 5, and you want to:
+1. Add `10` to elements in range `[1, 3]`.
+2. Add `20` to elements in range `[2, 4]`.
+
+#### Solution:
+
+##### Step 1: Initialize Difference Array
+Start with `diff = [0, 0, 0, 0, 0, 0]` (extra element for ease of handling updates).
+
+##### Step 2: Perform Range Updates
+- For `[1, 3]` with `x = 10`:
+  ```
+  diff[1] += 10
+  diff[4] -= 10
+  diff = [0, 10, 0, 0, -10, 0]
+  ```
+- For `[2, 4]` with `x = 20`:
+  ```
+  diff[2] += 20
+  diff[5] -= 20
+  diff = [0, 10, 20, 0, -10, -20]
+  ```
+
+##### Step 3: Compute the Cumulative Sum
+Take the prefix sum of `diff` to get `arr`:
+
+```
+arr[0] = diff[0] = 0
+arr[1] = arr[0] + diff[1] = 0 + 10 = 10
+arr[2] = arr[1] + diff[2] = 10 + 20 = 30
+arr[3] = arr[2] + diff[3] = 30 + 0 = 30
+arr[4] = arr[3] + diff[4] = 30 - 10 = 20
+```
+
+Final array: `arr = [0, 10, 30, 30, 20]`
+
+### Code Implementation
+
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Function to perform range updates
+void updateRange(vector<int>& diff, int l, int r, int x) {
+    diff[l] += x;
+    if (r + 1 < diff.size()) {
+        diff[r + 1] -= x;
+    }
+}
+
+// Function to construct the updated array from the difference array
+vector<int> buildFinalArray(const vector<int>& diff) {
+    vector<int> arr(diff.size() - 1, 0);
+    arr[0] = diff[0];
+    for (size_t i = 1; i < arr.size(); ++i) {
+        arr[i] = arr[i - 1] + diff[i];
+    }
+    return arr;
+}
+
+int main() {
+    int n = 5;
+    vector<int> diff(n + 1, 0); // Difference array initialized with 0
+
+    // Apply range updates
+    updateRange(diff, 1, 3, 10); // Add 10 to range [1, 3]
+    updateRange(diff, 2, 4, 20); // Add 20 to range [2, 4]
+
+    // Build and print the final array
+    vector<int> finalArray = buildFinalArray(diff);
+    for (int val : finalArray) {
+        cout << val << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
+```
+
+*** 
+
