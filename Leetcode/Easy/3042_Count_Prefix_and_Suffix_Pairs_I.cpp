@@ -59,11 +59,70 @@
                     aba ba a -> Suffix
 
 
+        // Efficient Approach:
+            -> Using Two pointers:
+            -> First check for prefix case:
+            -> Second check for suffix case:
+
+
+            // Prefix & suffix of string:
+
+                    aba
+                    a ab aba    -> prefix
+
+                    aba ba a -> Suffix
+
 */
 
 #include<bits/stdc++.h>
 #include<algorithm>
 using namespace std;
+
+
+// Efficient Approach
+class Solution_Effi {
+private:
+    // Efficient Approach: 
+    bool isPrefixAndSuffix(string &s1, string &s2){
+        int n = s1.size();
+        int m = s2.size();
+        if(n > m) return 0; // case when s1 is grater than s2, means there is no chance of prefix value matched.
+
+        // Check prefix:
+        int j = 0;
+        bool isFound1 = true;
+        for(int i=0; i < n && isFound1;i++,j++){
+            if(s1[i] != s2[j]){
+                isFound1 = false;
+            }
+        }
+        
+        // Check Suffix:
+        j = m-1;
+        bool isFound2 = true;
+        for(int i=n-1;i >= 0 && isFound2;i--,j--){
+            if(s1[i] != s2[j]){
+                isFound2 = false;
+            }
+        }
+
+        if(isFound1 && isFound2) return 1;
+        return 0;
+    }
+public:
+    int countPrefixSuffixPairs(vector<string>& words) {
+        int n = words.size();
+
+        int count = 0;
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                count += (isPrefixAndSuffix(words[i], words[j])) ? 1 : 0;
+            }
+        }
+
+        return count;
+    }
+};
 
 
 // BruteForce Approach:
