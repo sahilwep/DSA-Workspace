@@ -19,10 +19,32 @@
         Output: [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
 
 
+
 // BruteForce Solution: 
     -> Get the crosspending index & store it in temp matrix, at last update original matrix with temp matrix value.
 
 
+
+// Efficient Solution:
+    -> We can solve this without using any auxilary matrix.
+    -> we just need to observe the patterns.
+    -> If we take transpose of every row & then reverse it, then we can solve this problem.
+
+            -> matrix:
+                1 2 3
+                4 5 6
+                7 8 9
+
+            -> Transpose of matrix:
+                1 4 7
+                2 5 8
+                3 6 9
+
+            -> Reverse Transpose of matrix by each row:
+
+                7 4 1
+                8 5 2
+                9 6 3
 
 
 */
@@ -30,6 +52,27 @@
 #include<bits/stdc++.h>
 #include<algorithm>
 using namespace std;
+
+// Efficient Solution:
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+
+        // Making Transpose of matrix:
+        for(int i=0;i<n;i++){
+            for(int j=i;j<n;j++){
+                swap(matrix[i][j], matrix[j][i]);
+            }
+        }
+
+        // Now reverse every row of matrix:
+        for(int i=0;i<n;i++){
+            reverse(begin(matrix[i]), end(matrix[i]));
+        }
+        
+    }
+};
 
 
 // BruteForce Solution:
