@@ -18,22 +18,66 @@
         Output: [0,1,2]
 
 
-// Approach:
+// BruteForce: 
+    -> Use nested loop Solve this problem
+    -> TC: O(n^2)
+
+// Sorting: 
+    -> TC: O(n*log(n))
+
+// Hashing:
     -> We can sort this using map
     -> TC: O(n*log(n))
 
-
-// Efficient: 
+// Count Sorting: 
     -> array is bound to have 3 values only.
     -> Store the frequency of every element
     -> last assign the numbers frequency times.
     -> TC: O(n)
+
+// Dutch national flag algorithm
+    ->  Problem: https://en.wikipedia.org/wiki/Dutch_national_flag_problem
+    -> This problem says we are given 3 balls & we have to sort them.
+    -> We will sort them by using 3 pointer low, mid & high
+        -> Run loop while(mid <= high):
+            -> when (nums[mid] == 0) => swap(nums[low], nums[mid]), low++, mid++;
+            -> when (nums[mid] == 1) => mid++;
+            -> when (nums[mid] == 2) => swap(nums[mid], nums[high]), high--;
+
+    -> TC: O(n)
+
 
 */
 
 #include<bits/stdc++.h>
 #include<algorithm>
 using namespace std;
+
+// Dutch national flag algorithm: TC: O(n)
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int low = 0;
+        int mid = 0;
+        int high = nums.size() - 1;
+
+        while(mid <= high){
+            if(nums[mid] == 0){
+                swap(nums[mid], nums[low]);
+                mid++;
+                low++;
+            }
+            else if(nums[mid] == 1){
+                mid++;
+            }
+            else if(nums[mid] == 2){
+                swap(nums[mid], nums[high]);
+                high--;
+            }
+        }
+    }
+};
+
 
 // Efficient: O(n)
 class Solution {
@@ -80,5 +124,30 @@ public:
                 nums[k++] = i.first;
             }
         }
+    }
+};
+
+// Sorting: TC: O(n*log(n))
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        sort(begin(nums), end(nums));
+    }
+};
+
+// BruteForce Method:
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int n = nums.size();
+        
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                if(nums[i] > nums[j]){
+                    swap(nums[i], nums[j]);
+                }
+            }
+        }
+
     }
 };
