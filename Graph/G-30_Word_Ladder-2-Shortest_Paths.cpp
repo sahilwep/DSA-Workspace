@@ -137,6 +137,7 @@ public:
         q.push({beginWord}); // Initialize with a sequence containing only the start word.
         
         vector<string> usedOnLevel; // Tracks words used in the current BFS level.
+        usedOnLevel.push_back(beginWord);   // push the begin word into BFS level track.
         int level = 0; // Tracks the current level of BFS.
         vector<vector<string>> result; // Stores the shortest transformation sequences.
         
