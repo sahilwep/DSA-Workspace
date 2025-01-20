@@ -39,13 +39,45 @@
         -> For checking wether any row || any column is completely painted, we will have to visit the matrix at every steps.
         -> & at any movement we encounter with the given condition, we will return that minimum index.
         -> Complexity will be higher, but it will work.
-            -> TC: O((n*m) * (n*m)) => O(n^2 * m^2)
+            -> TC: O(arrSize * (n*m))
             -> SC: O(n*m)
 
 
 
+    // Efficient Solution:
+        
+        -> Now time to improve our BruteForce Solution:
+            -> if somehow we can store the computation of row & col then we can save lot's of time..
+            -> Let's Explore the possible options: 
+                MAP: 
+                    map for row: 
+                        we need to track wether any map row has all painted
+                    map for col: 
+                        we need to track wether any map col has all painted
+
+                    Solution: 
+                        -> We can create a map for col & map for row:
+                        -> for every row, we will store the frequency count of every row index & once any frequency count reaches to the row size we can return true.
+                        -> similarly with column.
+
+                    // Problem is to search efficiently in matrix & paint that.
+
+                    -> for every search we are taking O(n*m)
+                        -> While we are searching & updating we can store the rowFrequency & colFrequency at the same time..
+                        -> And we will check that whether the frequency is equal to the row size & col size, & if so return that answer.
 
 
+                    // Now we have to find out the way, that somehow we can be aware of every element location.
+                        -> One good thing is we are given matrix value range from (1 to n*m)
+                        -> if we get the matrix values coordinated in O(1) operations, it will be very efficient.
+                        -> We can store mat value coordinates in map, & when we were searching, we can directly return it from map with O(1)
+
+
+        // Complexity: 
+            -> TC: O(n * m)
+                Note: Since arr is a permutation of the elements of mat,
+                    arrSize = (n * m) Therefore, O(arrSize) = O(n * m)
+            -> AS: O(n * m)
 
 */
 
@@ -53,6 +85,66 @@
 #include<algorithm>
 using namespace std;
 
+
+// Efficient Solution: 
+class Solution {
+public:
+    int firstCompleteIndex(vector<int>& arr, vector<vector<int>>& mat) {    // TC: O(n*m)
+        int arrSize = arr.size();
+        int n = mat.size();
+        int m = mat[0].size();
+
+        unordered_map<int, int> rowCnt; // use to store frequency of every row
+        unordered_map<int, int> colCnt; // use to store frequency of every col
+        
+        // Preprocessing matrix coordinates:    TC: O(n*m)
+        unordered_map<int, pair<int, int>> matPos;  // use to store matrix coordinates
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                matPos[mat[i][j]] = {i, j};
+            }
+        }
+
+        // TC: O(arrSize)
+        for(int i=0;i<arrSize;i++){
+            int value = arr[i];  // element to paint
+
+            // // This will take O(n*m), but we saved this operation by storing coordinates in map, which will take O(1)
+            // for(int row = 0; row < n; row++){
+            //     for(int col = 0; col < m; col++){
+            //         if(mat[row][col] == value){
+            //             // mark that color in hashmap:
+            //             // For row:
+            //             rowCnt[row]++;
+            //             if(rowCnt[row] == m) return i;
+
+            //             // for col:
+            //             colCnt[col]++;
+            //             if(colCnt[col] == n) return i;
+            //         }
+            //     }
+            // }
+            
+
+            // Fetching the coordinates of value from matrix-Hash:
+            int row = matPos[value].first;
+            int col = matPos[value].second;
+
+
+            // mark that row & col in hashMap by O(1) & check wether have any row or col is painted or not, by simply checking the frequency count with size of row or col
+            // row:
+            rowCnt[row]++;
+            if(rowCnt[row] == m) return i;  // return that index if we get any row all painted
+
+            // col:
+            colCnt[col]++;
+            if(colCnt[col] == n) return i;  // return that index if we get any col all painted
+
+        }
+
+        return -1;
+    }
+};
 
 
 // BruteForce Solution:
@@ -105,7 +197,7 @@ private:
         }
     }
 public:
-    int firstCompleteIndex(vector<int>& arr, vector<vector<int>>& mat) { // TC: O((n*m) * (n*m))
+    int firstCompleteIndex(vector<int>& arr, vector<vector<int>>& mat) { // TC: O(arrSize * (n*m))
         int arrSize = arr.size();
         int n = mat.size();
         int m = mat[0].size();
@@ -113,7 +205,7 @@ public:
         vector<vector<bool>> paint(n, vector<bool> (m, false));   // this will contains the information of every painted cells
 
         int minIdx = -1;
-        for(int i=0;i<arrSize;i++){ // TC: O(n*m)
+        for(int i=0;i<arrSize;i++){ // TC: O(arrSize)
             int value = arr[i];  // element to paint
             
             // TC: O(n*m)
