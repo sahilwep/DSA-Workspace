@@ -16,6 +16,8 @@ This repository is my personal space for diving deep into the world of Competiti
 - [GFG Self Placed](/GFG_Complete_A_Z/)
 - [Striver A_to_Z](/Striver_DSA_A-to-Z/)
 - [Contest Snippet](/Contest_Snippet/code.cpp)
+- [Striver's Graph](/Graph)
+- [Aditya Verma's DP](CSES/Dynamic_Programming/DP_Playlist)
 
 ## Topics Covered
 
