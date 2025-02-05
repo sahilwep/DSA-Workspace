@@ -84,3 +84,20 @@ public:
 
 
 // BruteForce Solution:
+class Solution {
+public:
+    bool areAlmostEqual(string s1, string s2) {
+        int n = s1.size();
+
+        string temp = s1;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++) {
+                swap(temp[i], temp[j]); // swap
+                if(temp == s2) return 1;    // check
+                swap(temp[j], temp[i]); // revert it back.
+            }
+        }
+
+        return 0;
+    }
+};
