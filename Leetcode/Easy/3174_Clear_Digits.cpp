@@ -21,6 +21,18 @@
         Output: ""
         Explanation: First, we apply the operation on s[2], and s becomes "c4". Then we apply the operation on s[1], and s becomes "".
 
+// Bruteforce: 
+    -> Just write the given conditions using nested loop, & our job is done.
+    -> TC: O(n^2)
+    
+    
+// Efficient:
+    -> If we observe carefully we need to remove digits, not single but all..
+    -> And whenever we occur with any digit, we just need to make sure that we will delete the left character to it..
+    -> We will just store the characters, not the digits, & whenever we will be having any digits, we will remove the latest character that we have inserted..
+    -> If we use stack for this whole operations our job will be easy.
+    -> TC: O(n)
+
 
 */
 
@@ -28,6 +40,38 @@
 #include<algorithm>
 using namespace std;
 
+
+// Efficient:
+class Solution {
+public:
+    string clearDigits(string s) {
+        int n = s.size();
+
+        stack<char> st;
+        for(int i = 0; i < n; i++) {
+            if(s[i] >= '0' && s[i] <= '9') {
+                // remove the latest character that we have pushed into stack:
+                if(!st.empty()) st.pop();
+            }
+            else{
+                st.push(s[i]);
+            }
+        }
+
+        // Now at the end: insert back all character to string:
+        string res = "";
+        while(!st.empty()) {
+            res += st.top();
+            st.pop();
+        }
+
+        reverse(begin(res), end(res));
+        
+        return res;
+    }
+};
+
+// BruteForce:
 class Solution {
 public:
     string clearDigits(string s) {
