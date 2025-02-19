@@ -34,6 +34,14 @@
         It can be proven that "4321" is the smallest possible num that meets the conditions.
 
 
+// BruteForce Solution:
+    -> we are asked to generate smallest possible string num that meets conditions.
+        -> If pattern[i] == 'I', then num[i] < num[i + 1].
+        -> If pattern[i] == 'D', then num[i] > num[i + 1].
+    -> first store the numbers from 1 to n + 1 in a string from the given size of pattern
+    -> Then generate next permutations until we not get the match.
+
+
 
 
 */
@@ -42,18 +50,32 @@
 #include<algorithm>
 using namespace std;
 
+
 class Solution {
-    public:
-        string smallestNumber(string pattern) {
-            int s[10] = {'1'}, top = 0, j = 0;
-            for (int i = 0; i < pattern.length(); i++){
-                if (pattern[i] == 'I')
-                    while (top >= 0) pattern[j++] = s[top--];
-                s[++top] = i + 1 + '1';
+private:
+    bool matchesPattern(string &nums, string &pattern) {
+        for(int i = 0; i < pattern.size(); i++) {
+            if(pattern[i] == 'I' && nums[i] > nums[i+1] 
+            || pattern[i] == 'D' && nums[i] < nums[i+1])  {
+                return false;
             }
-            while (top > 0)
-                pattern[j++] = s[top--];
-            if (top == 0) pattern.push_back(s[top]);
-            return pattern;
         }
-    };
+
+        return true;
+    }
+public:
+    string smallestNumber(string pattern) {
+        int n = pattern.size();
+        string num = "";
+
+        for(int i = 1; i <= n + 1; i++) {
+            num.push_back(i + '0');     // i = 1 => '1'
+        }
+
+        while(!matchesPattern(num, pattern)) {
+            next_permutation(begin(num), end(num));
+        }
+
+        return num;
+    }
+};
