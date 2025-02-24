@@ -16,7 +16,8 @@
         "saperately",
         "subarray",
         "Supersequence",
-        "Topo"
+        "Topo",
+        "Warshall"
     ],
     "files.associations": {
         "iostream": "cpp",
