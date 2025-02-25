@@ -33,50 +33,65 @@
     1 <= arr[i] <= 100
 
 
-// Observations: 
-    -> 
-
-
-
-// Complexity:
-
-
 */
 
 #include<bits/stdc++.h>
 #include<algorithm>
 using namespace std;
-typedef long long ll;
-typedef vector<int> vi;
-typedef pair<int,int> pi;
-typedef size_t s_t;  // use during string traversal
-#define F first
-#define S second
-#define PB push_back
-#define MP make_pair
-#define REP(i,a,b) for (int i = a; i <= b; i++)
-#define arrInp for(int i=0;i<n;i++) cin >> arr[i];
-#define arrOut(k) for(int i=0;i<n;i++) cout << arr[i] <<  k;
-#define el cout << endl;
-#define SQ(a) (a)*(a);
-#define mod 1000000007
 
+// Efficient Solution:
+class Solution {
+public:
+    int numOfSubarrays(vector<int>& arr) {
+        int n = arr.size();
 
+        int mod = 1e9 + 7;
+        vector<int> prefSum(n, 0);
+        prefSum[0] = arr[0];
 
-void solve(){
-    int n;
-    
-    
-}
+        for(int i = 1; i < n; i++) {
+            prefSum[i] = prefSum[i-1] + arr[i];
+        }
 
+        int cnt = 0;
+        int odd = 0;
+        int even = 1;
 
-int main(){
-    int t = 1;     // Change the testcase according to question...
-    cin >> t;
-    
-    while(t--){
-        solve();
+        for(int i = 0; i < n; i++) {
+            if(prefSum[i] % 2 == 0) {    // odd + even = odd
+                cnt = (cnt + odd) % mod;
+                even++; 
+            }else{  // even + odd = odd
+                cnt = (cnt + even) % mod;
+                odd++;
+            }
+        }
+        
+        return cnt;
     }
-    
-    return 0;
-}
+};
+
+// BruteForce Solution:
+class Solution {
+public:
+    int numOfSubarrays(vector<int>& arr) {
+        int n = arr.size();
+
+        int mod = 1e9 + 7;
+        vector<int> sum;
+        for(int i = 0; i < n; i++) {
+            int tempSum = 0;
+            for(int j = i; j < n; j++) {
+                tempSum += arr[j] % mod;
+                sum.push_back(tempSum);
+            }
+        }
+
+        int oddSum = 0;
+        for(int i = 0; i < sum.size(); i++) {
+            if(sum[i] % 2 != 0) oddSum++;
+        }
+        
+        return oddSum;
+    }
+};
