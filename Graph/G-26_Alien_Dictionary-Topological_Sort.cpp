@@ -146,12 +146,101 @@
             If iterator falls into not-equal, return the smallest one.
 
 
+
+// NOTE: GFG has changed the question, They remove the given 'K' from the question, 
+    -> Now first we have to find the 'k' how many unique characters in the given words list.
+    -> Then only we can work with that number of nodes:
+
+
+
 */
 
 #include <bits/stdc++.h>
 using namespace std;
 
+// Updated Code GFG:
+class Solution { 
+public:
+    string findOrder(vector<string> &words) {
+        int n = words.size();
+        
+        // Step 1: Find the unique characters present in the given words
+        set<char> st;
+        for (auto &word : words) {
+            for (auto c : word) 
+                st.insert(c); // Store all unique characters
+        }
+        
+        int V = st.size(); // Number of unique characters (Nodes in the graph)
+        
+        // Step 2: Create adjacency list for the graph
+        vector<vector<int>> adj(26);  // Since we only have lowercase letters (a-z)
+        vector<int> indegree(26, 0);  // Track the indegree of each character
+        
+        // Step 3: Build the Graph (Directed Edges)
+        for (int i = 0; i < n - 1; i++) {
+            string s1 = words[i];
+            string s2 = words[i + 1];
+            
+            bool foundDifference = false;
+            int len = min(s1.size(), s2.size());
+            
+            // Compare character by character to find the first mismatch
+            for (int ptr = 0; ptr < len; ptr++) {
+                if (s1[ptr] != s2[ptr]) {
+                    // Create a directed edge from s1[ptr] to s2[ptr]
+                    adj[s1[ptr] - 'a'].push_back(s2[ptr] - 'a');
+                    
+                    // Increase indegree of s2[ptr] (it now has a dependency)
+                    indegree[s2[ptr] - 'a']++;  
+                    
+                    foundDifference = true;
+                    break; // Stop after finding the first mismatch
+                }
+            }
+            
+            // If no mismatch was found but s1 is longer than s2, the order is invalid
+            if (s1.size() > s2.size() && !foundDifference) {
+                return "";  // Invalid order, return empty string
+            }
+        }
+        
+        // Step 4: Topological Sorting using Kahn's Algorithm (BFS)
+        queue<int> q;
+        
+        // Enqueue nodes with 0 indegree (No dependencies)
+        for (auto &ch : st) {  // Consider only those characters which are in our set:
+            if (indegree[ch - 'a'] == 0) {
+                q.push(ch - 'a');  // Convert char to index & push it into queue.
+            }
+        }
+        
+        string res = ""; // Store the final order
+        
+        // Process the nodes in topological order
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+            
+            // Convert back to character and append to result
+            res += char(node + 'a');
+            
+            // Reduce indegree of all neighbors
+            for (auto &it : adj[node]) {
+                indegree[it]--;
+                if (indegree[it] == 0) {
+                    q.push(it); // If indegree becomes 0, add to queue
+                }
+            }
+        }
 
+        // If all characters are processed, return result, otherwise return ""
+        return (res.size() == V) ? res : "";
+    }
+};
+
+
+// Old Code GFG:
 class Solution {
 public:
     string findOrder(vector<string> dict, int k) {
