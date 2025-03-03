@@ -76,10 +76,19 @@
     -> Finally, return the total weight of the MST, and if needed, print the edges.
 
 
-
+    
 // Complexity:
     -> TC: O(E * log(E))
     -> SC: O(E), Storing all the edges into priority queue in worse case.
+    
+// Quick NOTES:
+    -> This is greedy approach:
+    -> Every node we will process only ones.
+    -> from there we will choose only those edge which has minimum weight & sum up in our MST SUM OR STORE THAT EDGE INTO OUR RESULT 
+    -> Visited array will help us to visit every node only ones.
+    -> priority queue will always give the smallest weight.
+
+
 
 */
 
@@ -101,35 +110,37 @@ public:
         
         // Start from node 0: {weight, {node, parent}}
         pq.push({0, 0});
+        // NOTE: We will not mark visited the first source here, because if we mark them visited here, algorithm logic will not proceed.. 
         
+
         while(!pq.empty()) {
-            auto it = pq.top();
-            pq.pop();
+            auto it = pq.top(); // get the top value from the priority queue.
+            pq.pop();   // remove that top values from priority queue
             
-            int wt = it.first;
-            int node = it.second;
+            int wt = it.first;  // get the edge weight.
+            int node = it.second;   // get the node
             
-            // If node is already visited, skip it
+            // If node is already visited, skip it because we are visiting every node only ones.
             if (vis[node]) continue;
 
             // Mark node as visited and add its weight to MST total weight
-            vis[node] = 1;
-            mstWt += wt;
+            vis[node] = 1;  // making them visit will make sure will not visit this node again.
+            mstWt += wt;    // adding that edge weight value into our MST Sum result.
             
 
-            // Explore adjacent nodes
+            // Explore adjacent_nodes / neighbors
             for(auto &it: adj[node]) {
-                int adjNode = it[0];
-                int edWt = it[1];
+                int adjNode = it[0];    // get the node value
+                int edWt = it[1];       // get the edge weight from "node" ----> "adjNode"
             
-                // Push only unvisited nodes into the priority queue
+                // Push only unvisited nodes into the priority queue to proceed our algorithm further..
                 if(!vis[adjNode]) {
                     pq.push({edWt, adjNode});
                 }
             }
         }
         
-        return mstWt;
+        return mstWt;   // last return the mst Weight.
     }
 };
 
