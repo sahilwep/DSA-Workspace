@@ -30,6 +30,16 @@
 
 
 // Observations: 
+    -> We are given range left & right
+    -> We need to find tow prime number b/w this range, & (num1 < num2)
+
+// BruteForce Approach: 
+    -> First generate all prime numbers b/w that range.
+    -> Get the two numbers from the generated sequence & choose those pairs which has minimum difference.
+
+// Complexity:
+    -> TC: O(n), left <= n <= right
+    -> SC: O(n)
 
 
 */
@@ -54,6 +64,7 @@ public:
     vector<int> closestPrimes(int left, int right) {
         if(left == right) return {-1, -1};  // if we have same number {prime / non-prime} return "-1"
 
+        // Step 1: Generate all prime numbers b/w given range left & right:
         vector<int> pPrime;
         for(int i = left; i <= right; i++) {
             if(isPrime(i)) pPrime.push_back(i);
@@ -69,8 +80,8 @@ public:
             cout << pPrime[i] << " ";
             int num1 = pPrime[i];
             int num2 = pPrime[i + 1];
-            if(num1 < num2) {
-                if(num2 - num1 < minAns) {
+            if(num1 < num2) {   // First constrains: num1 < num2
+                if(num2 - num1 < minAns) {  // second constrains: it should have minimum difference.
                     minAns = num2 - num1;
                     res.first = num1;
                     res.second = num2;
