@@ -42,14 +42,45 @@
     -> If we reverse the edge direction of every node, then we can simply traverse & store all the path nodes as ancestors of nodes..
 
 
-// Approach:
-    -> We can use dfs/bfs to get the nodes ancestors
-    -> After we need to sort them, so that we can return it in order.
+// BruteForce Approach:
+    -> Basic & bruteforce solution that comes into our mind in first glance:
+        -> Reverse all the edges of graph.
+        -> For every node use any traversal algorithm & visit their adjacent nodes..
+        -> During the visit any nodes which comes into the path store it as ancestors of that node.
+
+    // Complexity: 
+        -> TC: O(V * (V + E))
+        -> SC: O(V)
+            -> V = total number of Nodes that we have in our graph.
 
 
-// Complexity:
-    -> TC: O(V + E)
-    -> SC: O(V)
+
+// TopoSort Approach: 
+    -> We are sure about the graph that it's DAG (Directed Acyclic Graph)
+    -> We can perform TopoSort to find the linearOrdering, which will give us the details of every node that comes after everyOther nodes.
+    // Why TopoSort: 
+        -> Given graph is DAG -> Sure about no-cycle
+        -> Because TopoSort Will give us linear ordering of every Node, which will let us know order in which the nodes are coming, & this details will helps us know about ancestors of every node.
+    // Approach:
+        -> with topo-sort format, we will maintain set of vector to store ancestors of every nodes:
+            -> We will use vector<unordered_set<int>> which will store the ancestors.
+        -> When we are explore adjNode of every node:
+            -> ancestors[adjNode].insert(node);    // push ancestors of adjNode as Node where it's coming from.
+            -> Also make sure to store all the ancestors of that "node" as ancestors of adjNode, using another for loop.
+
+    // Complexity: 
+        -> TC: O(V * V*Log(V))
+            -> Building adjacency list: O(V+E) (as we iterate over edges)
+            -> Computing in-degree: O(V+E) (since we traverse adjacency list)
+            -> Topological Sort (BFS): O(V+E) (each node and edge is processed once)
+            -> Processing ancestors: 
+                -> Worst case, inserting and copying ancestors across nodes can take up to O(V^2) in dense graphs.
+                -> Sorting ancestor lists takes O(V*log(V)) per node → total O(V * (V * log(V)))
+
+        -> SC: O(V^2), In worse case Storing ancestors will store all "V - 1" nodes.
+            -> Example: 
+                adj[] = {{}, {0}, {0, 1}, {0, 1, 2}, {0, 1, 2, 3}, {0, 1, 2, 3, 4}, {0, 1, 2, 3, 4, 5}}
+                -> This type of graph will take near to to n^2 space.
 
 
 */
@@ -59,39 +90,100 @@
 using namespace std;
 
 
+// Efficient Solution TopoSort:
+class Solution {
+public:
+    vector<vector<int>> getAncestors(int n, vector<vector<int>>& edges) {
+        vector<vector<int>> adj(n);
+        
+        for(auto &it: edges) {
+            int u = it[0], v = it[1];
+            adj[u].push_back(v);    // reverse the edges:
+        }
+
+        // Process Topo-sort:
+
+        vector<int> indegree(n, 0);
+        for(int i = 0; i < n; i++) {    // Store all the incoming nodes: 
+            for(auto &it: adj[i]) {
+                indegree[it]++;
+            }
+        }
+
+        queue<int> q;
+        for(int i = 0; i < n; i++) {    // Now insert all the "indegree = 0" nodes into queue
+            if(!indegree[i]) q.push(i);
+        }
+
+        vector<unordered_set<int>> ancestors(n);    // using unorderedSet of vector to store ancestors of every node: (NOTE: we are using set to tackel insertion of duplicate nodes)
+        while(!q.empty()) {
+            int node = q.front();
+            q.pop();
+
+            // Explore adjacent nodes:
+            for(auto &adjNode: adj[node]) {
+                // Store ancestors of adjNode & ancestors of their ancestors:
+                ancestors[adjNode].insert(node); // store parent of the current adjNode
+
+                for(auto &parent: ancestors[node]) {    // store all the ancestors of the parent Node
+                    ancestors[adjNode].insert(parent);
+                }
+
+                // TopoSort part:
+                indegree[adjNode]--;
+                if(!indegree[adjNode]) q.push(adjNode);
+            }
+        }
+
+        // Last Storing all the ancestors into 2D vector:
+        vector<vector<int>> ans(n);
+        for(int i = 0; i < n; i++) {
+            ans[i] = vector<int>(begin(ancestors[i]), end(ancestors[i]));
+            sort(ans[i].begin(), ans[i].end());
+        }
+
+        return ans;
+    }
+
+};
+
+
+
+// BruteForce Approach:
 class Solution {
 private:
     void dfs(int node, vector<vector<int>> &adj, vector<int> &vis, vector<int> &anc){
-        vis[node] = 1;
+        vis[node] = 1;  // visit that called node
 
         // Explore adjacent nodes:
         for(auto it: adj[node]){
-            if(!vis[it]){
-                anc.push_back(it);  // store the ancestors in result.
-                dfs(it, adj, vis, anc);
+            if(!vis[it]){   // if node is not yet visited
+                anc.push_back(it);  // store it as ancestors in result.
+                dfs(it, adj, vis, anc); // call another dfs to explore further.
             }
         }
     }
 public:
     vector<vector<int>> getAncestors(int n, vector<vector<int>>& edges) {
-        // Build Graph: 
+        
+        // Build Graph By reversing the edges:
         vector<vector<int>> adj(n);
         for(auto i: edges){
             int u = i[0];
             int v = i[1];
-            adj[v].push_back(u);    // reverse the edge:
+            adj[v].push_back(u);    // reverse the edge:    u ----> v   TO  v ----> u
         }
 
 
         vector<vector<int>> ans(n);
         for(int i=0;i<n;i++){
-            // Normal DFS Call for every nodes:
-            vector<int> vis(n, 0);
+            // DFS Call for every nodes:
+            vector<int> vis(n, 0);  // vector to maintain the visited nodes during traversal
             vector<int> anc;    // store the ancestors
-            dfs(i, adj, vis, anc);  // dfs call
+            dfs(i, adj, vis, anc);  // call dfs
             
-            sort(begin(anc), end(anc));
-            ans[i] = anc;
+            sort(begin(anc), end(anc)); // sort all the nodes so that it should be in correct order.
+            ans[i] = anc;   // store it in our answer
         }
 
         return ans;
