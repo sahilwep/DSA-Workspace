@@ -74,7 +74,61 @@
 using namespace std;
 
 
-// Dijkstra's Based Solution: 
+// Normal Dijkstra's Based Solution: 
+class Solution {
+private:
+    typedef pair<int, pair<int, int>> ppr;
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+
+        // Edge Case 
+        if(src == dst) return 0;    // if source & destinations are same return '0' cost required to reach there.
+
+        // Graph adj list formations for directed weighted graph:
+        vector<vector<pair<int, int>>> adj(n);
+        for(auto &it: flights) {
+            int u = it[0], v = it[1], wt = it[2];
+            adj[u].push_back({v, wt});
+        }
+
+        // Process Dijkstra's Algorithm:
+        priority_queue<ppr, vector<ppr>, greater<>> pq;
+        vector<int> dist(n, INT_MAX);
+
+        pq.push({0, {0, src}});  // insertion of source node:
+        dist[src] = 0;
+
+        int minCost = INT_MAX;
+        while(!pq.empty()) {
+            auto it = pq.top();
+            pq.pop();
+
+            int stops = it.first;
+            int cost = it.second.first;
+            int node = it.second.second;
+
+            // Check for answer:
+            if(node == dst && stops <= (k + 1)){
+                // Store minimum as possible:
+                minCost = min(minCost, cost);
+            }
+
+            // Explore adjNodes:
+            for(auto [v, wt]: adj[node]) {
+                if(cost + wt < dist[v]) {
+                    dist[v] = cost + wt;
+
+                    pq.push({stops + 1, {cost + wt, v}});
+                }
+            }
+        }
+
+        return (minCost == INT_MAX) ? -1 : minCost;  // if there's no any route return -1, else return minCost
+    }
+};
+
+
+// Optimized Dijkstra's Based Solution: 
 class Solution {
 private:
     typedef pair<int, pair<int, int>> ppr;
