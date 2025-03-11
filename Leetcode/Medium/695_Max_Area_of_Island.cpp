@@ -43,26 +43,137 @@
     -> TC: O(n * m), At max, we are traversing every cell's only once.
     -> SC: O(n * m), because of recursive calls / or queue will store that much cells in worse case..
 
+
+
+// ------------------------------------------------------------------------
+
+// BFS implementations: 
+    -> Count total number of valid coordinates pushed into queue.
+    -> Only valid coordinates will be pushed into the queue.
+    // Complexity: 
+        -> TC: O(n * m)
+        -> SC: O(n * m)
+
+        
+// New DFS Implementations: 
+    -> Count total number of valid recursive branch get called with DFS.
+    -> Every branch will return 1, because for every branch we set "answer = 1".
+    // Complexity:  
+        -> TC: O(n * m)
+        -> SC: O(n * m)
+
+
+// ------------------------------------------------------------------------
+
 */
 
 #include<bits/stdc++.h>
 #include<algorithm>
 using namespace std;
-typedef long long ll;
-typedef vector<int> vi;
-typedef pair<int,int> pi;
-typedef size_t s_t;  // use during string traversal
-#define F first
-#define S second
-#define PB push_back
-#define MP make_pair
-#define REP(i,a,b) for (int i = a; i <= b; i++)
-#define arrInp for(int i=0;i<n;i++) cin >> arr[i];
-#define arrOut(k) for(int i=0;i<n;i++) cout << arr[i] <<  k;
-#define el cout << endl;
-#define SQ(a) (a)*(a);
-#define mod 1000000007
 
+
+
+// BFS Implementations: Count total number of valid coordinates pushed into queue.
+class Solution {
+private: 
+    int n, m;
+    int dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+    // coordinates:    left     right   up      down
+    bool isValid(int r, int c) { return (r >= 0 && r < n && c >= 0 && c < m);}
+    int solve(int row, int col, vector<vector<int>> &grid, vector<vector<int>> &vis) {
+        vis[row][col] = 1;
+        queue<pair<int, int>> q;
+        q.push({row, col});
+        
+        int area = 0;
+
+
+        while(!q.empty()) {
+            auto [row, col] = q.front();
+            q.pop();
+
+            // Total number of times every cells pushed into the queue is our total area.
+            area++; // count every cell pushed into queue.
+
+            for(int i = 0; i < 4; i++) {
+                int r = row + dir[i][0];
+                int c = col + dir[i][1];
+                
+                if(isValid(r, c) && !vis[r][c] && grid[r][c]) {
+                    vis[r][c] = 1;
+
+                    q.push({r, c});
+                }
+            }
+        }
+
+        return area;
+    }
+public:
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+        n = grid.size(), m = grid[0].size();
+
+        vector<vector<int>> vis(n, vector<int> (m, 0));
+
+        int maxArea = 0;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(!vis[i][j] && grid[i][j]) {
+                    maxArea = max(maxArea, solve(i, j, grid, vis));
+                }
+            }
+        }
+
+        return maxArea;
+    }
+};
+
+
+
+// New DFS Implementations: Count total number of valid branch get called with DFS
+class Solution {
+private: 
+    int n, m;
+    int dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+    // coordinates:    left     right   up      down
+    bool isValid(int r, int c) { return (r >= 0 && r < n && c >= 0 && c < m);}
+    int solve(int row, int col, vector<vector<int>> &grid, vector<vector<int>> &vis) {
+        vis[row][col] = 1;
+        int ans = 1;    // for every called branch we set answer value = 1
+
+        for(int i = 0; i < 4; i++) {
+            int r = row + dir[i][0];
+            int c = col + dir[i][1];
+
+            if(isValid(r, c) && !vis[r][c] && grid[r][c]) { // whenever we have valid constrains:
+                ans += solve(r, c, grid, vis);  // call new Branch and add that branch into our parent answer.
+            }
+        }
+
+        return ans; // last return answer
+    }
+public:
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+        n = grid.size(), m = grid[0].size();
+
+        vector<vector<int>> vis(n, vector<int> (m, 0));
+
+        int maxArea = 0;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(!vis[i][j] && grid[i][j]) {
+                    maxArea = max(maxArea, solve(i, j, grid, vis));
+                }
+            }
+        }
+
+        return maxArea;
+    }
+};
+
+
+
+// OLD Naive DFS Solution:
 class Solution {
 private:
     vector<vector<int>> dir = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
