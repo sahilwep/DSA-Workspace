@@ -13,7 +13,7 @@
     -> Return true if you can finish all course otherwise return false.
 
 
-// Observation: 
+// Efficient Solution Topo-Sort: 
     -> If we can co-relate it with Topological Sort
     -> In Topological sort, if there is a directed node u to v, then u must occur before v
     -> Also Topological sort only work with DAG -> Directed acyclic Graph
@@ -34,9 +34,26 @@
         -> Check weather it has cycle or not, if it has return false : else return true
 
 
-// Complexity:
-    -> TC: O(V + E)
-    -> SC: O(V)
+    // Complexity:
+        -> TC: O(V + E)
+        -> SC: O(V)
+
+
+
+// BruteForce Solution: 
+    -> use any traversal algorithm & traverse & find whether we reach destinations or not?
+    -> It may be possible we may fall into cycle -> In that case we return false, because we are given that all given course should be completed.
+        -> First we should check the cycle in graph, if graph has no-cycle -> We are good to go.
+    -> NOTE: IT may be possible that graph has no-cycle, but there is no-valid path to complete the course u -> v
+
+    -> NOTE: It may be possible graph has multiple components, so we need to take care of that also.
+    
+    // Complexity:
+        -> TC: O(V + E) + O(pre.size() * (V + E)) => O(pre.size() * (V + E))
+        -> SC: O(V + E)
+
+
+
 
 */
 
@@ -44,6 +61,70 @@
 #include<algorithm>
 using namespace std;
 
+
+// BruteForce Solution:
+class Solution {
+private:
+    bool isCycle(int node, vector<vector<int>> &adj, vector<int> &vis, vector<int> &pathVis) {    // find cycle in directed graph:
+        vis[node] = 1;
+        pathVis[node] = 1;
+
+        for(auto &it: adj[node]) {
+            if(!vis[it]) {
+                if(isCycle(it, adj, vis, pathVis)) return true;
+            }
+            // if visited & pathVisited
+            else if(pathVis[it]) {  // if node is already visited & it's also path-visited, means someone has already explored that path.
+                return true;    // cycle found.
+            }
+        }
+
+        pathVis[node] = 0;  // unmark that path which has no-cycle in it way...
+        return false;   // no cycle found:
+    }
+    // NOTE: If path is directed & no cycle: DAG => no need to maintain visited array
+    bool isPossible(int node, int dst, vector<vector<int>> &adj) {    // check if there is a path from 'u' to 'v'
+        if(node == dst) return true;
+
+        for(auto &it: adj[node]) {
+            if(isPossible(it, dst, adj)) return true;
+        }
+
+        return false;
+    }   
+public:
+    bool canFinish(int n, vector<vector<int>>& pre) {
+        // Build Graph: 
+        vector<vector<int>> adj(n);
+        for(auto &it: pre) {    // given order [u, v] => node v ----> u
+            int u = it[0], v = it[1];
+            adj[v].push_back(u);    // directed graph.
+        }
+
+        // Check Cycle:
+        vector<int> vis(n, 0);
+        vector<int> pathVis(n, 0);
+        for(int i = 0; i < n; i++) {
+            if(!vis[i]) {
+                if(isCycle(i, adj, vis, pathVis)) return false; // if cycle is found, we can't finish the course...
+            }
+        }
+
+        // Now, check path u ----> v is reachable or not?
+        for(auto &it: pre) {
+            int u = it[0], v = it[1];
+            if(!isPossible(v, u, adj)) return false;    // if we arn't able to reach destinations, return false;
+        }
+        
+        return true;
+    }
+};
+
+
+
+
+
+// Efficient Solution: Topo-Sort
 class Solution {
 public:
     bool canFinish(int V, vector<vector<int>>& prerequisites) {
