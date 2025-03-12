@@ -43,6 +43,69 @@
 #include<algorithm>
 using namespace std;
 
+
+// BruteForce Solution:
+class Solution {
+private:
+    bool isCycle(int node, vector<vector<int>> &adj, vector<int> &vis, vector<int> &pathVis) {
+        vis[node] = 1;
+        pathVis[node] = 1;
+
+        for (auto &it : adj[node]) {
+            if (!vis[it]) {
+                if (isCycle(it, adj, vis, pathVis)) return true;
+            } else if (pathVis[it]) {
+                return true;
+            }
+        }
+
+        pathVis[node] = 0;
+        return false;
+    }
+    // Dfs function to get linear ordering:
+    void dfs(int node, vector<vector<int>> &adj, vector<int> &vis, stack<int> &st) {
+        vis[node] = 1;
+        for (auto &it : adj[node]) {
+            if (!vis[it]) {
+                dfs(it, adj, vis, st);
+            }
+        }
+        st.push(node);
+    }
+public:
+    vector<int> findOrder(int n, vector<vector<int>>& pre) {
+        vector<vector<int>> adj(n);
+        for (auto &it : pre) {
+            adj[it[1]].push_back(it[0]);
+        }
+
+        // Check for cycle
+        vector<int> vis(n, 0), pathVis(n, 0);
+        for (int i = 0; i < n; i++) {
+            if (!vis[i]) {
+                if (isCycle(i, adj, vis, pathVis)) return {};
+            }
+        }
+
+        // If no cycle, find a valid order using topo-sort DFS implementations
+        stack<int> st;
+        vector<int> vis2(n, 0);
+        for (int i = 0; i < n; i++) {
+            if (!vis2[i]) dfs(i, adj, vis2, st);
+        }
+
+        vector<int> res;
+        while(!st.empty()) {
+            res.push_back(st.top());
+            st.pop();
+        }
+
+        return res;
+    }
+};
+
+
+// Kahn's algorithm Based Solution:
 class Solution {
 public:
     vector<int> findOrder(int V, vector<vector<int>>& prerequisites) {
