@@ -2,7 +2,7 @@
 
 
 ## Bruteforce Solution: 
-* Try to solve every questions with bruteforce solution, solution that comes first in your mind, doesn't matter, it takes $O(n^2)$ or  $O(n*m)$ and it gives TLE, at-least you solutions should works on all the test-cases, because we can improve our bruteforce solution.
+* Try to solve every questions with bruteforce solution, The solution that comes first in your mind, doesn't matter how Efficient it is.., it may takes $O(2^n)$ or $O(n^3)$ or $O(n^2)$ or $O(n*m)$ and later on it may gives you **TLE**, at-least you the solutions Which will works on all the test-cases (NOT CONSIDERING THE TIME & SPACE CONSTRAINS), Later on we can improve our Bruteforce solution to Better to more Efficient one...
 
 
 ## Disjoint Set Union (DSU) || Union Find || Union By Size || Union By Rank:
