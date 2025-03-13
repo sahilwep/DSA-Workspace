@@ -1,7 +1,194 @@
 # Useful Approach used during problems solving:  
 
+
 ## Bruteforce Solution: 
 * Try to solve every questions with bruteforce solution, solution that comes first in your mind, doesn't matter, it takes $O(n^2)$ or  $O(n*m)$ and it gives TLE, at-least you solutions should works on all the test-cases, because we can improve our bruteforce solution.
+
+
+## Disjoint Set Union (DSU) || Union Find || Union By Size || Union By Rank:
+
+- DSU helps us to determine whether two nodes belonging to a same components or not in **Dynamic Graph** with **Constant time**.
+- **Use-case of DSU**:
+    - When dynamic connectivity and merging of sets are needed.
+    - Finding whether two nodes belong to the same connected component in an undirected graph.
+    - Find the minimum cost to connect all nodes in a graph.
+    - Checking if a graph contains a cycle in an undirected graph.
+    - Maintaining components when elements are dynamically merged.
+    - Maze Generation, Clustering, Image Processing, Percolation
+
+    - **Union by Rank vs. Union by Size**
+
+        - **Union by Rank:**
+            - The rank represents the approximate depth of the tree.
+            - When merging two sets, the tree with lower rank is attached to the tree with higher rank.
+            - If both have the same rank, the rank of the new root is incremented.
+
+        - **Union by Size:**
+            - The size represents the number of elements in the set.
+            - When merging two sets, the smaller set is always attached to the larger set.
+            - The size of the new root is updated accordingly.
+        
+- **Why Should You NOT Use Both at the Same Time?**
+    - **They Serve the Same Purpose:**
+        - Both optimizations try to keep the tree as flat as possible to speed up findUPar().
+        - Union by Rank minimizes depth using ranks.
+        - Union by Size minimizes depth using sizes.
+        - Using both is redundant and does not provide extra benefits.
+
+    - **Conflicting Logic:**
+        - Union by Rank updates the rank[] array, while Union by Size updates the size[] array.
+        - If you mix them, the logic becomes inconsistent:
+            - Should you compare rank or size when merging?
+            - If rank says attach A to B, but size says attach B to A, which one should you follow?
+
+    - **Increased Space Complexity:**
+        -> Using both requires maintaining both rank[] and size[] arrays, which increases memory usage unnecessarily.
+
+
+- Here, the implementation of DSU with UnionBySize & UnionByRank:
+```cpp
+// Union By Rank & Size:
+class DisjointSet {
+private:
+    vector<int> rank, parent, size;
+public:
+    // Constructor:
+    DisjointSet(int n) {
+        // initial Configurations:
+        rank.resize(n + 1, 0);  // declarations it with n + 1, will work with both 0-based and 1-based indexing.
+        
+        size.resize(n + 1, 1);  // size default value = 1, because of every node initially treated as single component.
+
+        // for every node parent is themselves => parent[i] = i
+        parent.resize(n + 1);
+        for(int i = 0; i < n + 1; i++) {
+            parent[i] = i;
+        }
+    }
+
+    // Find ultimate parent => with path compression
+    int findUPar(int node) {
+        if(parent[node] == node){
+            return node;
+        }
+
+        // else go parent -> parent -> parent until we not reach to a node which is the ultimate parent.
+        return parent[node] = findUPar(parent[node]);      // send parent[node] in recursive call to reach ultimate parent & save in parent[node] to use path compression => takes O(1)
+        // return findUPar(parent[node]);      // Takes O(log(n)) logarithmic time, without path compression.
+    }
+
+    // Union By Rank => which we have to combine or attach (u & v)
+    void unionByRank(int u, int v) {
+        int ulp_u = findUPar(u);    // find ultimate parent of u
+        int ulp_v = findUPar(v);    // find ultimate parent of v
+        
+
+        // if both ultimate parents are same => they are already in same components.
+        if(ulp_u == ulp_v) return;  // they are belonging to the same components => already attached.
+        
+
+
+        // If they were not in same components:
+        if(rank[ulp_u] < rank[ulp_v]) { // check rank:
+            parent[ulp_u] = ulp_v; // smaller goes & get's attached to the greater guy. => ultimate parent of smaller guy will be the ultimate parent of greater guy.
+        }
+        else if(rank[ulp_v] < rank[ulp_u]) {    // v ultimate parent is lesser rank than u ultimate parent: attach 
+            parent[ulp_v] = ulp_u;  // smaller goes & get's attached to the greater guy.
+        }
+        else {  // if they have same rank:   we can assign anyone to anyone, but make sure the we should increase the rank of greater guy.
+            parent[ulp_v] = ulp_u;      // we have attached ultimate parent of v to ultimate parent of u.
+            rank[ulp_u]++;  // rank of ultimate parent of u will be increased, because that is where i am attaching it.
+        }
+    }
+
+
+    // Union By Size: 
+    void unionBySize(int u, int v) {
+
+        int ulp_u = findUPar(u);    // find ultimate parent of u
+        int ulp_v = findUPar(v);    // find ultimate parent of v
+        
+
+        // if both ultimate parents are same => they are already in same components.
+        if(ulp_u == ulp_v) return;  // they are belonging to the same components => already attached.
+        
+
+        // If they were not in same components:
+        if(size[ulp_u] < size[ulp_v]) { // check size:
+            parent[ulp_u] = ulp_v; // smaller goes & get's attached to the greater guy. => ultimate parent of smaller guy will be the ultimate parent of greater guy.
+            size[ulp_v] += size[ulp_u]; // size will be added, because the components gets connected.
+        }
+        else {  // else if ultimate parent of v is smaller than ultimate parent u |OR| size[ulp_u] == size[ulp_v] it's equal
+            parent[ulp_v] = ulp_u;  // attach the larger 'u' to smaller 'v'.
+            size[ulp_u] += size[ulp_v]; // add the size to ultimate parent of 'u'
+        }
+    }
+};
+```
+
+- Which One Should We Use?
+    - "Union by Size" is often preferred in practical scenarios because:
+        - It directly considers the number of elements in a set.
+        - It has slightly better cache efficiency.
+    - Union by Rank is theoretically just as good, but rank values are not as intuitive to track as sizes.
+    - Both methods ensure nearly constant time complexity O(α(n)) (inverse Ackermann function), so the choice is mostly based on implementation preference.
+
+
+### DSU - UnionBySize Implementations:
+```cpp
+// DisjointSet: Union by size:
+class DisjointSet {
+private:
+    vector<int> parent, size;
+public: 
+    DisjointSet(int n) {
+        size.resize(n + 1, 1);      // initially every components treated as individual.
+        
+        // everyone parents are themselves.
+        parent.resize(n + 1, 0);
+        for(int i = 0; i < n + 1; i++) {
+            parent[i] = i;
+        }
+    }
+    // Find ultimate parent:
+    int findUltParent(int node) {
+        // base case:
+        if(parent[node] == node) {  // when any node pointing itself => return case, we have successfully find the ultimate parent.
+            return node;    
+        }
+        
+        // Recursive case: 
+        return parent[node] = findUltParent(parent[node]);     // Using path compression which will give us O(1) constant time while we find any "node" in future.
+    }
+    // unionFind By Size:
+    void unionBySize(int u, int v) {
+        int ult_u = findUltParent(u);   // find ultimate parent of 'u'
+        int ult_v = findUltParent(v);   // find ultimate parent of 'v'
+        
+        // Check whether they were in same component or not?
+        if(ult_u == ult_v)  return;     // for same components don't do anything.
+        
+        // If they were in different components: connect them together => smaller to larger: By Size:
+        if(size[ult_u] < size[ult_v]) { // size of ultimate parent of u is smaller than size of ultimate parent of v => connect ultimate parent 'u' to ultimate parent of 'v' & add overall size of ultimate parent of size 'v' by adding size of 'u' into it..
+            parent[ult_u] = ult_v;
+            size[ult_v] += size[ult_u]; // increment size of larger node, as smaller added into it.
+        } 
+        else {  // ultimate parent of v size is lesser than the ultimate parent of size u: connect v to u & increment the size of 'u'
+            parent[ult_v] = ult_u;
+            size[ult_u] += size[ult_v];
+
+        }   // NOTE: Equality case handled here because => In equality case we can connect anyone to anyone.
+    }
+};
+```
+
+#### Extra:
+
+- ![DSU Article](https://cp-algorithms.com/data_structures/disjoint_set_union.html)
+- For More about **Time Complexity** How `O(4 alpha)` is near about `O(1)`, Do this GPT Prompt:
+  - "Explain why the time complexity of the Disjoint Set Union (DSU) with path compression is O(α(n)), where α(n) is the inverse Ackermann function. Provide a step-by-step derivation, including the effects of path compression, recurrence relations, and why α(n) grows so slowly. Also, conclude why DSU operations are effectively O(1) in practice."
+
+
 
 ## Hashing: 
 * Hashing is one of the important technique which is used variety of question regarding frequency.
