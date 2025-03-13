@@ -44,15 +44,21 @@
     -> Now at last, we can run any traversal algorithm, & count the number of call we are running from the parent calls, That were our number of closed islands.
 
 
-// Approach:
+// Approach 1:
     -> First we need to make sure to mark all boundary islands as visited, so that we can count the correct number of closed islands.
     -> We can use any traversal algorithm like BFS/DFS, & perform the visiting of every possible island.
 
+    // Complexity: 
+        -> TC: O(n * m), because at-max max we are visiting every cell only once.
+        -> SC: O(n * m), because of visited grid, & stack can have at max O(n * m) calls in worse case....
 
-// Complexity: 
-    -> TC: O(n * m), because at-max max we are visiting every cell only once.
-    -> SC: O(n * m), because of visited grid, & stack can have at max O(n * m) calls in worse case....
+// Approach 2:
+    -> Directly start visit every island & make a flag which will let's us know if anytime we visit the island which has touch to boundary cell we will mark that flag as false, which mark whole island as false, & we keep visiting the cells, which will make sure all the part of that cell is visited.
+    -> Else return true & count that island.
 
+    // Complexity:
+        -> TC: O(n * m)
+        -> SC: O(n * m)
 
 */
 
@@ -61,6 +67,7 @@
 using namespace std;
 
 
+// Approach 1: Start from boundary cell & mark all the cell that are connected to boundary cell & at the end count the left out island.
 class Solution {
 private:
     // Directions: (0, 0)      left,    right,    up,       down
@@ -152,5 +159,101 @@ public:
         }
 
         return closedIsland;
+    }
+};
+
+
+// Approach 2: With Using flag marking True/False based on the island touching to boundary cell, we can found total number of closed island.
+class Solution {
+private:
+    int n, m;
+    int dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+    bool isValid(int r, int c) {return (r >= 0 && r < n && c >= 0 && c < m);}
+    bool bfs(int row, int col, vector<vector<int>>& grid, vector<vector<int>>& vis) {
+
+        queue<pair<int, int>> q;
+        q.push({row, col});
+        vis[row][col] = 1;  // mark a visited
+
+        bool flag = true;
+
+        // Check Valid Constrains:
+        if(row == 0 || col == 0 || row == n-1 || col == m-1) {  // any where near in boundary cell is false positive..
+            // False positive:
+            flag = false;   // mak as false;
+        }
+
+        while(!q.empty()) {
+            auto [row, col] = q.front();
+            q.pop();
+
+            if(row == 0 || col == 0 || row == n-1 || col == m-1) {  // any where near in boundary cell is false positive..
+                // False positive:
+                flag = false;   // mak as false;
+            }
+
+            // explore all 4 directions:
+            for(int i = 0; i < 4; i++) {
+                int r = row + dir[i][0];
+                int c = col + dir[i][1];
+
+                if(isValid(r, c) && !vis[r][c] && grid[r][c] == 0) {
+                    vis[r][c] = 1;
+
+                    q.push({r, c});
+                }
+            }
+        }
+
+        return flag;    // last return flag value.
+    }
+    bool dfs(int row, int col, vector<vector<int>>& grid, vector<vector<int>>& vis) {
+        vis[row][col] = 1;
+
+        bool flag = true;   // initially mark that flag as true
+
+        // If anywhere near in boundary cell, we will mark as false positive..
+        if(row == 0 || col == 0 || row == n-1 || col == m-1) {  
+            // False positive:
+            flag = false;   // mak as false;
+        }
+
+        // explore all 4 directions:
+        for(int i = 0; i < 4; i++) {
+            int r = row + dir[i][0];
+            int c = col + dir[i][1];
+
+            if(isValid(r, c) && !vis[r][c] && grid[r][c] == 0) {
+                if(!dfs(r, c, grid, vis)) { // if we get false from recursive call mark flag as false.
+                    flag = false;
+                }
+            }
+        }
+
+        return flag;
+    }
+public:
+    int closedIsland(vector<vector<int>>& grid) {
+        n = grid.size(), m = grid[0].size();
+
+        vector<vector<int>> vis(n, vector<int> (m, 0));
+
+        // Count number of island:
+        int island = 0;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(grid[i][j] == 0 && !vis[i][j]) { 
+                    // if(dfs(i, j, grid, vis)) {    // recursive call return true -> then only include this into island.
+                    //     island++;
+                    // }
+                    if(bfs(i, j, grid, vis)) {    // recursive call return true -> then only include this into island.
+                        island++;
+                    }
+                }
+            }
+        }
+
+
+        return island;
     }
 };
