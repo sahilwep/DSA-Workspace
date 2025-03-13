@@ -184,7 +184,7 @@ public:
 
 #### Extra:
 
-- ![DSU Article](https://cp-algorithms.com/data_structures/disjoint_set_union.html)
+- [DSU Article](https://cp-algorithms.com/data_structures/disjoint_set_union.html)
 - For More about **Time Complexity** How `O(4 alpha)` is near about `O(1)`, Do this GPT Prompt:
   - "Explain why the time complexity of the Disjoint Set Union (DSU) with path compression is O(α(n)), where α(n) is the inverse Ackermann function. Provide a step-by-step derivation, including the effects of path compression, recurrence relations, and why α(n) grows so slowly. Also, conclude why DSU operations are effectively O(1) in practice."
 
