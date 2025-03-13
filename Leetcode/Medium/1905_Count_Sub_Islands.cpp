@@ -23,7 +23,7 @@
         The 1s colored red in grid2 are those considered to be part of a sub-island. There are two sub-islands.
 
 
-// Observations: 
+// Approach 1: 
     -> Grid2 has island which needs to be present in grid1, So, we need to count all of them..
     -> We need to flag those islands of grid2 which are not present in grid1.
     -> We can run any traversal & check that conditions where we are encounter with Invalid visit.
@@ -35,13 +35,22 @@
 
     // NOTE: When we are hading the case where we have violations of conditions, we can't directly return "false", because we need to check all the possible conditions where we get the flag again...
 
+    // Complexity: 
+        -> TC: O(n * m)
+            -> Because with "vis" grid, we are visiting every cell at-max once..
+        -> SC: O(n * m)
+            -> Because of "vis" grid.
 
-// Complexity: 
-    -> TC: O(n * m)
-        -> Because with "vis" grid, we are visiting every cell at-max once..
-    -> SC: O(n * m)
-        -> Because of "vis" grid.
+            
+// Approach 2:
+    -> If we get encounter with invalid cell from the grid, we will keep visiting all the part of the cell & track the record of valid or invalid island with using additional flag.
 
+    // Complexity: 
+        -> TC: O(n * m)
+            -> Because with "vis" grid, we are visiting every cell at-max once..
+        -> SC: O(n * m)
+            -> Because of "vis" grid.
+            
 
 */
 
@@ -50,6 +59,7 @@
 using namespace std;
 
 
+// Approach 1: First we iterate in every part of the island, once we encounter with any false case, we will use another traversal to visit all the parts of the graph & return false to parent call.
 class Solution {
     int n = 0, m = 0;   // dimension of grid
     vector<vector<int>> dir = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
@@ -125,3 +135,95 @@ public:
         return subIsland;
     } 
 };
+
+
+// Approach 2: Using Flag method -> Once we get the flag as false, we keep iterating all the parts of the island & mark all of them as visited & return flag which hold True/False value according to the conditions.
+class Solution {
+    private:
+        int n, m;
+        int dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+        bool isValid(int r, int c) {return (r >= 0 && r < n && c >= 0 && c < m);}
+        bool bfs(int row, int col, vector<vector<int>>& grid1, vector<vector<int>>& grid2, vector<vector<int>>& vis) {    // bfs to find whether they are sub-island:
+    
+            queue<pair<int, int>> q;
+            q.push({row, col});
+            vis[row][col] = 1;
+    
+            bool flag = true;   // for subIsland:
+    
+            while(!q.empty()) {
+                auto [row, col] = q.front();
+                q.pop();
+    
+                for(int i = 0; i < 4; i++) {
+                    int r = row + dir[i][0];
+                    int c = col + dir[i][1];
+    
+                    if(isValid(r, c) && !vis[r][c]) {
+                        if(grid1[r][c] && grid2[r][c]) {    // if both the grid has same island:
+                            vis[r][c] = 1;
+    
+                            q.push({r, c});
+                        }
+                        else if(grid1[r][c] == 0 && grid2[r][c] == 1) { // if we encounter with any '0' -> mark flag as false & visit all the part of the grid2
+                            vis[r][c] = 1;
+    
+                            flag = false;
+    
+                            q.push({r, c});
+                        }
+                    }
+                }
+            }
+    
+            return flag;
+        }
+        bool dfs(int row, int col, vector<vector<int>>& grid1, vector<vector<int>>& grid2, vector<vector<int>>& vis) {    // bfs to find whether they are sub-island:
+            vis[row][col] = 1;
+    
+            bool flag = true;
+    
+            for(int i = 0; i < 4; i++) {
+                int r = row + dir[i][0];
+                int c = col + dir[i][1];
+    
+                if(isValid(r, c) && !vis[r][c]) {
+                    if(grid1[r][c] && grid2[r][c]) {
+                        flag &= dfs(r, c, grid1, grid2, vis);
+                    }else if(!grid1[r][c] && grid2[r][c]) {
+                        flag &= false;   // mark flag as false, because it falls into wrong positions..
+                        flag &= dfs(r, c, grid1, grid2, vis);    // make further recursive call to visit all the node
+                    }
+    
+                    /*
+                        using '&=' will make sure the the result of flag remains false if it encounter with false anytime in traversal.
+                    */
+                }
+            }
+            
+            return flag;
+        }
+    public:
+        int countSubIslands(vector<vector<int>>& grid1, vector<vector<int>>& grid2) {
+            n = grid1.size(), m = grid1[0].size();
+            vector<vector<int>> vis(n, vector<int> (m, 0));
+    
+            int subIsland = 0;
+            for(int i = 0; i < n; i++) {
+                for(int j = 0; j < m; j++) {
+                    if(!vis[i][j] && grid1[i][j] && grid2[i][j]) {
+                        // With BFS:
+                        // if(bfs(i, j, grid1, grid2, vis)) {
+                        //     subIsland++;
+                        // }
+                        // With DFS:
+                        if(dfs(i, j, grid1, grid2, vis)) {
+                            subIsland++;
+                        }
+                    }
+                }
+            }
+    
+            return subIsland;
+        }
+    };
