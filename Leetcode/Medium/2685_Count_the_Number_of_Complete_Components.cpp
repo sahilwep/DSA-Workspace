@@ -59,11 +59,138 @@
                     -> for building adj list.
         
 
+
+    // DSU Approach: 
+        // Why DSU ?
+            -> Because graph is distributed in multiple components.
+            -> And we need to check for the conditions of complete graph, where we can process ever edges & count the number of available edge for every components.
+            -> Also for every components, we can easily get the size, how many nodes they have?.
+
+            // Approach:
+                -> First Connect all the node & form graph components.
+                -> Store the informations of ultimate parent, size of every components, & required edges they need for every components(with using summations formula).
+               
+                    // How to find number of required graph for every component:
+                        -> Let's say a component size is '4', in other words it has 4 nodes
+                            -> We need to find every node connected with every other nodes.
+                                Component[x] = {1, 2, 3, 4}, size = 4
+
+                                pairs: (1, 2), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4) => Total 6 edges required
+
+                        // We can get this computation with summations formula:
+                            -> summations of '1' to 'n' = n * (n + 1) / 2
+                            -> summations of '0' to 'n' = (n-1) * n / 2
+
+                                -> More Example:
+
+                                        for '3' node = {1, 2, 3} => 3 (required)
+                                        for '4' node = {1, 2, 3, 4} => 6 (required)
+                                        for '5' node = {1, 2, 3, 4, 5} => 10 (required)
+                                        for '6' node = {1, 2, 3, 4, 5, 6} => 15 (required)
+
+                -> Once again, iterate in edge list & store the number of available edge in graph for every components by getting the details of every ultimate parent.
+                -> Last iterate in ultimate parent list & compare the available edge & required edge & store the details of complete graph.
+                    -> Comparing Conditions: 
+                        if(availableEdge == requiredEdge) => CompleteGraph
+                        Because for complete graph, there will exactly be same number of required & available edge.
+
+        // Complexity:
+            -> TC: O(N + E)
+            -> SC: O(N), N = total number of edges.
+
+        
+// NOTE: Given graph is 0-based indexed.
+
 */
 
 #include<bits/stdc++.h>
 #include<algorithm>
 using namespace std;
+
+
+// DSU Approach:
+class DisjointSet {
+public:
+    vector<int> parent, size;
+    DisjointSet(int n) {
+        parent.resize(n + 1);
+        size.resize(n + 1, 1);
+        for(int i = 0; i < n + 1; i++) parent[i] = i;
+    }
+    int ultPar(int node) {
+        if(parent[node] == node) return node;
+        return parent[node] = ultPar(parent[node]); // path compression.
+    }
+    void Union(int u, int v) {
+        int ulp_u = ultPar(u);
+        int ulp_v = ultPar(v);
+        
+        if(ulp_u == ulp_v) return;
+        
+        if(size[ulp_u] < size[ulp_v]) {
+            parent[ulp_u] = ulp_v;
+            size[ulp_v] += size[ulp_u];
+        } else {
+            parent[ulp_v] = ulp_u;
+            size[ulp_u] += size[ulp_v];
+        }
+    }
+};
+
+class Solution {
+public:
+    int countCompleteComponents(int n, vector<vector<int>>& edges) {
+        DisjointSet ds(n);      // declare disjoint of size 'n'
+
+        // Connect nodes & form components.
+        for(auto &edge: edges) {    // TC: O(E))
+            int u = edge[0], v = edge[1];
+            ds.Union(u, v); // TC: O(1)
+        }
+
+        // Now get the size of every components with corresponding to their ultimate parent, parallel store the required size for every components.
+        map<int, int> compSize;     // For every component size
+        map<int, int> reqEdge;      // Store required edge for every components.
+        map<int, int> avlEdge;      // Store available edge for every components.
+        vector<int> ultimatePar;    // Store Ultimate parent of every components.
+
+        for(int i = 0; i < n; i++) {    // TC: O(n)
+            if(ds.parent[i] == i) {    // find the ultimate parent:
+                compSize[i] = ds.size[i];   // store size of every component    
+                reqEdge[i] = (((ds.size[i] - 1) * (ds.size[i]) ) / 2);  // Store the number of edge required for every edge.    // TC: O(1)
+                avlEdge[i] = 0; // Default initialization with '0', in order to handel the components, were they have single node.
+                ultimatePar.push_back(i);   // store ultimate parent of every components.
+            }
+        }
+
+        // Now Store the available edge for every ultimate parent:
+        for(auto &edge: edges) {    // TC: O(E * (1))
+            int u = edge[0], v = edge[1];
+
+            int ulp = ds.ultPar(u); // find ultimate parent of any node (u, v), because the both belong to same components & they both have same ultimate parent.       TC: O(alpha(n)) with inverse Ackermann Function => O(4) => O(1)
+
+            avlEdge[ulp]++;   // increment 1 edge for this ultimate parent availableEdge map:
+        }
+
+        // Now Compare the available edge with required ones by iterating in ultimate Parent & store number of complete graph:
+        int completeGraph = 0;
+        for(auto &ulp: ultimatePar) {   // O(n), in worse case.
+            // Conditions for complete graph:
+            int req = reqEdge[ulp];
+            int avl = avlEdge[ulp];
+
+            // If number of required edge in component is equal to number of available edge in component, then increment the count of complete graph.
+            if(req == avl) {
+                completeGraph++;
+            }
+        }
+
+        return completeGraph;
+    }
+};
+
+
+/* --------------------------------------------------------------------------------------------------------------------------------- */
 
 
 // BruteForce Solutions: Using BFS/DFS & Checking directly Connected nodes
