@@ -27,14 +27,33 @@
     -> If there's no edge that connects tree to a cycle, we will return empty vector.
 
 
-// Approach: 
-    -> we can start building the graph, while we check whether that node is reachable or not, Using any traversal algorithm BFS/DFS.
-    -> If that node is reachable, means that will be our edge that connects two nodes & form cycle, & We will return that edges.
-    -> We can use any traversal algorithm like BFS/DFS to find dest node wether present or not?
+    // BruteForce Approach: 
+        // INTRUSION: Build Graph from given edges & before that check if path from 'u' to 'v' is already there or not?
 
-// Complexity: 
-    -> TC: O(n^2)
-    -> SC: O(n),    due to visited array.
+        // Approach:
+            -> we can start building the graph, while we check whether that node is reachable to destinations or not, Using any traversal algorithm BFS/DFS.
+            -> If that node is reachable, means that will be our edge that connects two nodes & form cycle, & We will return that edges.
+            -> We can use any traversal algorithm like BFS/DFS to find dest node wether present or not?
+
+        // Complexity: 
+            -> TC: O(n^2)
+            -> SC: O(n),    due to visited array.
+
+    
+    // DSU Approach:
+        // Why DSU?
+            -> DSU used to connect edge in a components.
+            -> if any node that were already the path of that component, means that edges is the redundant edge.
+        
+        // Approach: 
+            -> Process edges & join node 'u' & 'v' using Union()
+                -> before that check if ultimate parent of 'u' and ultimate parent of 'v' already exist or not?
+                -> If they already exist means "Redundant edge"
+                -> else merge these node together.
+        
+        // Complexity:
+            -> TC: O(n + m)
+            -> SC: O(n)
 
 
 */
@@ -43,6 +62,70 @@
 #include<algorithm>
 using namespace std;
 
+
+
+// DSU Approach:
+class DisjointSet {
+private:
+    vector<int> parent, size;
+public:
+    DisjointSet(int n) {
+        parent.resize(n + 1);
+        size.resize(n + 1, 1);
+        for(int i = 0; i < n + 1; i++) {
+            parent[i] = i;
+        }
+    }
+    int ultPar(int node) {
+        if(parent[node] == node) return node;
+        return parent[node] = ultPar(parent[node]);
+    }
+    void Union(int u, int v) {
+        int ulp_u = ultPar(u);
+        int ulp_v = ultPar(v);
+
+        if(ulp_u == ulp_v) return;
+
+        if(size[ulp_u] < size[ulp_v]) {
+            parent[ulp_u] = ulp_v;
+            size[ulp_v] += size[ulp_u];
+        }
+        else {
+            parent[ulp_v] = ulp_u;
+            size[ulp_u] += size[ulp_v];
+        }
+    }
+};
+
+class Solution {
+public:
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        int n = edges.size();
+
+        DisjointSet ds(n);
+        for(auto &it: edges) {  // TC: O(E)
+            int u = it[0], v = it[1];
+
+            int ulp_u = ds.ultPar(u);
+            int ulp_v = ds.ultPar(v);
+
+            if(ulp_u != ulp_v) {
+                ds.Union(u, v);
+            }else {
+                return {u, v};
+            }
+        }
+
+        return {};  // else return empty list.
+    }
+};
+
+
+/* -------------------------------------------------------------------------------------------------------------- */
+
+
+
+// BruteForce: Using Graph traversal BFS/DFS check if path to destinations is already there or not?
 class Solution {
     bool dfs(int start, int dest, vector<vector<int>> &adj, vector<int> &vis){
         if(start == dest) return 1;
