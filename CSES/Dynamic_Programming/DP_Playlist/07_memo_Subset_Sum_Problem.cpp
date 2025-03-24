@@ -129,6 +129,15 @@ bool subsetSum_recur(vector<int> nums, int sum, int size){
         return 0;   // return false
     }
 
+    /*
+    NOTE:
+        Thought: I was wondering why we are not handling the base case when (sum < 0): 
+        Answer:
+            -> If the initial sum is non-negative, then (arr[n-1] <= sum) ensures that we only subtract arr[n-1] when it's valid.
+            -> Otherwise, when (arr[n-1] > sum), we directly reject it (solve(arr, sum, n-1)), meaning sum never goes negative in meaningful cases.
+    
+    */
+
     // Decision tree:
     // if element is less or equal to sum:
     if(nums[size-1] <= sum){
