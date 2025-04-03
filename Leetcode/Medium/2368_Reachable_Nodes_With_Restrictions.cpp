@@ -41,6 +41,48 @@
 using namespace std;
 
 
+// BFS Approach: 
+class Solution {
+private: 
+    unordered_set<int> st;
+public:
+    int reachableNodes(int n, vector<vector<int>>& edges, vector<int>& restricted) {
+        for(auto &it: restricted) st.insert(it);
+
+        // Build Adj list: 
+        vector<vector<int>> adj(n);
+
+        for(auto &it: edges) {  // unidrected graph
+            adj[it[0]].push_back(it[1]);
+            adj[it[1]].push_back(it[0]);
+        }
+
+        // LOT Approach: 
+        vector<int> vis(n, 0);
+        queue<int> q;
+        q.push(0);
+        vis[0] = 1;
+
+        int ans = 1;
+        while(!q.empty()) {
+            int node = q.front();
+            q.pop();
+
+            for(auto &it: adj[node]) {
+                if(!vis[it] && st.find(it) == st.end()) {  // not yet visited & also it should not be the part of restricted..
+                    vis[it] = 1;
+                    ans++;  // count the answer
+                    q.push(it);
+                }
+            }
+        }
+
+        return ans;
+    }
+};
+
+
+// DFS Approach: 
 class Solution {
 private:
     unordered_set<int> st;
