@@ -64,6 +64,46 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// Improved DFS: 
+class Solution {
+private: 
+    int n, m;
+    int dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+    bool isValid(int r, int c) { return (r >= 0 && r < n && c >= 0 && c < m);}
+    int fishCnt(int row, int col, vector<vector<int>>& grid, vector<vector<int>>& vis) {
+        vis[row][col] = 1;
+        int ans = grid[row][col];
+
+        for(int i = 0; i < 4; i++) {
+            int r = row + dir[i][0];
+            int c = col + dir[i][1];
+
+            if(isValid(r, c) && !vis[r][c] && grid[r][c] > 0) {
+                ans += fishCnt(r, c, grid, vis);
+            }
+        }
+
+        return ans;
+    }
+public:
+    int findMaxFish(vector<vector<int>>& grid) {
+        n = grid.size(), m = grid[0].size();
+
+        vector<vector<int>> vis(n, vector<int> (m, 0));
+        int maxFish = 0;
+
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(grid[i][j] && !vis[i][j]) {
+                    maxFish = max(maxFish, fishCnt(i, j, grid, vis));
+                }
+            }
+        }
+
+        return maxFish;
+    }
+};
+
 
 // DFS Solution:
 class Solution {
