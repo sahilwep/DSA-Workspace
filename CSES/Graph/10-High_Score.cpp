@@ -48,6 +48,40 @@ Constraints
         -> SC: O(n)
 
 
+// NOTE: We need to detect the positive cycle in path 1 to n: somehow the cycle connects with any nodes which were in that path '1' to 'n'
+            
+            // Example Graph 1:
+                Input: 
+                    7 7
+                    1 2 1
+                    2 7 1
+                    1 6 -1
+                    6 5 -1
+                    5 4 -1
+                    4 3 -1
+                    3 1 5
+                Output: -1
+
+                    -> This graph contains the positive cycle which touches the path 1 to n.
+            
+            // Example Graph 2: 
+                Input:
+                    5 6
+                    1 2 2
+                    2 5 2
+                    1 3 1
+                    3 4 1
+                    4 3 1
+                Output: 4
+
+                    -> This graph contains also the positive cycle which but it not touches the path 1 to n.
+
+    -> This is why we are using another this another 0 to n-1 iteration checks to detect the positive cycle anywhere throughout the path.
+    -> Well this is because we have directed path given & some path which leads to positive cycle, and that not falls within the shortest path, we can ignore that cycle.
+    -> But the positive cycle path which somehow directly connects with the shortest path from 1 to n, this will affect...
+    -> This is why the additional 1 to n checks for all nodes will help & we can maintain one extra array to detect the positive cycle...
+
+
 */
 #include<bits/stdc++.h>
 using namespace std;
