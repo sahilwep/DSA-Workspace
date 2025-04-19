@@ -7,9 +7,11 @@
     -> You and some monsters are in a labyrinth. When taking a step to some direction in the labyrinth, each monster may simultaneously take one as well. Your goal is to reach one of the boundary squares without ever sharing a square with a monster.
     -> Your task is to find out if your goal is possible, and if it is, print a path that you can follow. Your plan has to work in any situation; even if the monsters know your path beforehand.
 
+
 // Input
     -> The first input line has two integers n and m: the height and width of the map.
     -> After this there are n lines of m characters describing the map. Each character is . (floor), # (wall), A (start), or M (monster). There is exactly one A in the input.
+
 
 // Output
     -> First print "YES" if your goal is possible, and "NO" otherwise.
