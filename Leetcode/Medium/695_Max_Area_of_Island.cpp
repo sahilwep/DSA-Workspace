@@ -65,11 +65,107 @@
 
 // ------------------------------------------------------------------------
 
+
+// DSU Approach:
+    -> First -> Connect the component
+    -> Second -> Find the size of largest island.
+
+    // Complexity: 
+        -> TC: O(n * m)
+        -> SC: O(n * m)
+
 */
 
 #include<bits/stdc++.h>
 #include<algorithm>
 using namespace std;
+
+
+// DSU Approach: 
+class DSU {
+private: 
+    vector<int> parent, size;
+public: 
+    DSU(int n) {
+        size.resize(n + 1, 1);
+        parent.resize(n + 1);
+        for(int i = 0; i < n + 1; i++) parent[i] = i;
+    }
+    int ultPar(int node) {
+        if(node == parent[node]) return node;
+        return parent[node] = ultPar(parent[node]);
+    }
+    void Union(int u_, int v_) {
+        int u = ultPar(u_), v = ultPar(v_);
+        if(u == v) return;
+        if(size[u] < size[v]) {
+            parent[u] = v;
+            size[v] += size[u];
+        }
+        else {
+            parent[v] = u;
+            size[u] += size[v];
+        }
+    }
+    int getSize(int x) {
+        return size[ultPar(x)];
+    }
+};
+
+class Solution {
+private:
+    int n, m;
+    int dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+    bool isValid(int r, int c) {return (r >= 0 && r < n && c >= 0 && c < m);}
+public:
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+        n = grid.size(), m = grid[0].size();
+
+        // DSU of grid size:
+        DSU ds(n * m);
+
+        // First Connect the island & connect the components.
+        vector<vector<int>> vis(n, vector<int> (m, 0));
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(grid[i][j] && !vis[i][j]) {    // for every island:
+                    vis[i][j] = 1;
+
+                    int cellNo = i * m + j; // current cell no
+
+                    // Now check in all 4 directions & join with island:
+                    for(int k = 0; k < 4; k++) {
+                        int r = i + dir[k][0];
+                        int c = j + dir[k][1];
+                        
+                        // in valid bound & should be island
+                        if(isValid(r, c) && grid[r][c]) {
+                            int adjCellNo = r * m + c;
+                            
+                            ds.Union(cellNo, adjCellNo);    // connect the components.
+                        }
+                    }
+                }
+            }
+        }
+
+        int maxIsland = 0;
+        // Now check the maximum size of island components: 
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(grid[i][j]) {    // for every island:
+                    // get the cell no: 
+                    int cellNo = i * m + j;
+                    int sizeOfCellUltPar = ds.getSize(cellNo);  // function to return size of every cell ultimate parent.
+                    maxIsland = max(maxIsland, sizeOfCellUltPar);
+                }
+            }
+        }
+
+        return maxIsland;
+    }
+};
+
 
 
 
