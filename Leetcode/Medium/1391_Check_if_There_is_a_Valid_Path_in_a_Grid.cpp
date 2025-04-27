@@ -35,7 +35,9 @@
         Output: false
         Explanation: You will get stuck at cell (0, 1) and you cannot reach cell (0, 2).
 
-// Observations: 
+
+
+// BFS Approach: 
     -> From the given grid, we need to find whether we can reach from (0, 0) to (n-1, m-1) from the given grid.
     -> give grid cells has number assigned: 
         -> 1, 2, 3, 4, 5, 6 telling where it can go..
@@ -73,16 +75,114 @@
     -> IF 1st & 2nd Conditions are valid, we can traverse : else we can't
     -> At any movement if we reach destinations => return true.
 
-    
-// Complexity: 
-    -> TC: O(N * M)
-    -> SC: O(N * M)
+        
+    // Complexity: 
+        -> TC: O(N * M)
+        -> SC: O(N * M)
+
+
+
+
+// DSU Approach: 
+    -> With DSU we can easily solve this problem: 
+        -> It's just we have to check first cell & last cell of grid after merging...
+    -> Simillar to previous Implementation via BFS, we have to implement this DSU solution...
+
+        
+    // Complexity: 
+        -> TC: O(N * M)
+        -> SC: O(N * M)
 
 */
 
 #include<bits/stdc++.h>
 #include<algorithm>
 using namespace std;
+
+
+// DSU Approach: 
+class DSU {
+private: 
+    vector<int> parent, size;
+public: 
+    DSU(int n) {
+        size.resize(n + 1, 1);
+        parent.resize(n + 1);
+        for(int i = 0; i < n + 1; i++) parent[i] = i;
+    }
+    int ultPar(int node) {
+        if(node == parent[node]) return node;
+        return parent[node] = ultPar(parent[node]);
+    }
+    void Union(int u_, int v_) {
+        int u = ultPar(u_), v = ultPar(v_);
+        if(u == v) return;
+        if(size[u] < size[v]) {
+            parent[u] = v;
+            size[v] += size[u];
+        }
+        else {
+            parent[v] = u;
+            size[u] += size[v];
+        }
+    }
+};
+
+class Solution {
+private: 
+    int n, m;
+    bool isValid(int r, int c) {return (r >= 0 && r < n && c >= 0 && c < m);}
+    vector<pair<int, int>> getDir(int x) {
+        if(x == 1) return {{0, -1}, {0, 1}};
+        else if(x == 2) return {{-1, 0}, {1, 0}};
+        else if(x == 3) return {{0, -1}, {1, 0}};
+        else if(x == 4) return {{0, 1}, {1, 0}};
+        else if(x == 5) return {{0, -1}, {-1, 0}};
+        else return {{0, 1}, {-1, 0}};
+    }
+    bool isAllowed(int x1, int y1, int x2, int y2) {
+        return (x1 + x2 == 0 && y1 + y2 == 0);
+    }
+public:
+    bool hasValidPath(vector<vector<int>>& grid) {
+        n = grid.size(), m = grid[0].size();
+
+        DSU ds(n * m);
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                vector<pair<int, int>> dir = getDir(grid[i][j]);    // get current cell Directions
+                int cellNo = i * m + j;
+
+                // Iterate in current cell direction: 
+                for(auto &[dx, dy]: dir) {
+                    
+                    // Get adjNeighbors (row, col)
+                    int row = dx + i;
+                    int col = dy + j;
+
+                    if(isValid(row, col)) { // check valid bound:
+                        vector<pair<int, int>> adjDir = getDir(grid[row][col]);    // get adjCell directions:
+                        
+                        // Iterate in adj Cell Directions:
+                        for(auto &[dx2, dy2]: adjDir) {
+                            if(isAllowed(dx, dy, dx2, dy2)) {
+                                int ngbrCellNo = row * m + col;
+                                
+                                ds.Union(cellNo, ngbrCellNo);   // merge them
+
+                                break;  // once valid, no need to check other directions..
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Last check: if first & last cell is conencted or not => denotes there is a path.
+        return (ds.ultPar(0) == ds.ultPar(n * m - 1));
+    }
+};
+
 
 // BFS Approach:
 class Solution {
