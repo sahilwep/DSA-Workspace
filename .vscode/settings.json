@@ -135,5 +135,6 @@
         "generator": "cpp",
         "text_encoding": "cpp",
         "print": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }
