@@ -59,10 +59,104 @@
         -> SC: O(n * m), at worse we can have all cells in grid...
 
 
+
+// DSU Solution: 
+    -> Connect every components
+    -> For every components ultimate parent store their values.
+    -> Last get the maximum size from that ultimate parent.
+
+
+    // Complexity: 
+        -> TC: O(n * m)
+        -> SC: O(n * m)
+
+
 */
 
 #include<bits/stdc++.h>
 using namespace std;
+
+
+// DSU Solution: 
+class DSU {
+private: 
+    vector<int> size, parent;
+public: 
+    DSU (int n) {
+        size.resize(n + 1, 1);
+        parent.resize(n + 1);
+        for(int i = 0; i < n + 1; i++) parent[i] = i;
+    }
+    int ultPar(int node) {
+        if(node == parent[node]) return node;
+        return parent[node] = ultPar(parent[node]);
+    }
+    void Union(int u_, int v_) {
+        int u = ultPar(u_), v = ultPar(v_);
+        if(u == v) return;
+        if(size[u] < size[v]) {
+            parent[u] = v;
+            size[v] += size[u];
+        } else {
+            parent[v] = u;
+            size[u] += size[v];
+        }
+    }
+};
+
+class Solution {
+private: 
+    int n, m;
+    int dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}}; // left, right, up, down
+    bool isValid(int r, int c) {return (r >= 0 && r < n && c >= 0 && c < m);}
+public:
+    int findMaxFish(vector<vector<int>>& grid) {
+        n = grid.size(), m = grid[0].size();
+
+        // Step 1: Connect component: O(n * m)
+        DSU ds(n * m);
+        vector<vector<int>> vis(n, vector<int> (m, 0));
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(grid[i][j] > 0 && !vis[i][j]) {
+                    vis[i][j] = 1;
+                    int cellNo = i * m + j;
+
+                    // Explore all 4 directions: 
+                    for(int k = 0; k < 4; k++) {
+                        int r = i + dir[k][0];
+                        int c = j + dir[k][1];
+
+                        if(isValid(r, c) && grid[r][c] > 0 && !vis[r][c]) {
+                            int adjCellNo = r * m + c;
+
+                            ds.Union(cellNo, adjCellNo);
+                        }
+                    }
+                }
+            }
+        }
+        // Step 2: Get the values for every ultimate parent:
+        unordered_map<int, int> mp;     // <ultPar, sum>
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(grid[i][j] > 0) {
+                    int cellNo = i * m + j;
+                    mp[ds.ultPar(cellNo)] += grid[i][j];
+                }
+            }
+        }
+
+        // Step 3: Get the maximum value component:
+        int ans = 0;
+        for(auto &[ultPar, vals]: mp) {
+            ans = max(ans, vals);
+        }
+
+        return ans;
+    }
+};
+
 
 // Improved DFS: 
 class Solution {
