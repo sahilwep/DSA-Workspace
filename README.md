@@ -17,7 +17,7 @@ This repository is my personal space for diving deep into the world of Competiti
 - [Striver A_to_Z](/Striver_DSA_A-to-Z/)
 - [Contest Snippet](/Contest_Snippet/code.cpp)
 - [Striver's Graph](/Graph)
-- [Aditya Verma's DP](CSES/Dynamic_Programming/DP_Playlist)
+- [Aditya Verma's DP](/DP-Aditya-Verma/)
 
 ## Topics Covered
 
