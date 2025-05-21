@@ -31,6 +31,43 @@
 #include<algorithm>
 using namespace std;
 
+
+// Approach 2: 
+class Solution {
+private: 
+    int n, m;
+    typedef pair<int, int> pr;  // row, col
+public:
+    void setZeroes(vector<vector<int>>& grid) {
+        n = grid.size(), m = grid[0].size();
+
+        queue<pr> q;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(!grid[i][j]) {
+                    q.push({i, j});
+                }
+            }
+        }
+
+        while(!q.empty()) {
+            auto [row, col] = q.front();
+            q.pop();
+
+            // Filled Row:
+            for(int i = 0; i < m; i++) {
+                grid[row][i] = 0;
+            }
+
+            // Filled Col:
+            for(int i = 0; i < n; i++) {
+                grid[i][col] = 0;
+            }
+        }
+    }
+};
+
+// Approach 1:
 class Solution {
 public:
     void setZeroes(vector<vector<int>>& matrix) {
