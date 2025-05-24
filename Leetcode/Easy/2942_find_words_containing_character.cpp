@@ -37,6 +37,24 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// Approach 2:
+class Solution {
+public:
+    vector<int> findWordsContaining(vector<string>& words, char x) {
+        int n = words.size();
+
+        vector<int> ans;
+        for(int i = 0; i < n; i++) {
+            if(words[i].find(x) != string::npos) {
+                ans.push_back(i);
+            }
+        }
+
+        return ans;
+    }
+};
+
+
 // Solution: TC : O(n*m)
 vector<int> findWordsContaining_(vector<string>& words, char x) {
     vector<int> v;
