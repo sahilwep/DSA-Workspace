@@ -21,6 +21,7 @@
         "subarray",
         "Supersequence",
         "Topo",
+        "updation",
         "Warshall"
     ],
     "files.associations": {
