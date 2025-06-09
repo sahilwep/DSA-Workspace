@@ -24,8 +24,35 @@
         -> TC: O(N)
         -> SC: O(N)
 
-    // Optimal Solution: 
-        -> 
+// Optimal Solution: SC: O(1) -> Space optimized
+    -> We have to print all the number in lexigraphically order: 
+        -> Example: 
+            n = 25
+                
+                1 12 13 14 15 2 21 22 23 24 25 3 4 5 6 7 8 9
+
+    -> Try writing recursive solution: 
+        -> Pick every number
+            -> Try printing all the number with that 
+            -> Example: 
+                    1
+                    |
+                -------------------------
+                |   |   |   |   |       |
+                10  11  12  13  14..... 19
+                |
+            -------...
+            |    |  ...
+            100 101  ...
+
+            Similarly we can do for all the rest of numbers.
+    
+    -> While we moving forward, we won't go further, we will return when our number range hits.
+
+    // Complexity: 
+        -> TC: O(n)
+        -> SC: O(number of digits) -> O(log_base10(n))
+            -> If we make recursive diagram, at max we can go up to the depth of the tree, & that is our number of digits...
 
 
 */
@@ -34,6 +61,34 @@
 #include<algorithm>
 using namespace std;
 
+// Optimized: Recursive Solution
+class Solution {
+private: 
+    void solve(int num, vector<int> &nums, int n) {
+        if(num > n) {
+            return; // dont' go further, return
+        }
+        nums.push_back(num);    // store the current called answer
+
+        // Generate sequence from 1 to 9: 
+        for(int i = 0; i <= 9; i++) {
+            int newNum = num * 10 + i;  // include the next level number form num:
+            solve(newNum, nums, n);
+        }
+    }
+public:
+    vector<int> lexicalOrder(int n) {
+
+        vector<int> ans;
+        for(int i = 1; i <= 9; i++) {
+            solve(i, ans, n);
+        }
+
+        return ans;
+    }
+};
+
+// BruteForce:
 class Solution {
 public:
     vector<int> lexicalOrder(int n) {
