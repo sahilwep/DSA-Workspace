@@ -47,6 +47,7 @@
 using namespace std;
 
 
+// Efficient:
 class Solution {
 public:
     int maxDifference(string s) {
@@ -70,5 +71,41 @@ public:
         }
 
         return oddFreq - evenFreq;
+    }
+};
+
+
+// BruteForce: 
+class Solution {
+public:
+    int maxDifference(string s) {
+        int n = s.size();
+
+        // Get maximum oddFreq: 
+        int maxOdd = 0;
+        for(char ch = 'a'; ch <= 'z'; ch++) {
+            int cnt = 0;
+            for(int j = 0; j < n; j++) {
+                if(s[j] == ch) cnt++;
+            }
+            if(cnt % 2 != 0 && cnt != 0) {
+                maxOdd = max(maxOdd, cnt);
+            }
+        }
+        
+
+        // Get minimum even: 
+        int minEven = INT_MAX;
+        for(char ch = 'a'; ch <= 'z'; ch++) {
+            int cnt = 0;
+            for(int j = 0; j < n; j++) {
+                if(s[j] == ch) cnt++;
+            }
+            if(cnt % 2 == 0 && cnt != 0) {
+                minEven = min(minEven, cnt);
+            }
+        }
+
+        return maxOdd - minEven;
     }
 };
