@@ -30,9 +30,14 @@
             The maximum difference is 3 - 2 = 1.
 
 //  Observations: 
-    -> 
+    -> Get the maximum oddFrequency among all the characters of string.
+    -> Get the minimum evenFrequency among all the characters of string.
+    -> Get the diff b/w oddFreq & evenFreq & that will our result
+    
 
-
+    // Complexity: 
+        -> TC: O(N)
+        -> SC: O(1)
 
 
 */
@@ -40,6 +45,7 @@
 #include<bits/stdc++.h>
 #include<algorithm>
 using namespace std;
+
 
 class Solution {
 public:
