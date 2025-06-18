@@ -35,12 +35,67 @@
     -> SC: O(n*m)
 
 
-
 */
 
 #include<bits/stdc++.h>
 #include<algorithm>
 using namespace std;
+
+
+// DFS Solution: 
+/*
+
+    -> BFS Fails here, because bfs will not backtrack if the solution fails.
+
+        [["A","B","C","E"]
+        ,["S","F","E","S"]
+        ,["A","D","E","E"]]
+
+    "ABCESEEEFS"
+
+*/
+class Solution {
+private: 
+    int n, m;
+    int dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+    bool isValid(int r, int c) {return (r >= 0 && r < n && c >= 0 && c < m);}
+    bool dfs(int row, int col, vector<vector<char>>& board, vector<vector<int>>& vis, int pos, string& word) {
+        if(pos == word.size() - 1) return true; // reaches to end
+
+        vis[row][col] = 1;
+
+        for(int i = 0; i < 4; i++) {
+            int r = row + dir[i][0];
+            int c = col + dir[i][1];
+
+            if(isValid(r, c) && !vis[r][c]) {
+                if(board[r][c] == word[pos + 1]) {
+                    if(dfs(r, c, board, vis, pos + 1, word)) return true;
+                }
+            }
+        }
+
+        vis[row][col] = 0;  // mark as unvisited, while backtracking.
+
+        return false;
+    }
+public:
+    bool exist(vector<vector<char>>& board, string word) {
+        n = board.size(), m = board[0].size();
+
+        vector<vector<int>> vis(n, vector<int> (m, 0));
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(!vis[i][j] && word[0] == board[i][j]) {
+                    if(dfs(i, j, board, vis, 0, word)) return true;
+                }
+            }
+        }
+
+        return false;
+    }
+};
+
 
 // DFS Approach:
 class Solution {
