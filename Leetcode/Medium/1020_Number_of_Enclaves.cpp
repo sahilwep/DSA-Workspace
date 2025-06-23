@@ -43,6 +43,99 @@
 #include<algorithm>
 using namespace std;
 
+
+// DSU Approach: Complexity: n * m
+class DSU {
+private: 
+    vector<int> size, parent;
+public: 
+    DSU (int n) {
+        parent.resize(n + 1);
+        size.resize(n + 1, 1);
+        for(int i = 0; i < n + 1; i++) parent[i] = i;
+    }
+    int ultPar(int node) {
+        if(node == parent[node]) return node;
+        return parent[node] = ultPar(parent[node]); // path compression
+    } 
+    void Union(int u_, int v_) {
+        int u = ultPar(u_), v = ultPar(v_);
+        if(u == v) return;  // already connected
+        if(size[u] < size[v]) {
+            parent[u] = v;
+            size[v] += size[u];
+        } else {
+            parent[v] = u;
+            size[u] += size[v];
+        }
+    }
+    int getSize(int x) {return size[ultPar(x)];}
+};
+
+class Solution {
+private: 
+    int n, m;
+    int dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+    bool isValid(int r, int c) {return (r >= 0 && r < n && c >= 0 && c < m);}
+public:
+    int numEnclaves(vector<vector<int>>& grid) {
+        n = grid.size(), m = grid[0].size();
+
+        // Connect the nodes & form graph components: 
+        DSU ds(n * m);
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(grid[i][j] == 1) {   // for every island:
+                    int cellNo = i * m + j; // get the cell no
+
+                    // Explore in all 4 directions: 
+                    for(int k = 0; k < 4; k++) {
+                        int r = i + dir[k][0];
+                        int c = j + dir[k][1];
+
+                        if(isValid(r, c) && grid[r][c] == 1) {
+                            int adjCellNo = r * m + c;  // get the adjacent cell no.
+
+                            ds.Union(cellNo, adjCellNo);    // connect
+                        }
+                    }
+                }
+            }
+        }
+
+        // Get the valid & faulty components: 
+        unordered_set<int> comp;
+        unordered_set<int> faulty;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(grid[i][j] == 1) {
+                    int cellNo = i * m + j;
+                    int cellUltPar = ds.ultPar(cellNo);
+
+                    comp.insert(cellUltPar);
+                    if(i == 0 || i == n - 1 || j == 0 || j == m - 1) {
+                        faulty.insert(cellUltPar);
+                    }
+                }
+            }
+        }
+        
+
+        // return the valid components size:
+        int validComp = 0;
+        for(auto &val: comp) {
+            if(!faulty.count(val)) {
+                validComp += ds.getSize(val);
+            }
+        }
+
+        return validComp;
+    }
+};
+
+
+
+
 // DFS Approach
 class Solution_DFS {
 private:
