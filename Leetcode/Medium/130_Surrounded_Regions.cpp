@@ -33,12 +33,132 @@
         -> Create a temporary matrix & assume all the value are convertble, so fill it with 'X'.
         -> Iterate in boundary & use dfs and mark all the connected nodes with '0's
 
+        // Complexity: 
+            -> TC: O(n)
+            -> SC: O(n)
+    
+
+    // DSU Approach: 
+        -> Connect Components
+        -> Get the details of every components & invalid ones
+        -> filter out invalid components
+        -> Now overwrite the valid ones with 'X'
+
+        // Complexity: 
+            -> TC: O(n)
+            -> SC: O(n)
 
 */
 
 #include<bits/stdc++.h>
 #include<algorithm>
 using namespace std;
+
+
+// DSU Solution: TC: O(n * m)
+class DSU {
+private: 
+    vector<int> size, parent;
+public: 
+    DSU (int n) {
+        parent.resize(n + 1);
+        size.resize(n + 1, 1);
+        for(int i = 0; i < n + 1; i++) parent[i] = i;
+    }
+    int ultPar(int node) {
+        if(node == parent[node]) return node;
+        return parent[node] = ultPar(parent[node]); // path compression
+    }
+    void Union(int u_, int v_) {
+        int u = ultPar(u_), v = ultPar(v_);
+        if(u == v) return;  // already connected
+        // connect smaller comp to larger ones: 
+        if(size[u] < size[v]) {
+            parent[u] = v;
+            size[v] += size[u];
+        } else {
+            parent[v] = u;
+            size[u] += size[v];
+        }
+    }
+};
+
+class Solution {
+private: 
+    int n, m;
+    int dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+    bool isValid(int r, int c) { return (r >= 0 && r < n && c >= 0 && c < m);};
+public:
+    void solve(vector<vector<char>>& grid) {
+        n = grid.size(), m = grid[0].size();
+
+        // Connect the nodes & form connected components:
+        DSU ds(n * m);
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(grid[i][j] == 'O') {
+                    int cellNo = i * m + j; // get the cell no
+
+                    // explore in all 4 directions: 
+                    for(int k = 0; k < 4; k++) {
+                        int r = i + dir[k][0];
+                        int c = j + dir[k][1];
+
+                        if(isValid(r, c) && grid[r][c] == 'O') {
+                            int adjCellNo = r * m + c;
+                            ds.Union(cellNo, adjCellNo);
+                        }
+                    }
+
+                }
+            }
+        }
+
+        // Get The details of all & invalid Components: 
+        unordered_set<int> comp;
+        unordered_set<int> invalidComp;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(grid[i][j] == 'O') {
+                    int cellNo = i * m + j;         // get the cell no
+                    int par = ds.ultPar(cellNo);    // get their ultimate parent
+                    comp.insert(par);               // store that into total components
+                    
+                    // get the invalid component details:
+                    if(i == 0 || i == n - 1 || j == 0 || j == m - 1) {
+                        invalidComp.insert(par);
+                    }
+                }
+            }
+        }
+
+        // Now Filter out invalid components from total valid components: 
+        unordered_set<int> valid;
+        for(auto &val: comp) {
+            if(!invalidComp.count(val)) {
+                valid.insert(val);
+            }
+        }
+
+        // Now Overwrite The Original Grid with Valid cells:
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(grid[i][j] == 'O') {
+                    int cellNo = i * m + j;
+                    int par = ds.ultPar(cellNo);
+
+                    // this cell lies in valid comp: overwrite it.
+                    if(valid.count(par)) {
+                        grid[i][j] = 'X';
+                    }
+                }
+            }
+        }
+
+        // Now all done.
+    }
+};
+
 
 class Solution {
 private:
