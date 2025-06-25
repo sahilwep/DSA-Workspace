@@ -71,8 +71,16 @@
 
     -> Every node we are traveling, we are multiplying the previous Computed result with current weight to it...
 
-// BFS Approach: 
+// BFS Approach 1: 
+    -> Use queue to store <productCost & node> & then process queue
     -> multiply it by previous computed results...
+
+// BFS Approach 2:
+    -> Without using any extra productCost in Queue, we can use additional distance vector to process our answer..
+
+    
+// DFS Approach: 
+    -> Simillar to the above BFS approach 2, we can implement DFS logic...
 
 
 // Complexity: 
@@ -86,7 +94,91 @@
 #include<algorithm>
 using namespace std;
 
+// DFS Approach:
+class Solution {
+private: 
+    int mod = 1e9 + 7;
+    typedef long long ll;
+    void dfs(int node, vector<vector<pair<int, int>>>& adj, vector<int>& conv) {
+        int prevCost = conv[node];
 
+        for(auto [v, wt]: adj[node]) {
+            ll newCost = ((ll)prevCost * (ll)wt) % mod;
+
+            if(conv[v] == 0) {  // if conversion of this node is not yet explored:
+                conv[v] = (int)newCost; // update conversion cost
+                dfs(v, adj, conv);      // New Call for current unexplored node.
+            }
+        }
+    }
+public:
+    vector<int> baseUnitConversions(vector<vector<int>>& edges) {
+        int n = edges.size();
+        int V = n + 1;  // total number of nodes
+
+        // Construct graph adj list: 
+        vector<vector<pair<int, int>>> adj(V);
+        for(auto &it: edges) {  // directed edge graph
+            adj[it[0]].push_back({it[1], it[2]});
+        }
+
+        // DFS: 
+        vector<int> conv(V, 0);
+        conv[0] = 1;
+        dfs(0, adj, conv);
+
+        return conv;
+    }
+};
+
+
+// BFS Approach 2:
+class Solution {
+private: 
+    int mod = 1e9 + 7;
+    typedef long long ll;
+public:
+    vector<int> baseUnitConversions(vector<vector<int>>& edges) {
+        int n = edges.size();
+        int V = n + 1;  // total number of nodes
+
+        // Construct graph adj list: 
+        vector<vector<pair<int, int>>> adj(V);
+        for(auto &it: edges) {  // directed edge graph
+            adj[it[0]].push_back({it[1], it[2]});
+        }
+
+        // BFS Impl.
+        vector<int> conv(V, 0);
+        queue<int> q;
+
+        q.push(0);
+        conv[0] = 1;    // mark src node as 1
+
+        while(!q.empty()) {
+            int node = q.front();
+            q.pop();
+
+            int prevCost = conv[node];  // get the node conversion cost
+
+            // Explore adjacent nodes:  
+            for(auto [v, wt]: adj[node]) {
+                ll newCost = ((ll)prevCost * (ll)wt) % mod;
+                
+                // If node conversion is not yet explored:
+                if(conv[v] == 0) {
+                    conv[v] = (int)newCost;
+                    q.push(v);
+                }
+            }
+        }
+
+        return conv;
+    }
+};
+
+
+// BFS Approach 1: 
 class Solution {
 private: 
     typedef long long ll;
