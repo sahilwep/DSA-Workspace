@@ -199,6 +199,68 @@ public:
 };
 
 
+// BruteForce Clear: 
+class Solution {
+private:
+    int bfs(int node, vector<vector<int>>& adj, int V) {    // function to return the maximum lvl from the given graph configurations:
+        vector<int> vis(V, 0);
+        queue<int> q;
+
+        q.push(node);
+        vis[node] = 1;
+        int lvl = 1;
+
+        while(!q.empty()) {
+            int size = q.size();
+            bool isLvlFound = false;
+            
+            while(size--) {
+                int node = q.front();
+                q.pop();
+
+                for(auto &it: adj[node]) {
+                    if(!vis[it]) {
+                        vis[it] = 1;
+                        q.push(it);
+                        isLvlFound = true;
+                    }
+                }
+            }
+
+            if(isLvlFound) lvl++;
+        }
+
+        cout << lvl << " ";
+        return lvl;
+    }
+public:
+    vector<int> findMinHeightTrees(int V, vector<vector<int>>& edges) {
+
+        // Build graph adj list: Undirected graph:
+        vector<vector<int>> adj(V);
+        for(auto &it: edges) {
+            adj[it[0]].push_back(it[1]);
+            adj[it[1]].push_back(it[0]);
+        }
+
+        // Build answer: 
+        vector<int> ans;
+        int minHeight = INT_MAX;
+        for(int i = 0; i < V; i++) {
+            int height = bfs(i, adj, V);
+
+            if(height < minHeight) {
+                minHeight = height;
+                ans.clear();
+                ans.push_back(i);
+            } else if (height == minHeight) {
+                ans.push_back(i);
+            }
+        }
+
+        return ans;
+    }
+};
 
 
 // BruteForce Solution: 
