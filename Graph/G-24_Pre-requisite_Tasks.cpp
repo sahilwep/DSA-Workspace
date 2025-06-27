@@ -19,9 +19,18 @@
     Explanation: To do task 1 you should have completed task 0, and to do task 0 you should have finished task 1. So it is impossible.
 
 
+// BruteForce Solution: 
+    -> If we observe the given edges, one Two thing we will have to check..
+    -> First, finding cycle.
+    -> Secondly, check reachable nodes
+        -> If any one fails => not reachable
+    
+        // Complexity: 
+            -> TC: O(E * (V + E))
+            -> SC: O(V + E)
 
 
-// Observation: 
+// Efficient Solution: 
     -> If we can co-relate it with Topological Sort
     -> In Topological sort, if there is a directed node u to v, then u must occur before v
     -> Also Topological sort only work with DAG -> Directed acyclic Graph
@@ -35,18 +44,15 @@
                 similarly, u = b[i] -> v = a[i]
                 must take u -> v, must take u before v
 
-
-
     // Conclusion: 
         -> Build Graph
         -> Use Topo-sort
         -> Check weather it has cycle or not, if it has return false : else return true
 
 
-
-// Complexity:
-    -> TC: O(V + E)
-    -> SC: O(V)
+        // Complexity:
+            -> TC: O(V + E)
+            -> SC: O(V)
 
 
 
@@ -55,7 +61,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-
+// TopoSort Solution:
 class Solution {
   public:
     bool isPossible(int V, int P, vector<pair<int, int> >& prerequisites) {
@@ -98,32 +104,61 @@ class Solution {
     }
 };
 
-//{ Driver Code Starts.
-int main() {
-    int tc;
-    cin >> tc;
-    while (tc--) {
-        int N, P;
-        vector<pair<int, int> > prerequisites;
-        cin >> N;
-        cin >> P;
-        for (int i = 0; i < P; ++i) {
-            int x, y;
-            cin >> x >> y;
-            prerequisites.push_back(make_pair(x, y));
-        }
-        // string s;
-        // cin>>s;
-        Solution ob;
-        if (ob.isPossible(N, P, prerequisites))
-            cout << "Yes";
-        else
-            cout << "No";
-        cout << endl;
 
-        cout << "~"
-             << "\n";
+// BruteForce Solution:
+class Solution {
+private: 
+    bool isCycle(int node, vector<vector<int>>& adj, vector<int>& vis, vector<int>& pathVis) {
+        vis[node] = 1;
+        pathVis[node] = 1;
+        
+        for(auto &it: adj[node]) {
+            if(!vis[it]) {
+                if(isCycle(it, adj, vis, pathVis)) return true;
+            } else if(pathVis[it]) {
+                return true;
+            }
+        }
+        
+        pathVis[node] = 0;
+        return false;   // no cycle found
     }
-    return 0;
-}
-// } Driver Code Ends
+    bool isReachable(int node, int dst, vector<vector<int>>& adj, vector<int>& vis) {
+        if(node == dst) return true;
+        vis[node] = 1;
+        
+        for(auto &it: adj[node]) {
+            if(!vis[it]) {
+                if(isReachable(it, dst, adj, vis)) return true;
+            }
+        }
+        
+        return false;   // not reachable to dst node.
+    }
+public:
+    bool isPossible(int V, int E, vector<pair<int, int> >& edges) { 
+        
+        // Build Directed Graph adj list:
+        vector<vector<int>> adj(V); 
+        for(auto &it: edges) {  // TC: O(E)
+            adj[it.second].push_back(it.first);
+        }
+        
+        // Find cycle: 
+        vector<int> vis(V, 0);
+        vector<int> pathVis(V, 0);
+        for(int i = 0; i < V; i++) {    // TC: O(V + E)
+            if(!vis[i]) {
+                if(isCycle(i, adj, vis, pathVis)) return false;  // if we found cycle, return false, not all task completed..
+            }
+        }
+        
+        // Find path is reachable or not?
+        for(auto &it: edges) {  // TC: O(E * (V + E))
+            vector<int> vis(V, 0);
+            if(!isReachable(it.second, it.first, adj, vis)) return false;  // not reachable, not possible to complete all tasks.
+        }
+        
+        return true;    // possible to complete all the task.
+    }
+};
