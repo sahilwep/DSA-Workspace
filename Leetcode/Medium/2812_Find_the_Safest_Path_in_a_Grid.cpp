@@ -66,6 +66,85 @@
 #include<algorithm>
 using namespace std;
 
+// Approach 2: MultiSource BFS-Dijkstra's Distance Approach:
+class Solution {
+private: 
+    typedef pair<int, pair<int, int>> ppr;
+    int n, m;
+    int dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+    bool isValid(int r, int c) {return (r >= 0 && r < n && c >= 0 && c < m);}
+public:
+    int maximumSafenessFactor(vector<vector<int>>& grid) {
+        n = grid.size() ,m = grid[0].size();
+        
+        if(grid[0][0] == 1 || grid[n-1][m-1] == 1) return 0;    // src & dst contains theif.
+
+        // Build Level Order Traversal by Multi-source Graph:
+        queue<ppr> q;
+        vector<vector<int>> vis(n, vector<int> (m, 0));
+
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(grid[i][j] == 1) {
+                    q.push({0, {i, j}});
+                    vis[i][j] = 1;
+                }
+            }
+        }
+
+        while(!q.empty()) {
+            auto [cost, cor] = q.front();
+            q.pop();
+
+            int row = cor.first, col = cor.second;
+            grid[row][col] = cost;
+
+            for(int i = 0; i < 4; i++) {
+                int r = row + dir[i][0];
+                int c = col + dir[i][1];
+
+                if(isValid(r, c) && !vis[r][c] && grid[r][c] == 0) {
+                    grid[r][c] = cost + 1;
+                    q.push({cost + 1, {r, c}});
+                }
+            }
+        }
+
+        // Process Dijkstra's:
+
+        priority_queue<ppr> pq; // max heap to proces maximum cell
+        vector<vector<int>> dist(n, vector<int> (m, 0));
+
+        pq.push({grid[0][0], {0, 0}});
+        dist[0][0] = 0;
+
+        while(!pq.empty()) {
+            auto [cost, cor] = pq.top();
+            pq.pop();
+
+            int row = cor.first, col = cor.second;
+            if(row == n-1 && col == m-1) return cost;
+
+            for(int i = 0; i < 4; i++) {
+                int r = row + dir[i][0];
+                int c = col + dir[i][1];
+
+                if(isValid(r, c)) {
+
+                    int newCost = min(cost, grid[r][c]);
+
+                    if(newCost > dist[r][c]) {
+                        dist[r][c] = newCost;
+                        pq.push({newCost, {r, c}});
+                    }
+                }
+            }
+        }
+
+        return dist[n-1][m-1];
+    }   
+};
+
 
 
 // Improved MultiSource BFS-Dijkstra's Approach:
