@@ -29,7 +29,22 @@
 
 
 
-// Observations: 
+// BruteForce Solution: 
+    -> If we observe the given graph configurations
+    -> Whenever we have cycle in graph, that edge should be considered as extra edge
+    -> Instead of returning for cycle, we can count that edge & that will be our extra edge
+    -> Implement any bfs/dfs to find the extra edge using same cycle logic
+    -> Then Compute the total number of components
+    -> Check extra edges is grater equal to required edges or not & return accordingly
+
+    
+    // Complexity: 
+        -> TC: O(E + (V + 2E)) => O(V + E)
+        -> SC: O(V + 2E) => O(V + E)
+
+
+
+// Efficient Solution DSU: 
     -> Given 0-based indexing
     -> Given connected edges b/w two computer..
     -> We can remove one edges from any two nodes which are connected even after removed.
@@ -131,5 +146,80 @@ public:
         }
 
         return (extraEdg >= totalCmp - 1) ? totalCmp - 1 : -1;
+    }
+};
+
+
+
+// BruteForce: DFS - BFS
+class Solution {
+private: 
+    int dfs(int node, int parent, vector<vector<int>>& adj, vector<int>& vis) { // Cycle Detections dfs.    // TC: O(V + 2E)
+        vis[node] = 1;
+        int extraNode = 0;
+
+        for(auto &it: adj[node]) {
+            if(!vis[it]) {
+                extraNode += dfs(it, node, adj, vis);
+            } else if(it != parent) { // we got visited node, and adjacent node is not the parent of current node -> Consider it as extra edges
+                extraNode++;
+            }
+        }
+
+        return extraNode;
+    }
+    int bfs(int node, int parent, vector<vector<int>>& adj, vector<int>& vis) {     // Cycle Detections bfs. TC: O(V + 2E)
+        
+        queue<pair<int, int>> q;
+        int extraEdge = 0;
+        
+        q.push({parent, node});
+        vis[node] = 1;
+
+        while(!q.empty()) {
+            auto [parent, node] = q.front();
+            q.pop();
+
+            for(auto &it: adj[node]) {
+                if(!vis[it]) {
+                    q.push({node, it});
+                    vis[it] = 1;
+                } else if(parent != it) {
+                    extraEdge++;
+                }
+            }
+        }
+
+        return extraEdge;
+    }
+public:
+    int makeConnected(int n, vector<vector<int>>& connections) {
+
+        if(connections.size() < n-1) return -1; // not enough cables.
+
+
+        // Build Undirected graph adj list:
+        vector<vector<int>> adj(n); // TC: O(E)
+        for(auto& it: connections) {
+            adj[it[0]].push_back(it[1]);
+            adj[it[1]].push_back(it[0]);
+        }
+
+        
+        // Find extra edge for every components & count total number of components:
+        vector<int> vis(n, 0);
+        int comp = 0;
+        int extra = 0;
+        for(int i = 0; i < n; i++) {    // TC: O(V + 2E)
+            if(vis[i] == 0) {
+                extra += dfs(i, -1, adj, vis);      // count all the extra node in every components..
+                comp++;     // count the components
+            }
+        }
+
+        int req = comp - 1; // Get the required cables:
+
+
+        return (extra/2 >= req) ? req : -1;   // In undirected graph, every edge counted twice..
     }
 };
