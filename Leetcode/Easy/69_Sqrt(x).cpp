@@ -65,7 +65,7 @@
 #include<algorithm>
 using namespace std;
 
-
+// Approach 1: mid * mid -> overflow occur if we don't use long long
 class Solution {
 private: 
     typedef long long ll;
@@ -86,6 +86,32 @@ public:
             }
         }
 
+        return ans;
+    }
+};
+
+
+// Approach 2: using (x / mid) to round within range
+class Solution {
+public:
+    int mySqrt(int x) {
+
+        int low = 1;
+        int high = x;
+        int ans  = 0;
+
+        while(low <= high) {
+
+            int mid = low + (high - low) / 2;
+
+            if(mid <= x/mid) {
+                ans = mid;
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        
         return ans;
     }
 };
