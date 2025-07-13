@@ -216,7 +216,7 @@ public:
         int swapCnt = 0;
         for(int i = 0; i < n; i += 2) { // O(n)
             int first = row[i];
-            int second = first ^ 1;     // if second is odd it will subtract 1 : else add 1
+            int second = first ^ 1;     // if first is odd it will subtract 1 : else add 1
 
             if(row[i + 1] != second) {
                 swapCnt++;  // count the swaps
