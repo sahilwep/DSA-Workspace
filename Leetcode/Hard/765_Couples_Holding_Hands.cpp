@@ -203,30 +203,31 @@ public:
 // Approach 1: hashing & index count
 class Solution {
 public:
-    int minSwapsCouples(vector<int>& row) { // O(n)
+    int minSwapsCouples(vector<int>& row) {
         int n = row.size();
 
-        // Step 1: hash all the values with their index.
-        unordered_map<int, int> mp; // num, index
-        for(int i = 0; i < n; i++)  {   // O(n)
+        // Hash all the element with their index:
+        unordered_map<int, int> mp;
+        for(int i = 0; i < n; i++) {
             mp[row[i]] = i;
         }
 
-        // Step 2: Now fetch the value & if it's not their correct position, swap it..
+        // Step 2: Now fetch the value & if it's not at their correct position => swap it..
         int swapCnt = 0;
-        for(int i = 0; i < n; i += 2) { // O(n)
+        for(int i = 0; i < n; i += 2) {
             int first = row[i];
-            int second = first ^ 1;     // if first is odd it will subtract 1 : else add 1
+            int requiredSecond = first ^ 1; // if first is odd it will subtract 1: else add 1
 
-            if(row[i + 1] != second) {
-                swapCnt++;  // count the swaps
+            // Check adjacent element: 
+            if(row[i + 1] != requiredSecond) {
+                swapCnt++;  // count the swapped value.
 
-                // Swap positions in map:
-                int wrongIdx = mp[second];
-                mp[row[i + 1]] = wrongIdx;
-                mp[second] = i + 1;
+                // Swap Position in map:
+                int wrongIdx = mp[requiredSecond];
+                mp[row[i + 1]] = wrongIdx;  
+                mp[requiredSecond] = i + 1; // hash second element with adjacent next index.
 
-                // now swap the values:
+                // Now swap the values: 
                 swap(row[i + 1], row[wrongIdx]);
             }
         }
