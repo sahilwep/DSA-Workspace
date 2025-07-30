@@ -27,26 +27,47 @@ Output: false
         * TC: O(n) -> if subsequence is found
 
 
+
+// Efficient Two pointers approach:
+    -> Use two pointer
+        -> if character matched, increment both the pointer
+        -> Else increment the second one 't' pointer only
+    -> last check if first pointer reaches to end or not?
+
+    // Complexity: 
+        -> TC: O(n)
+        -> SC: O(1)
+
 */
 
 #include<bits/stdc++.h>
 #include<algorithm>
 using namespace std;
-typedef long long ll;
-typedef vector<int> vi;
-typedef pair<int,int> pi;
-typedef size_t s_t;  // use during string traversal
-#define F first
-#define S second
-#define PB push_back
-#define MP make_pair
-#define REP(i,a,b) for (int i = a; i <= b; i++)
-#define arrInp for(int i=0;i<n;i++) cin >> arr[i];
-#define arrOut(k) for(int i=0;i<n;i++) cout << arr[i] <<  k;
-#define el cout << endl;
-#define SQ(a) (a)*(a);
-#define mod 1000000007
 
+
+// Two pointers Approach: 
+class Solution {
+public:
+    bool isSubsequence(string s, string t) {
+
+        int i = 0;
+        int j = 0;
+
+        while(i < s.size() && j < t.size()) {
+            if(s[i] == t[j]) {
+                i++;
+                j++;
+            } else {
+                j++;
+            }
+        }
+
+        return (i == s.size()) ? 1 : 0;
+    }
+};
+
+
+// Classical Nested solutions: 
 class Solution {
 public:
     bool isSubsequence(string s, string t) {
