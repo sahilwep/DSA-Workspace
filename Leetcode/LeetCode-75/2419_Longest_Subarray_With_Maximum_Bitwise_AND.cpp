@@ -34,7 +34,7 @@
     -> AND Property: 
         -> maximum AND is the maximum number itself, Because if we take any smaller number AND with maximum number, the value will be decremented.
         -> In simple we need to find the maximum number in an array
-        -> Find the contigious occurrence of that maximum number, that will our result
+        -> Find the contigious occurrence of that maximum number, that will our result.
 
 
 
