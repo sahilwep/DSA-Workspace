@@ -35,7 +35,33 @@
 #include<algorithm>
 using namespace std;
 
+// ---------------- Newer Version: More logical & stable ----------------
+class Solution {
+public:
+    int findCenter(vector<vector<int>>& edges) {
+        int V = 0;
+        for(auto& it: edges) {
+            V = max({it[0], it[1], V});
+        }
 
+        // Build Adj list: 
+        vector<vector<int>> adj(V + 1); // total size of adj list:
+        for(auto& it: edges) {
+            adj[it[0]].push_back(it[1]);
+            adj[it[1]].push_back(it[0]);
+        }
+
+        // Find the node which has exactly V - 1 NODES:
+        for(int i = 1; i < V + 1; i++) {
+            if(adj[i].size() == V - 1) return i;
+        }
+
+        return -1;  // Given graph is not Star-Graph.
+    }
+};
+
+
+// ----------------- Older Version Naive Impl.-----------------
 class Solution {
 public:
     int findCenter(vector<vector<int>>& edges) {
