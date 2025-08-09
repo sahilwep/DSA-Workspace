@@ -60,6 +60,128 @@
 #include<algorithm>
 using namespace std;
 
+// --------- Newer Version Efficient Impl.---------------------------
+class Solution {    // DFS
+private: 
+    int n, m;   // grid dimensions
+    bool isValid(int r, int c) {return (r >= 0 && r < n && c >= 0 && c < m);}   // checks valid bound of grid
+    int dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}}; // directions: left, right, up, down
+    void fill(int row, int col, vector<vector<int>>& grid, vector<vector<int>>& vis, int orgClr, int color) {
+        grid[row][col] = color;
+        vis[row][col] = 1;
+
+        for(int i = 0; i < 4; i++) {
+            int r = row + dir[i][0];
+            int c = col + dir[i][1];
+
+            if(isValid(r, c) && grid[r][c] == orgClr && !vis[r][c]) {
+                fill(r, c, grid, vis, orgClr, color);
+            }
+        }
+    }
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        n = image.size(), m = image[0].size();
+
+        int orgClr = image[sr][sc];
+        vector<vector<int>> vis(n, vector<int> (m, 0));
+        fill(sr, sc, image, vis, orgClr, color);
+
+        return image;
+    }
+};
+
+
+
+
+class Solution {    // BFS V1: More Precise & Clear Level processing
+private: 
+    int n, m;   // grid dimensions
+    bool isValid(int r, int c) {return (r >= 0 && r < n && c >= 0 && c < m);}   // checks valid bound of grid
+    int dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}}; // left, right, up, down
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        n = image.size(), m = image[0].size();
+
+        
+        vector<vector<int>> vis(n, vector<int> (m, 0));
+        queue<pair<int, int>> q;
+        int orgClr = image[sr][sc];
+
+        q.push({sr, sc});
+        vis[sr][sc] = 1;
+
+        int lvl = 0;
+        while(!q.empty()) { // processing every level-by-level:
+            int size = q.size();
+            bool isLvlFound = false;
+
+            while(size--) {
+                auto [row, col] = q.front();
+                q.pop();
+
+                image[row][col] = color;
+
+                for(int i = 0; i < 4; i++) {
+                    int r = row + dir[i][0];
+                    int c = col + dir[i][1];
+
+                    if(isValid(r, c) && image[r][c] == orgClr && !vis[r][c]) {
+                        vis[r][c] = 1;
+                        q.push({r, c});
+                        isLvlFound = true;
+                    }
+                }
+            }
+
+            if(isLvlFound) lvl++;
+        }
+
+        return image;
+    }
+};
+
+
+class Solution {    // BFS V2: Simple & Sleek.
+private: 
+    int n, m;   // grid dimensions
+    bool isValid(int r, int c) {return (r >= 0 && r < n && c >= 0 && c < m);}   // checks valid bound of grid
+    int dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}}; // left, right, up, down
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        n = image.size(), m = image[0].size();
+
+        
+        vector<vector<int>> vis(n, vector<int> (m, 0));
+        queue<pair<int, int>> q;
+        int orgClr = image[sr][sc];
+
+        q.push({sr, sc});
+        vis[sr][sc] = 1;
+
+        while(!q.empty()) { 
+            auto [row, col] = q.front();
+            q.pop();
+
+            image[row][col] = color;
+
+            for(int i = 0; i < 4; i++) {
+                int r = row + dir[i][0];
+                int c = col + dir[i][1];
+
+                if(isValid(r, c) && image[r][c] == orgClr && !vis[r][c]) {
+                    vis[r][c] = 1;
+                    q.push({r, c});
+                }
+            }
+        }
+
+        return image;
+    }
+};
+
+
+// --------- Old Version Naive Implementation -----------------------
 // BFS Approach:
 class Solution_BFS {
 public:
