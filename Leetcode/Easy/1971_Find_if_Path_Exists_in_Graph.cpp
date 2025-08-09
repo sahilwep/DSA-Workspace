@@ -34,6 +34,7 @@
 #include<algorithm>
 using namespace std;
 
+// Efficient Approach: 
 class DSU {
 private: 
     vector<int> size, parent;
@@ -73,5 +74,84 @@ public:
         }
 
         return (ds.ultPar(src) == ds.ultPar(dst));
+    }
+};
+
+
+// DFS: 
+class Solution {
+private: 
+    bool dfs(int node, int dst, vector<vector<int>>& adj, vector<int>& vis) {
+        if(node == dst) return true;
+        vis[node] = 1;  // mark current node as visited
+
+        // Explore adj nodes:
+        for(auto& it: adj[node]) {
+            if(!vis[it]) {
+                if(dfs(it, dst, adj, vis)) return true; // In any call if it's found the destinations node, return true
+            }
+        }
+
+        return false;
+    }
+public:
+    bool validPath(int n, vector<vector<int>>& edges, int src, int dst) {
+        
+        // Build graph adj list:
+        vector<vector<int>> adj(n);
+        for(auto& it: edges) {
+            int u = it[0], v = it[1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+
+        // call DFS & find wether src & dst path exist or not?
+        vector<int> vis(n, 0);
+        return dfs(src, dst, adj, vis);
+    }
+};
+
+
+// BFS: 
+class Solution {
+private: 
+    bool bfs(int node, int dst, vector<vector<int>>& adj, vector<int>& vis) {
+        if(node == dst) return true;
+
+        queue<int> q;
+
+        vis[node] = 1;
+        q.push(node);
+
+        while(!q.empty()) {
+            int node = q.front();
+            q.pop();
+
+            if(node == dst) return true;
+
+            for(auto& it: adj[node]) {
+                if(!vis[it]) {
+                    vis[it] = 1;
+                    q.push(it);
+                }
+            }
+        }
+
+        return false;
+    }
+public:
+    bool validPath(int n, vector<vector<int>>& edges, int src, int dst) {
+        
+        // Build graph adj list:
+        vector<vector<int>> adj(n);
+        for(auto& it: edges) {
+            int u = it[0], v = it[1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+
+        // call DFS & find wether src & dst path exist or not?
+        vector<int> vis(n, 0);
+        return bfs(src, dst, adj, vis);
     }
 };
