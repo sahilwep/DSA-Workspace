@@ -53,9 +53,25 @@
         -> SC: O(1)
 
 
-// Efficient Solution: 
-    -> Iterate for 0 to 32 bits & check the set-bits
+// Better Solution: 
+    -> Iterate for 0 to 32 bits & check the set-bits.
     
+    // Complexity: 
+        -> TC: O(1)
+        -> SC: O(1)
+
+// Efficient Solution: 
+    -> if n > 0 => check if {(n & (n - 1)) == 0}
+    -> Example: 
+
+            n = 8
+
+                8 = 1000    => n
+                7 = 0111    => n - 1
+                  ---------    '&'
+                    0000
+
+
     // Complexity: 
         -> TC: O(1)
         -> SC: O(1)
@@ -68,6 +84,14 @@
 using namespace std;
 
 // Efficient Solution: TC: O(1)
+class Solution {
+public:
+    bool isPowerOfTwo(int n) {
+        return n > 0 && (n & (n - 1)) == 0;
+    }
+};
+
+// Better Solution: TC: O(1)
 class Solution {
 public:
     bool isPowerOfTwo(int n) {
