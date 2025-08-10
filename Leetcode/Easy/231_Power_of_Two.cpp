@@ -53,6 +53,13 @@
         -> SC: O(1)
 
 
+// Efficient Solution: 
+    -> Iterate for 0 to 32 bits & check the set-bits
+    
+    // Complexity: 
+        -> TC: O(1)
+        -> SC: O(1)
+
 
 */
 
@@ -60,7 +67,25 @@
 #include<algorithm>
 using namespace std;
 
+// Efficient Solution: TC: O(1)
+class Solution {
+public:
+    bool isPowerOfTwo(int n) {
+        if (n <= 0) return false; 
 
+        int setBits = 0;
+        for (int i = 0; i < 32; i++) {
+            setBits += n & 1; // accumulate set bits
+            n >>= 1;    // right shift by 1
+
+            if (setBits > 1) return false;  // if setBits > 1, can't be power of '2'
+        }
+        return true;
+    }
+};
+
+
+// BruteForce: TC: O(logn)
 class Solution {
 public:
     bool isPowerOfTwo(int n) {
