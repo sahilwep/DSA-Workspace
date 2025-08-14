@@ -1,9 +1,57 @@
 /*
 
-//  
+//  Implement Lower Bound
+
 
 //  Problem Statement: 
+    -> Given a sorted array arr[] and a number target, the task is to find the lower bound of the target in this given array. The lower bound of a number is defined as the smallest index in the sorted array where the element is greater than or equal to the given number.
+    -> Note: If all the elements in the given array are smaller than the target, the lower bound will be the length of the array. 
 
+// Examples:
+
+    Input:  arr[] = [2, 3, 7, 10, 11, 11, 25], target = 9
+    Output: 3
+    Explanation: 3 is the smallest index in arr[] where element (arr[3] = 10) is greater than or equal to 9.
+
+    Input: arr[] = [2, 3, 7, 10, 11, 11, 25], target = 11
+    Output: 4
+    Explanation: 4 is the smallest index in arr[] where element (arr[4] = 11) is greater than or equal to 11.
+
+    Input: arr[] = [2, 3, 7, 10, 11, 11, 25], target = 100
+    Output: 7
+    Explanation: As no element in arr[] is greater than 100, return the length of array.
+
+
+    -> The smallest index such that the number at that index is grater or equal to the given.
+                    arr[index] >= x
+
+
+// Lower Bound: 
+    -> The smallest index such that the number at that index is grater or equal to the given number.
+                    => (arr[index] >= x)
+                    
+    -> Example:
+        arr[] = [3, 5, 8, 15, 19], n = 5, x = 8
+                 0  1  2  3   4
+                       |
+        Lower Bound at index '2'
+            arr[ind] >= x
+        Lower Bound = 2
+
+
+
+    -> Example: 
+        arr[] = [3, 5, 8, 15, 19], n = 5, x = 9
+                 0  1  2  3   4
+                          |
+        Lower Bound at index '3'
+            arr[ind] >= x
+        Lower Bound = 3
+
+
+    // Complexity: 
+        -> TC: O(logn)
+        -> SC: O(1)
 
 
 
@@ -12,37 +60,37 @@
 #include<bits/stdc++.h>
 #include<algorithm>
 using namespace std;
-typedef long long ll;
-typedef vector<int> vi;
-typedef pair<int,int> pi;
-typedef size_t s_t;  // use during string traversal
-#define F first
-#define S second
-#define PB push_back
-#define MP make_pair
-#define REP(i,a,b) for (int i = a; i <= b; i++)
-#define arrInp for(int i=0;i<n;i++) cin >> arr[i];
-#define arrOut(k) for(int i=0;i<n;i++) cout << arr[i] <<  k;
-#define el cout << endl;
-#define SQ(a) (a)*(a);
-#define mod 1000000007
 
-
-
-void solve(){
-    int n;
-    
-    
-}
-
-
-int main(){
-    int t = 1;     // Change the testcase according to question...
-    cin >> t;
-    
-    while(t--){
-        solve();
+// STL:
+class Solution {
+public:
+    int lowerBound(vector<int>& arr, int target) {
+        return lower_bound(begin(arr), end(arr), target) - begin(arr);
     }
-    
-    return 0;
-}
+};
+
+
+// Lower Bound Implementations:
+class Solution {
+public:
+    int lowerBound(vector<int>& arr, int target) {
+        int n = arr.size();
+        
+        int low = 0;
+        int high = n-1;
+        int ans = n;
+        
+        while(low <= high) {
+            int mid = low + (high - low) / 2;
+            
+            if(arr[mid] >= target) {
+                high = mid - 1;
+                ans = mid;
+            } else {
+                low = mid + 1;
+            }
+        }
+        
+        return ans;
+    }
+};
