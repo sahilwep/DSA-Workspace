@@ -72,6 +72,21 @@
     -> at the end we can directly overwrite the original matrix with condition : if(!vis[i][j] && mat[i][j] == 0) mat[i][j] = 'X'
 
 
+
+// Advance DSU Approach: 
+    -> replace all O's with X, if O's are surrounded by X in all 4 directions.
+    -> Using DSU:
+        -> Connect all the components:
+        -> Make two group: Valid & Invalid
+            -> Valid Group contains all the border touching O's, because at worse it can have only 3 direction surrounded.
+            -> Invalid Group contains all the 0's surrounded by X in all 4 directions.
+        -> At last replace all the O's whose lies in Invalid group
+
+        // Complexity:
+            -> TC: O(n * m)
+            -> SC: O(n * m)
+
+
 */
 
 
@@ -79,7 +94,114 @@
 using namespace std;
 
 
-// Approach 1:
+// DSU Based Solution:
+class DSU {
+private: 
+    vector<int> size, parent;
+public:
+    DSU (int n) {
+        size.resize(n + 1, 1);
+        parent.resize(n + 1);
+        for(int i = 0; i < n + 1; i++) parent[i] = i;
+    }
+    int ultPar(int node) {
+        if(node == parent[node]) return node;
+        return parent[node] = ultPar(parent[node]);
+    }
+    void Union(int u_, int v_) {
+        int u = ultPar(u_), v = ultPar(v_);
+        if(u == v) return;
+        if(size[u] < size[v]) {
+            parent[u] = v;
+            size[v] += size[u];
+        } else {
+            parent[v] = u;
+            size[u] += size[v];
+        }
+    }
+};
+
+
+class Solution {
+private: 
+    int n, m;
+    int dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}}; // left, right, up, down
+    bool isValid(int r, int c) {return (r >= 0 && r < n && c >= 0 && c < m);}
+public:
+    vector<vector<char>> fill(vector<vector<char>>& grid) {
+        n = grid.size();
+        m = grid[0].size();
+        
+        // Step 1: Connect all the components:
+        DSU ds(n * m);
+        
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(grid[i][j] == 'O') { // for every O's
+                    int cellNo = i * m + j;
+                    
+                    // Connect with all the adjacent cells:
+                    for(int k = 0; k < 4; k++) {
+                        int r = i + dir[k][0];
+                        int c = j + dir[k][1];
+                        
+                        if(isValid(r, c) && grid[r][c] == 'O') {
+                            int adjCellNo = r * m + c;
+                            
+                            ds.Union(cellNo, adjCellNo);
+                        }
+                    }
+                    
+                }
+            }
+        }
+        
+        
+        // Step 2: Get the details of Invalid & Valid cells:
+        unordered_set<int> valid, invalid;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(grid[i][j] == 'O') { // for every O's
+                    int cellNo = i * m + j;
+                    int uPar = ds.ultPar(cellNo);
+                    
+                    invalid.insert(uPar);
+                    
+                    // If we are at boundary of grid: insert as valid cells
+                    if(i == 0 || j == 0 || i == n - 1 || j == m - 1) {
+                        valid.insert(uPar);
+                    }
+                }
+            }
+        }
+        
+        // Step 3: Filter Out Invalid:
+        for(auto& it: valid) {
+            if(invalid.count(it)) {
+                invalid.erase(it);
+            }
+        }
+        
+        // Step 4: Now Overwrite the invalid Cell's with 'X':
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(grid[i][j] == 'O') {
+                    int cellNo = i * m + j;
+                    int uPar = ds.ultPar(cellNo);
+                    
+                    if(invalid.count(uPar)) {   // if that cell is invalid: overwrite it with "X"
+                        grid[i][j] = 'X';
+                    }
+                }
+            }
+        }
+        
+        return grid;    // last return the grid
+    }
+};
+
+
+// DFS Based Solution:
 class Solution {
 private:
     void dfs(int row, int col, vector<vector<char>> &mat, vector<vector<char>> &temp, vector<vector<int>> &vis){
@@ -141,8 +263,8 @@ public:
     }
 };
 
-// Approach 2:
 
+// DFS Based Solution 2:
 class Solution_Approach_2 {
 private:
     void dfs(int row, int col, vector<vector<char>> &mat, vector<vector<int>> &vis){
