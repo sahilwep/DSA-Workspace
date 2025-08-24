@@ -169,6 +169,105 @@
 using namespace std;
 
 
+// Improved Clean Solution DFS:
+class Solution {
+private: 
+    int n, m;
+    int dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+    bool isValid(int r, int c) {return (r >= 0 && r < n && c >= 0 && c < m);}
+    set<vector<pair<int, int>>> st;
+    void solve(int row, int col, int bRow, int bCol, vector<vector<int>>& grid, vector<vector<int>>& vis, vector<pair<int, int>>& shape) { // DFS
+        vis[row][col] = 1;
+        shape.push_back({bRow - row, bCol - col});
+        
+        for(int i = 0; i < 4; i++) {
+            int r = row + dir[i][0];
+            int c = col + dir[i][1];
+            
+            if(isValid(r, c) && grid[r][c] == 1 && !vis[r][c]) {
+                solve(r, c, bRow, bCol, grid, vis, shape);
+            }
+        }
+    }
+public:
+    int countDistinctIslands(vector<vector<int>>& grid) {
+        n = grid.size();
+        m = grid[0].size();
+        
+        vector<vector<int>> vis(n, vector<int>(m, 0));
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(!vis[i][j] && grid[i][j] == 1) {
+                    vector<pair<int, int>> shape;
+                    solve(i, j, i, j, grid, vis, shape);
+                    st.insert(shape);
+                }
+            }
+        }
+        
+        
+        return st.size();
+    }
+};
+
+// Improved Clean Solution BFS:
+// User function Template for C++
+
+class Solution {
+private: 
+    int n, m;
+    int dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+    bool isValid(int r, int c) {return (r >= 0 && r < n && c >= 0 && c < m);}
+    set<vector<pair<int, int>>> st;
+    void solve(int row, int col, int bRow, int bCol, vector<vector<int>>& grid, vector<vector<int>>& vis, vector<pair<int, int>>& shape) {  // BFS
+        
+        queue<pair<int, int>> q;
+        
+        vis[row][col] = 1;
+        q.push({row, col});
+        
+        while(!q.empty()) {
+            auto it = q.front();
+            q.pop();
+            
+            int row = it.first, col = it.second;
+            shape.push_back({bRow - row, bCol - col});
+            
+            for(int i = 0; i < 4; i++) {
+                int r = row + dir[i][0];
+                int c = col + dir[i][1];
+                
+                if(isValid(r, c) && grid[r][c] == 1 && !vis[r][c]) {
+                    vis[r][c] = 1;
+                    q.push({r, c});
+                }
+            }
+        }
+    }
+public:
+    int countDistinctIslands(vector<vector<int>>& grid) {
+        n = grid.size();
+        m = grid[0].size();
+        
+        vector<vector<int>> vis(n, vector<int>(m, 0));
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(!vis[i][j] && grid[i][j] == 1) {
+                    vector<pair<int, int>> shape;
+                    solve(i, j, i, j, grid, vis, shape);
+                    st.insert(shape);
+                }
+            }
+        }
+        
+        
+        return st.size();
+    }
+};
+
+
+
+// Old Naive Implementations:
 class Solution {
 private:
     void dfs(int row, int col, vector<vector<int>> &grid, vector<vector<int>> &vis, vector<pair<int, int>> &vec, int row0, int col0){
