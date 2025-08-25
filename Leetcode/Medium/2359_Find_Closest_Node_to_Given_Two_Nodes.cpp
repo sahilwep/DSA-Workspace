@@ -62,6 +62,82 @@
 #include<algorithm>
 using namespace std;
 
+
+// Clean BFS: 
+class Solution {
+private: 
+    int V;
+    vector<int> bfs(int src, vector<vector<int>>& adj) {  // return the minimum reachable distance from src to all the other nodes:
+
+        vector<int> dist(V, -1);
+        vector<int> vis(V, 0);
+        queue<int> q;
+        int level = 0;
+
+        q.push(src);
+        vis[src] = 1;
+        dist[src] = 1;
+
+        while(!q.empty()) {
+            int size = q.size();
+            bool isNewLvlFound = false;
+
+            while(size--) {
+                int node = q.front();
+                q.pop();
+
+                dist[node] = level;
+
+                for(auto& ngbr: adj[node]) {
+                    if(!vis[ngbr]) {
+                        vis[ngbr] = 1;
+                        q.push(ngbr);
+                        isNewLvlFound = true;
+                    }
+                }
+            }
+
+            if(isNewLvlFound) level++;
+        }
+
+        return dist;
+    }
+public:
+    int closestMeetingNode(vector<int>& edges, int node1, int node2) {
+        V = edges.size();
+        
+        // Build Graph adj list for directed graph:
+        vector<vector<int>> adj(V);
+        for(int i = 0; i < V; i++) {
+            if(edges[i] != -1) {
+                adj[i].push_back(edges[i]);
+            }
+        }
+
+        // Find shortest Distance for node1:
+        vector<int> dist1 = bfs(node1, adj);
+
+        // Find shortest Distance from node2:
+        vector<int> dist2 = bfs(node2, adj);
+
+        // Compare both the distance & if it's reachable get the minimum:
+        int assumedCost = INT_MAX;
+        int nearestNode = -1;
+        for(int i = 0; i < V; i++) {
+            if(dist1[i] == -1 || dist2[i] == -1) continue; // skip unreachable nodes
+            int reachingCost = max(dist1[i], dist2[i]); // get the maximum from both:
+            if(reachingCost < assumedCost) {
+                nearestNode = i;
+                assumedCost = reachingCost;
+            }
+        }
+
+        return nearestNode;
+    }
+};
+
+
+// Old Submission:
 class Solution {
 private: 
     // Function to return the distance of every reachable node from the given source node
