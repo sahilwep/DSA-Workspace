@@ -40,6 +40,112 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+
+// Improved: We don't need visited array, because original color & new color are different
+class Solution {
+private:
+    int n, m;   // dimensions
+    int dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}}; // right, left, up,  down
+    bool isValid(int r, int c) {return (r >= 0 && r < n && c >= 0 && c < m);}   // func to check valid bound.
+    void fill(int row, int col, int color, int orgClr, vector<vector<int>> &grid) {
+        grid[row][col] = color;
+
+        for(int i = 0; i < 4; i++) {
+            int r = row + dir[i][0];
+            int c = col + dir[i][1];
+
+            if(isValid(r, c) && grid[r][c] == orgClr) {
+                fill(r, c, color, orgClr, grid);
+            }
+        }
+    }
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& grid, int sr, int sc, int color) {
+        n = grid.size(), m = grid[0].size();
+
+        if(grid[sr][sc] == color) return grid;  // no need to color that..
+
+        int orgClr = grid[sr][sc];
+        fill(sr, sc, color, orgClr, grid);
+
+        return grid;
+    }
+};
+
+
+
+// ------------------------------------ Clean With Visited array ------------------------------------
+class Solution {    // BFS
+private: 
+    int n, m;   // grid dimensions
+    bool isValid(int r, int c) {return (r >= 0 && r < n && c >= 0 && c < m);}   // checks valid bound of grid
+    int dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}}; // left, right, up, down
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        n = image.size(), m = image[0].size();
+
+        
+        vector<vector<int>> vis(n, vector<int> (m, 0));
+        queue<pair<int, int>> q;
+        int orgClr = image[sr][sc];
+
+        q.push({sr, sc});
+        vis[sr][sc] = 1;
+
+        while(!q.empty()) { 
+            auto [row, col] = q.front();
+            q.pop();
+
+            image[row][col] = color;
+
+            for(int i = 0; i < 4; i++) {
+                int r = row + dir[i][0];
+                int c = col + dir[i][1];
+
+                if(isValid(r, c) && image[r][c] == orgClr && !vis[r][c]) {
+                    vis[r][c] = 1;
+                    q.push({r, c});
+                }
+            }
+        }
+
+        return image;
+    }
+};
+
+class Solution {    // DFS
+private: 
+    int n, m;   // grid dimensions
+    bool isValid(int r, int c) {return (r >= 0 && r < n && c >= 0 && c < m);}   // checks valid bound of grid
+    int dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}}; // left, right, up, down
+    void fill(int row, int col, vector<vector<int>>& grid, vector<vector<int>>& vis, int orgClr, int color) {
+        grid[row][col] = color;
+        vis[row][col] = 1;
+
+        for(int i = 0; i < 4; i++) {
+            int r = row + dir[i][0];
+            int c = col + dir[i][1];
+
+            if(isValid(r, c) && grid[r][c] == orgClr && !vis[r][c]) {
+                fill(r, c, grid, vis, orgClr, color);
+            }
+        }
+    }
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        n = image.size(), m = image[0].size();
+
+        int orgClr = image[sr][sc];
+        vector<vector<int>> vis(n, vector<int> (m, 0));
+        fill(sr, sc, image, vis, orgClr, color);
+
+        return image;
+    }
+};
+
+
+
+// ------------------------------------ Old Solution ------------------------------------
 // Using DFS to color all the nodes that are touched with the given node
 void dfs(int row, int col, int newColor, vector<vector<int>> &res, vector<vector<int>> &image, int delRow[], int delCol[], int iniColor){
     res[row][col] = newColor;  // first mark given node with given color.
