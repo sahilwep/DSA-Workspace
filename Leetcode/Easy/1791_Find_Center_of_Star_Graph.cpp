@@ -35,6 +35,34 @@
 #include<algorithm>
 using namespace std;
 
+// ---------------- Map Based Solution ----------------------------------
+class Solution {
+public:
+    int findCenter(vector<vector<int>>& edges) {
+        
+        // Build adj list:
+        unordered_map<int, vector<int>> adj;
+        for(auto &it: edges) {
+            adj[it[0]].push_back(it[1]);
+            adj[it[1]].push_back(it[0]);
+        }
+
+        // Now find the node having maximum adjacent element:
+        int ans = -1;
+        int ansSize = 0;
+
+        for(auto &[node, ngbr]: adj) {
+            if(ngbr.size() > ansSize) {
+                ansSize = ngbr.size();
+                ans = node;
+            }
+        }
+
+        return ans;
+    }
+};
+
+
 // ---------------- Newer Version: More logical & stable ----------------
 class Solution {
 public:
