@@ -57,13 +57,64 @@
 #include<algorithm>
 using namespace std;
 
+// Clean Solution:
+class Solution {
+private: 
+    int n, m;   // dimensions of grid.
+    int dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}}; // Dir: left, right, up, down
+    bool isValid(int r, int c) {return (r >= 0 && r < n && c >= 0 && c < m);}   // within valid bound or not?
+    typedef pair<int, pair<int, int>> ppr;
+public:
+    int trapRainWater(vector<vector<int>>& heightMap) {
+        n = heightMap.size();
+        m = heightMap[0].size();
 
+        // First process all the boundary cells:
+        vector<vector<int>> vis(n, vector<int> (m, 0));
+        priority_queue<ppr, vector<ppr>, greater<>> pq;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(i == 0 || i == n - 1 || j == 0 || j == m - 1) {  // boundary cells:
+                    pq.push({heightMap[i][j], {i, j}});
+                    vis[i][j] = 1;
+                }
+            }
+        }
+
+        // Process BFS:
+        int water = 0;
+        while(!pq.empty()) {
+            auto [height, cor] = pq.top();
+            int row = cor.first, col = cor.second;
+            pq.pop();
+
+            // Explore in all 4 directions:
+            for(int i = 0; i < 4; i++) {
+                int r = row + dir[i][0];
+                int c = col + dir[i][1];
+
+                if(isValid(r, c) && !vis[r][c]) {
+                    int waterCap = height - heightMap[r][c]; // water capcity = adjacent wall height - cell height
+                    water += max(waterCap, 0);   // either it can hold some water, of if adjacent wall is lesser then we can't, so '0'
+
+                    // Push this cell into queue, with maximum previous height & current height it get.
+                    pq.push({max(height, heightMap[r][c]), {r, c}});
+                    vis[r][c] = 1;
+                }
+            }
+        }
+
+        return water;
+    }
+};
+
+
+
+// Old Solution:
 class Solution {
     typedef pair<int, pair<int, int>> pp; 
-    
     // Directions to traverse the neighbors: up, down, left, right
     vector<vector<int>> dir = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
-    
 public:
     int trapRainWater(vector<vector<int>>& heightMap) {
         // Step 1: Handle edge cases
