@@ -35,6 +35,36 @@ Explanation:    No node has value 5.
 using namespace std;
 typedef long long ll;
 
+
+// -------------- New Solution -----------------
+
+class Solution {
+public:
+    ListNode* modifiedList(vector<int>& nums, ListNode* head) {
+
+        unordered_set<int> st;
+        for(auto &it: nums) st.insert(it);
+
+        ListNode *ans = new ListNode(0);
+        ListNode *temp = ans;
+
+        while(head != NULL) {
+            if(!st.count(head->val)) {
+                temp->next = new ListNode(head->val);
+                temp = temp->next;
+            }
+
+            head = head->next;
+        }
+        
+        return ans->next;
+    }
+};
+
+
+// -------------- Old Solution -----------------
+
+
 // Node
 struct ListNode {
     int val;
