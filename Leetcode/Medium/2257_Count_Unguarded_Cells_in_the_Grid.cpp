@@ -184,6 +184,75 @@ typedef size_t s_t;  // use during string traversal
 #define SQ(a) (a)*(a);
 #define mod 1000000007
 
+// ------------------- New Solution ----------------
+
+
+class Solution {
+private: 
+    int n, m;
+    void fill(int row, int col, vector<vector<int>> &grid) {
+
+        // Fill all 4 directions: 
+        // left:
+        for(int i = col - 1; i >= 0; i--) {
+            if(grid[row][i] == 1 || grid[row][i] == 2) break;    // if wall, break out
+            grid[row][i] = 3;
+        }
+
+        // right:
+        for(int i = col + 1; i < m; i++) {
+            if(grid[row][i] == 1 || grid[row][i] == 2) break;    // if wall, break out
+            grid[row][i] = 3;
+        }
+
+        // up:
+        for(int i = row - 1; i >= 0; i--) {
+            if(grid[i][col] == 1 || grid[i][col] == 2) break;    // if wall, break out
+            grid[i][col] = 3;
+        }
+
+        // down:
+        for(int i = row + 1; i < n; i++) {
+            if(grid[i][col] == 1 || grid[i][col] == 2) break;    // if wall, break out
+            grid[i][col] = 3;
+        }
+    }
+public:
+    int countUnguarded(int _n, int _m, vector<vector<int>>& guards, vector<vector<int>>& walls) {
+        n = _n;
+        m = _m;
+
+        // Create visited grid with default value '0'
+        vector<vector<int>> vis(n, vector<int> (m, 0));
+        for(auto &it: walls) {  // fill walls
+            vis[it[0]][it[1]] = 1;
+        }
+
+        // Fill guards:
+        for(auto &it:  guards) {
+            vis[it[0]][it[1]] = 2;
+        }
+
+        for(auto &it: guards) { // Now fill guards
+            int row = it[0], col = it[1];
+            fill(row, col, vis);
+        }
+
+        // Last count the left cells:
+        int ans = 0;
+        for(auto &row: vis) {
+            for(auto &i: row) {
+                if(i == 0) ans++;
+            }
+        }
+
+        return ans;
+    }
+};
+
+
+// ------------------ Old Solution ------------------
+
 
 // Function to fill all 4th direction in grid:
 void fillWithGuards(vector<vector<int>> &grid, int row, int col){
