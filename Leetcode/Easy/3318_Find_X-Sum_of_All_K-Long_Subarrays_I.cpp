@@ -40,10 +40,24 @@
         - Maintain frequency
         - choose top x most frequent element..
 
-    // Complexity:  
-        - TC: O(n * k + n * k * logk)
-        - SC: O(n * k)
+        // Complexity:  
+            - TC: O(n * k + n * k * logk)
+            - SC: O(n * k)
+            
+        
+    // Better Approach:
+        - We can use sliding window of size 'k'
+        - use can use map to hash element frequency.
+            - when we have 'k' size: 
+                - compute the top X sum:
+                    - we can use min-heap: <freq:val> 
+                        - remove all the element until heap size left is 'x'.
+                        - last get the leftout x element sum.
 
+        
+        // Complexity:  
+            - TC: O(n * k)
+            - SC: O(k)
 */
 
 #include<bits/stdc++.h>
@@ -51,6 +65,66 @@
 using namespace std;
 
 
+// Better: heap
+class Solution {
+private: 
+    typedef pair<int, int> pr;
+    int findTopXSum(unordered_map<int, int> &mp, int x) {
+        // min-heap
+        priority_queue<pr, vector<pr>, greater<pr>> pq;
+
+        for(auto &[val, freq]: mp) {
+            pq.push({freq, val});
+
+            if((int)pq.size() > x) {
+                pq.pop();    // remove the element until we have not heap of size 'x'.
+            }
+        }
+
+        int sum = 0;
+        while(!pq.empty()) {
+            auto [freq, val] = pq.top();
+            pq.pop();
+
+            sum += freq * val;
+        }
+
+        return sum;
+    }
+public:
+    vector<int> findXSum(vector<int>& nums, int k, int x) {
+        int n = nums.size();
+
+        unordered_map<int, int> mp;
+        vector<int> ans;
+        
+        // sliding window approach:
+        int i = 0;
+        int j = 0;
+
+        while(j < n) {  
+            mp[nums[j]]++;
+
+            // Get the k size window:
+            if(j - i + 1 == k) {
+                ans.push_back(findTopXSum(mp, x));
+
+                mp[nums[i]]--;
+                if(mp[nums[i]] == 0) {
+                    mp.erase(nums[i]);
+                }
+                i++;
+            }
+
+            j++;
+        }
+
+        return ans;
+    }
+};
+
+
+// BruteForce:
 class Solution {
 public:
     vector<int> findXSum(vector<int>& nums, int k, int x) {
