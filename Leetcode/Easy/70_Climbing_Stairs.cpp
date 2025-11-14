@@ -84,6 +84,44 @@
 using namespace std;
 
 
+// Space Optimizations:
+class Solution {
+public:
+    int climbStairs(int n) {
+
+        long long prev = 1;
+        long long curr = 1;
+        long long next = prev + curr;
+
+        for(int i = 2; i <= n; i++) {
+            prev = curr;
+            curr = next;
+            next = curr + prev;
+        }
+
+        return (int)curr;
+    }
+};
+
+
+// Tabulations: 
+class Solution {
+public:
+    int climbStairs(int n) {
+
+        vector<int> t(n + 1);
+        t[0] = 1;
+        t[1] = 1;
+
+        for(int i = 2; i <= n; i++) {
+            t[i] = t[i-1] + t[i-2];
+        }
+
+        return t[n];
+    }
+};
+
+
 // Memoization Solution:
 class Solution {
 private: 
