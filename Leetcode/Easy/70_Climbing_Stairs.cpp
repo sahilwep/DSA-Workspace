@@ -77,6 +77,17 @@
                 - SC: O(n)
 
 
+        // Tabulations: 
+            - Remove the recursive stack
+
+            // Complexity: 
+                - TC: O(n)
+                - SC: O(n)
+
+        // Space Optimization:
+            - remove the dp-table, as we only need last two values..
+
+
 */
 
 #include<bits/stdc++.h>
