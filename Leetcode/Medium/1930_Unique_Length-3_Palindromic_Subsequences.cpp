@@ -224,7 +224,7 @@ public:
 };
 
 
-// BruteForce Solution:
+// BruteForce Solution: Iterative 
 class Solution {
     int isPal(string s){
         int i = 0, j = s.size()-1;
@@ -251,6 +251,46 @@ public:
             }
         }
 
+        return st.size();
+    }
+};
+
+// BruteForce: Recursive
+class Solution {
+private:
+    int n;
+    unordered_set<string> st;
+    bool isPal(string &s) {
+        int left = 0;
+        int right = s.size() - 1;
+        while(left <= right) {
+            if(s[left] != s[right]) return false;
+            left++;
+            right--;
+        }
+        return true;
+    }
+    void solve(string &s, string seq, int idx) {
+        if(seq.size() == 3) {   // if we get 3 size, store & return..
+            if(isPal(seq)) {
+                st.insert(seq);
+            }
+            return;
+        }
+        
+        if(idx < 0) return; // if we exhaust of characters..
+
+        // Decision Tree:   Two choices -> accept / reject
+        solve(s, seq + s[idx], idx - 1);
+        solve(s, seq, idx - 1);
+    }
+public:
+    int countPalindromicSubsequence(string s) {
+        n = s.size();
+
+        string seq = "";
+        solve(s, seq, n - 1);
+        
         return st.size();
     }
 };
