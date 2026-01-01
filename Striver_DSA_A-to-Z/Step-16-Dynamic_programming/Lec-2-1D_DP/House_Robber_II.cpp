@@ -96,6 +96,15 @@
         // Complexity:
             - TC: O(n)
             - SC: O(n)
+            
+            
+    // Space Optimization:
+        - we are only caring about two previous values..
+        - So we will use prev1 & prev2 & make our job done.
+
+            // Complexity:
+                - TC: O(n)
+                - SC: O(n)
 
 
 // Extra:
@@ -107,6 +116,74 @@
 #include<bits/stdc++.h>
 #include<algorithm>
 using namespace std;
+
+
+// Space Optimized:
+class Solution {
+    int solve(int idx, vector<int>& nums, int n) {
+        
+        vector<int> t(n + 2);
+
+        int prev2 = 0;
+        int prev = 0;
+
+        for(int i = n - 1; i >= idx; i--) {
+            int loot = nums[i] + prev2;
+            int skip = prev;
+
+            int curr = max(loot, skip);
+
+            // Update prev2 & prev:
+            prev2 = prev;
+            prev = curr;
+        }
+
+        return prev;
+    }   
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+
+        if(n == 1) return nums[0];
+
+        int x = solve(1, nums, n);
+        int y = solve(0, nums, n - 1);
+
+        return max(x, y);
+    }
+};
+
+
+// Tabulations:
+class Solution {
+    int solve(int idx, vector<int>& nums, int n) {
+        
+        vector<int> t(n + 2);
+
+        t[n] = 0;
+        t[n-1] = 0;
+
+        for(int i = n - 1; i >= idx; i--) {
+            int loot = nums[i] + t[i+2];
+            int skip = t[i+1];
+
+            t[i] = max(loot, skip);
+        }
+
+        return t[idx];
+    }   
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+
+        if(n == 1) return nums[0];
+
+        int x = solve(1, nums, n);
+        int y = solve(0, nums, n - 1);
+
+        return max(x, y);
+    }
+};
 
 
 // Memoization solution: modularize
