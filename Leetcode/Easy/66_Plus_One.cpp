@@ -35,15 +35,24 @@
     - We need to extract digits & increment the last digit & return the whole value ans vector<int> ans.
 
     // Approach:
-        - Get the digits[i] & store it into as whole number grouping.
-        - add + 1 into num.
-        - extract digit by digit & push it into answer.
-        - reverse the answer list.
+        - Iterate from backwords:
+            - Check if current idx is n-1: Only increment that
+            - Check if current value is "10"
+                - make that as '0'
+                - if(idx > 0): prevValue++;
+                - else: we are 0th idx & current value is '10'
+                    - push '0' at last of digit
+                    - make curr value as 1
+
+
+        // Edge case:
+            [9, 9]              ->      [1, 0, 0]
+            [1, 9, 9, 9, 9]     ->      [2, 9, 9, 9, 9]
+
         
         // Complexity:
-            - TC: O(digits.size() + log10(num))
+            - TC: O(digits.size())
             - SC: O(1)
-
 
 */
 
@@ -51,25 +60,31 @@
 #include<algorithm>
 using namespace std;
 
+
 class Solution {
+private: 
+    typedef long long ll;
 public:
     vector<int> plusOne(vector<int>& digits) {
+        int n = digits.size();
 
-        int num = 0;
-        for(auto &i: digits) {
-            num = (num * 10) + i;
+        for(int i = n - 1; i >= 0; i--) {
+            if(i == n - 1) {
+                digits[i]++;     // increment last digit
+            }
+
+            if(digits[i] == 10) {
+                digits[i] = 0;   // set current value as '0'
+                
+                if(i != 0) {    // if we are not at the 0th index:
+                    digits[i-1]++;
+                } else {    // edge case when 0th index is also '10'
+                    digits.push_back(0);   // add 0 to last
+                    digits[i] = 1;
+                }
+            } 
         }
 
-        num += 1;   // add last value.
-        
-        vector<int> ans;
-        while(num > 0) {
-            ans.push_back(num % 10);    // push last digit.
-            num /= 10;                  // remove the last digit.
-        }
-
-        reverse(begin(ans), end(ans));  // reverse the answer, so that it should be in order.
-
-        return ans;
+        return digits;
     }
 };
