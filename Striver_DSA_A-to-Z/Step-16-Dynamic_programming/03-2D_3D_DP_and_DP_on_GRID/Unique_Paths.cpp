@@ -99,7 +99,7 @@
                 - TC: O(n * m)
                 - SC: O(n * m)
 
-                
+
 // Extra:
     - This problem can also be solved using Graph DFS
     - because, in Graph we can explore in right, & down directions & find the total number of unique path to reach destinations.
@@ -149,7 +149,6 @@ public:
 class Solution {
 private:
     int n, m;
-    int mod = 2 * 1e9;
     vector<vector<int>> t;
      int solve(int row, int col) {
         if(row == n - 1 && col == m - 1) return 1;  // reached destination
@@ -159,12 +158,12 @@ private:
         int path = 0;
         // Explore right
         if(col + 1 < m) {
-            path = (path + solve(row, col + 1)) % mod;
+            path += solve(row, col + 1);
         }
 
         // Explore down:
         if(row + 1 < n) {
-            path = (path + solve(row + 1, col)) % mod;
+            path += solve(row + 1, col);
         }
 
         return t[row][col] = path;
