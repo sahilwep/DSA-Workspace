@@ -88,6 +88,64 @@
 using namespace std;
 
 
+// DFS Clean Solution:
+class Solution {
+private:
+    int dfs(int node, vector<vector<int>>& adj, vector<int>& vis, int k) {    // function used to count the number of nodes at k distance..
+        vis[node] = 1;
+        int cnt = 1;
+        for(auto &ngbr: adj[node]) {
+            if(!vis[ngbr] && k > 0) {
+                cnt += dfs(ngbr, adj, vis, k - 1);
+            }
+        }
+
+        return cnt;
+    }
+public:
+    vector<int> maxTargetNodes(vector<vector<int>>& edges1, vector<vector<int>>& edges2, int k) {
+
+        // Edge case: if(k == 0) no such connection in tree2:
+        if(k == 0) {
+            vector<int> ans(edges1.size() + 1, 1);
+            return ans;
+        }
+
+        // Convert the given edges of tree into adj list:
+        int n = edges1.size() + 1;  // total t1 nodes
+        vector<vector<int>> tree1(n);
+        for(auto &it: edges1) {
+            tree1[it[0]].push_back(it[1]);
+            tree1[it[1]].push_back(it[0]);
+        }
+        
+        int m = edges2.size() + 1;  // total t2 nodes
+        vector<vector<int>> tree2(m);
+        for(auto &it: edges2) {
+            tree2[it[0]].push_back(it[1]);
+            tree2[it[1]].push_back(it[0]);
+        }
+
+        // Step 1: Find the maxCount of node from tree2 from every all the nodes:
+        int maxCnt = 0;
+        for(int i = 0; i < m; i++) {
+            vector<int> vis(m, 0);
+            maxCnt = max(maxCnt, dfs(i, tree2, vis, k - 1));    // start from k - 1, because 1 is used to connect tree1
+        }
+        
+        // Step 2: Find the count for tree1 every node & build answer:
+        vector<int> ans(n, maxCnt);
+        for(int i = 0; i < n; i++) {
+            vector<int> vis(n, 0);
+            ans[i] += dfs(i, tree1, vis, k);
+        }
+
+        return ans;
+    }
+};
+
+
+// BFS/DFS Solution
 class Solution {
 private: 
     // DFS to count the number of node within k-constrains...
