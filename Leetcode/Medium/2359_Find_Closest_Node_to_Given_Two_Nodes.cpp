@@ -63,6 +63,94 @@
 using namespace std;
 
 
+// Efficient BFS & DFS:
+class Solution {
+private:
+    int n;
+    vector<int> bfs(int node, vector<vector<int>>& adj) {   // BFS to compute distance:
+
+        vector<int> dist(n, -1);
+        queue<int> q;
+
+        q.push(node);
+
+
+        int level = 0;
+        while(!q.empty()) {
+            int size = q.size();
+            bool isNewLvlFound = false;
+
+            while(size--) {
+                int node = q.front();
+                q.pop();
+
+                dist[node] = level;
+
+                for(auto &it: adj[node]) {
+                    if(dist[it] == -1) {    // not yet explored:
+                        q.push(it);
+                        dist[it] = level;
+                        isNewLvlFound = true;
+                    }
+                }
+            }
+
+            if(isNewLvlFound) level++;
+        }
+
+        return dist;
+    }
+    void dfs(int node, int depth, vector<vector<int>>& adj, vector<int>& dist) {    // DFS to compute distance:
+        dist[node] = depth;
+
+        for(auto &ngbr: adj[node]) {
+            if(dist[ngbr] == -1) {
+                dfs(ngbr, depth + 1, adj, dist);
+            }
+        }
+    }
+public:
+    int closestMeetingNode(vector<int>& edges, int node1, int node2) {
+        n = edges.size();
+        
+        // Build Graph adj list:
+        vector<vector<int>> adj(n);
+        for(int i = 0; i < n; i++) {
+            if(edges[i] != -1) {
+                adj[i].push_back(edges[i]);
+            }
+        }
+
+        // Get the shortest distance from both the nodes Using BFS:
+        // vector<int> dist1 =  bfs(node1, adj);
+        // vector<int> dist2 =  bfs(node2, adj);
+
+        // Get the shortest distance from both the nodes Using DFS:
+        vector<int> dist1(n, -1), dist2(n, -1);
+        dfs(node1, 0, adj, dist1);
+        dfs(node2, 0, adj, dist2);
+
+        // Now compare from shortest distance & find the node having smallest distance to reach both the node:
+        int value = INT_MAX;
+        int commonNode = -1;   // initially not reachable to any node:
+        for(int i = 0; i < n; i++) {
+            if(dist1[i] != -1 && dist2[i] != -1)  {
+                int shortestDis = max(dist1[i], dist2[i]);
+                if(shortestDis < value) {
+                    value = shortestDis;
+                    commonNode = i;
+                }
+            }
+        }
+
+        return commonNode;
+    }
+};
+
+
+
+
+
 // Clean BFS: 
 class Solution {
 private: 
