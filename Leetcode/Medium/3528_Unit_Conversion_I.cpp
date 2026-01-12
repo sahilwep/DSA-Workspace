@@ -94,7 +94,46 @@
 #include<algorithm>
 using namespace std;
 
-// DFS Approach:
+
+// DFS Approach 2:
+class Solution {
+private:
+    int mod = 1e9 + 7;
+    typedef long long ll;
+    vector<int> conv;
+    void dfs(int node, ll convF, vector<vector<pair<int, int>>>& adj) {
+        conv[node] = (int)convF;
+
+        // Explorea adj nodes:
+        for(auto [v, wt]: adj[node]) {
+            if(conv[v] == 0) {
+                ll newConvF = (convF * wt) % mod;
+                dfs(v, newConvF, adj);
+            }
+        }
+    }
+public:
+    vector<int> baseUnitConversions(vector<vector<int>>& conversions) {
+        int V = conversions.size() + 1;
+
+        // Build Graph adj List:
+        vector<vector<pair<int, int>>> adj(V);
+        for(auto &it: conversions) {
+            adj[it[0]].push_back({it[1], it[2]});
+            adj[it[1]].push_back({it[0], it[2]});
+        }
+
+        // Using DFS:
+        conv.resize(V, 0);
+        dfs(0, 1, adj);
+
+        return conv;
+    }
+};
+
+
+
+// DFS Approach 1:
 class Solution {
 private: 
     int mod = 1e9 + 7;
