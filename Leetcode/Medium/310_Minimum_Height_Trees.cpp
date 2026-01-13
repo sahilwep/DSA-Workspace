@@ -50,8 +50,9 @@
 
 
     // Key Observation: 
-        -> When the tree has an odd number of nodes, only one root node is possible.
+        -> When the trees largest diameter has an odd number of nodes, only one root node is possible.
         -> When the tree has an even number of nodes, two root nodes are possible.
+        -> FIX: We can't be sure about how many root nodes we can have in odd or even case, we can only say it will not more than 2, if you observe this using diagram you will find out..
 
 
     // Intuition: 
