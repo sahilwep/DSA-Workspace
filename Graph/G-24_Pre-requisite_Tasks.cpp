@@ -20,10 +20,10 @@
 
 
 // BruteForce Solution: 
-    -> If we observe the given edges, one Two thing we will have to check..
-    -> First, finding cycle.
-    -> Secondly, check reachable nodes
-        -> If any one fails => not reachable
+    -> If we observe the given prerequisites
+    -> If given graph has cycle, we can't complete all the tasks.
+    -> If it has no cycle, we can complete the task.
+    -> All we need to check is cycle.
     
         // Complexity: 
             -> TC: O(E * (V + E))
@@ -123,25 +123,13 @@ private:
         pathVis[node] = 0;
         return false;   // no cycle found
     }
-    bool isReachable(int node, int dst, vector<vector<int>>& adj, vector<int>& vis) {
-        if(node == dst) return true;
-        vis[node] = 1;
-        
-        for(auto &it: adj[node]) {
-            if(!vis[it]) {
-                if(isReachable(it, dst, adj, vis)) return true;
-            }
-        }
-        
-        return false;   // not reachable to dst node.
-    }
 public:
     bool isPossible(int V, int E, vector<pair<int, int> >& edges) { 
         
         // Build Directed Graph adj list:
         vector<vector<int>> adj(V); 
-        for(auto &it: edges) {  // TC: O(E)
-            adj[it.second].push_back(it.first);
+        for(auto &[u, v]: edges) {  // TC: O(E)
+            adj[v].push_back(u);
         }
         
         // Find cycle: 
@@ -151,12 +139,6 @@ public:
             if(!vis[i]) {
                 if(isCycle(i, adj, vis, pathVis)) return false;  // if we found cycle, return false, not all task completed..
             }
-        }
-        
-        // Find path is reachable or not?
-        for(auto &it: edges) {  // TC: O(E * (V + E))
-            vector<int> vis(V, 0);
-            if(!isReachable(it.second, it.first, adj, vis)) return false;  // not reachable, not possible to complete all tasks.
         }
         
         return true;    // possible to complete all the task.
