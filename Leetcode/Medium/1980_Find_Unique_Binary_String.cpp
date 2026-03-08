@@ -27,7 +27,20 @@
         Explanation: "101" does not appear in nums. "000", "010", "100", and "110" would also be correct.
 
 
+// Observations:
+    - we are given nums that contains n unique binary string of each length 'n'
+    - return the binary string of length 'n' that does not appears in the nums.
+    - if there are multiple answer, return any.
 
+
+    // Approach:
+        - first put all the binary string into the unordered_set so that we can have O(1) query time
+        - Then, generate all the possible binary string with size 'n' with 0 & 1
+        - and once we are done with that, query and return the missing one..
+
+    // Complexity:
+        - TC: O(2^n * n)
+        - SC: O(2^n * n)
 
 */
 
@@ -35,25 +48,46 @@
 #include<algorithm>
 using namespace std;
 
-class Solution {
-public:
-    string findDifferentBinaryString(vector<string>& nums) {
-        int n = nums.size();
 
-        unordered_set<int> st;
-        for(auto &num: nums) {
-            st.insert(stoi(num, 0, 2));
+class Solution {
+private:
+    int n;
+    unordered_set<string> st;
+    void generate(int pos, string& s) {
+        if(pos == n) {
+            st.insert(s);
+            return;
         }
 
-        string res = "";
-        for(int i = 0; i <= n; i++) {
-            if(st.find(i) == st.end()) {
-                res = bitset<16>(i).to_string();
+        // Two choice: either '0' or either '1'
 
-                return res.substr(16 - n, n);
+        s.push_back('0');
+        generate(pos + 1, s);
+        s.pop_back();
+
+
+        s.push_back('1');
+        generate(pos + 1, s);
+        s.pop_back();
+    }
+public:
+    string findDifferentBinaryString(vector<string>& nums) {
+        n = nums[0].size();
+
+        // generate all the possible string:
+        string s = "";
+        generate(0, s);     // TC: O(2^n * n)
+
+
+        // Now filter out the generated string..
+        for(auto &s: nums) {    // O(n)
+            if(st.count(s)) {
+                st.erase(s);
             }
         }
 
-        return "";
+        if(!st.empty()) return *st.begin(); // if we have something left, return any
+
+        return "";  // else return emtpy string
     }
 };
