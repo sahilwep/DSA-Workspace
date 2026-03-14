@@ -46,6 +46,9 @@ class Solution {
             if(freq > maxFreq) {
                 ans = num;
                 maxFreq = freq;
+            } else if(freq == maxFreq) {
+                ans = max(ans, num);    // get the maxium number if they have same frequency..
+                maxFreq = freq;
             }
         }
         
