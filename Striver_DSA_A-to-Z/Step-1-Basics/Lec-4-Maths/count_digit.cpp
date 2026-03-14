@@ -1,37 +1,61 @@
-#include <bits/stdc++.h>
+/*
+
+//  Count Digits
+
+//  Problem Statement: 
+    - Given a natural number n. You have to find the number of digits in it and return it.
+
+
+// Examples:
+    Input: n = 12
+    Output: 2
+    Explanation: 12 has 2 digits
+
+    Input: n = 456
+    Output: 3
+    Explanation: 456 has 3 digits
+
+
+    // Normal Way: 
+        - Count the number of digits by simply dividing it by 10 until it's not get to '0'.
+
+
+    // Efficient way:
+        
+        - TotalDigit = log10(n) + 1         => log10 will count decimal 
+        
+        - TotalDigit = log2(n) + 1          => For any number it will count the binary digits in that number
+
+
+
+*/
+
+#include<bits/stdc++.h>
+#include<algorithm>
 using namespace std;
 
+
+// Efficient Way:
 class Solution {
-public:
-    // Function to count the number of digits in n that evenly divide n
-    int evenlyDivides(int n) {
+  public:
+    int countDigits(int n) {
+        return log10(n) + 1;
+        
+    }
+};
+
+
+// Normal Way:
+class Solution {
+  public:
+    int countDigits(int n) {
+        
         int cnt = 0;
-        int temp = n;
-        while(n > 0){
-            int ld = n % 10;
-            // check ld is not 0, & then check valid divisibility...
-            if(ld != 0 && temp % ld == 0) cnt++;
-            
-            n = n / 10;
+        while(n > 0) {
+            n /= 10;
+            cnt++;
         }
         
         return cnt;
     }
 };
-
-//{ Driver Code Starts.
-int main() {
-    int t;
-    cin >> t;
-    while (t--) {
-        int N;
-        cin >> N;
-        Solution ob;
-        cout << ob.evenlyDivides(N) << endl;
-
-        cout << "~"
-             << "\n";
-    }
-    return 0;
-}
-// } Driver Code Ends
