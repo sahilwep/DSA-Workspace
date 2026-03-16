@@ -135,6 +135,146 @@
 #include<algorithm>
 using namespace std;
 
+
+// ------------------------------------------- DSU Solution -------------------------------------------
+class DSU {     // TC: O(k), SC: O(n * m)
+private:
+    vector<int> size, parent;
+public:
+    DSU (int n) {
+        size.resize(n + 1, 1);
+        parent.resize(n + 1);
+        for(int i = 0; i < n + 1; i++) parent[i] = i;
+    }
+    int ultPar(int node) {
+        if(node == parent[node]) return node;
+        return parent[node] = ultPar(parent[node]); // path compression.
+    }
+    void Union(int u_, int v_) {
+        int u = ultPar(u_), v = ultPar(v_);
+        if(u == v) return;  // already connected.
+        
+        // Connect smaller group to larger one:
+        if(size[u] < size[v]) {
+            parent[u] = v;
+            size[v] += size[u];
+        } else {
+            parent[v] = u;
+            size[u] += size[v];
+        }
+    }
+};
+
+class Solution {
+private:
+    int n, m;   // grid dimensions.
+    bool isValidDim(int r, int c) {return (r >= 0 && r < n && c >= 0 && c < m);}    // func to check valid grid dimensions.
+    int dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};  // dir: left, right, above, down.
+public:
+    vector<int> numOfIslands(int n_, int m_, vector<vector<int>> &operators) {
+        n = n_;
+        m = m_;
+
+        DSU ds(n * m);
+        int island = 0;     // initially we have '0' islands
+        vector<int> ans;
+        vector<vector<int>> grid(n, vector<int>(m, 0));
+        
+        for(auto &it: operators) {
+            int i = it[0];
+            int j = it[1];
+            
+            if(grid[i][j] == 1) {           // if already explore
+                ans.push_back(island);      // store answer
+                continue;                   // skip checks.
+            }
+            
+            grid[i][j] = 1;             // mark that cell as land
+            island += 1;                // increase island count.
+            
+            int cellNo = i * m + j;     // get the cell number.
+            
+            // Explore in all 4 directions:
+            for(int k = 0; k < 4; k++) {
+                int r = i + dir[k][0];
+                int c = j + dir[k][1];
+                
+                if(isValidDim(r, c) && grid[r][c] == 1) {
+                    int adjCellNo = r * m + c;
+                    
+                    // If two adj cells are not having same ult parent, mens not connected.
+                    if(ds.ultPar(cellNo) != ds.ultPar(adjCellNo)) {
+                        ds.Union(cellNo, adjCellNo);    // connect these two cells.
+                        island--;                       // decrement island count as we connected them.
+                    }
+                }
+            }
+            
+            // Last store the total_number of islands:
+            ans.push_back(island);
+        }
+        
+        return ans;
+    }
+};
+
+
+
+
+// ------------------------------------------- DFS/BFS Solution -------------------------------------------
+class Solution {    // TC: O(k * n * m), SC: O(n * m)
+private:
+    int n, m;   // grid dimensions.
+    bool isValidDim(int r, int c) {return (r >= 0 && r < n && c >= 0 && c < m);}    // func to check valid grid dimensions.
+    int dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};  // dir: left, right, above, down.
+    void dfs(int row, int col, vector<vector<int>>& grid, vector<vector<int>>& vis) {
+        vis[row][col] = 1;  // mark that current as visted.
+        
+        // Explore in all 4 directions:
+        for(int i = 0; i < 4; i++) {
+            int r = row + dir[i][0];
+            int c = col + dir[i][1];
+            
+            if(isValidDim(r, c) && grid[r][c] == 1 && !vis[r][c]) {
+                dfs(r, c, grid, vis);
+            }
+        }
+    }
+    int totalIsland(vector<vector<int>>& grid) {
+        
+        int island = 0;
+        vector<vector<int>> vis(n, vector<int> (m, 0));
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(grid[i][j] == 1 && vis[i][j] == 0) {
+                    dfs(i, j, grid, vis);
+                    island++;
+                }
+            }
+        }
+        
+        return island;
+    }
+public:
+    vector<int> numOfIslands(int n_, int m_, vector<vector<int>> &operators) {
+        n = n_;
+        m = m_;
+        
+        vector<int> ans;
+        vector<vector<int>> grid(n, vector<int> (m, 0));
+        for(auto &it: operators) {
+            grid[it[0]][it[1]] = 1; // mark that cell as '1'
+            ans.push_back(totalIsland(grid));
+        }
+        
+        return ans;
+    }
+};
+
+
+
+
+// ------------------------------------------- OLD DSU Solution -------------------------------------------
 class DSU {
 private:
     vector<int> size, parent;
