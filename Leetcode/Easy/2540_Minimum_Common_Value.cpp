@@ -31,6 +31,15 @@
             - TC: O(n + m)
             - SC: O(n)
 
+    // Approach 2: 
+        - As the values are sorted, so we can solve this without using any auxilary space.
+        - We can use two iterators, that iterate in both the array.
+        - If the values are equal then we can return immediate, as it's the minimum-common value.
+        - else we will move the pointer by comparing both the values.
+
+        // Complexity:
+            - TC: O(n + m)
+            - SC: O(1)
 
 */
 
@@ -38,6 +47,28 @@
 #include<algorithm>
 using namespace std;
 
+// Approach 2:
+class Solution {
+public:
+    int getCommon(vector<int>& nums1, vector<int>& nums2) {
+        int n = nums1.size(), m = nums2.size();
+        
+        int i = 0, j = 0;
+        while(i < n && j < m) {
+            if(nums1[i] == nums2[j]) {  // If values are equal, return immediately as it's the minimum common value.
+                return nums1[i];
+            }
+
+            // move the smaller pointer forward, to get equal value, if there's any.
+            if(nums1[i] < nums2[j]) i++;
+            else j++;
+        }
+
+        return -1;  // else return invalid.
+    }
+};
+
+// Approach 1:
 class Solution {
 public:
     int getCommon(vector<int>& nums1, vector<int>& nums2) {
