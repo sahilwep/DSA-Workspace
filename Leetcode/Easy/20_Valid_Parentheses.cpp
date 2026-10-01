@@ -39,8 +39,13 @@
     - Input string is valid if:
         - open bracket must be closed by the same type or brackets.
         - open bracket must be closed in the correct order.
-        - Every cl
+        - Every close bracket has a corresponding open bracket of the same type:
 
+        // Complexity:
+            - TC: O(n)
+            - SC: O(n)
+
+            
 */
 
 #include<bits/stdc++.h>
