@@ -34,11 +34,40 @@
         Output: true
 
 
+// Observations:
+    - given string s, and just characters '(' ')' '{' '}' '[' ']'
+    - Input string is valid if:
+        - open bracket must be closed by the same type or brackets.
+        - open bracket must be closed in the correct order.
+        - Every cl
+
 */
 
 #include<bits/stdc++.h>
 #include<algorithm>
 
+
+class Solution {
+public:
+    bool isValid(string s) {
+        int n = s.size();
+
+        string t = "";
+        for(auto &c: s) {
+            if(c == '(' || c == '{' || c == '[') {
+                t.push_back(c);
+            } else {
+                // We will have to check the previous:
+                if(t.empty()) return false; // as it comes closeing without opening.
+                char last = t[t.size() - 1];
+                if(last == '(' && c  == ')' || last == '{' && c == '}' || last == '[' && c == ']') t.pop_back();
+                else return false;
+            }
+        }
+
+        return (t.empty()) ? true : false;
+    }
+};
 
 using namespace std;
 class Solution {
