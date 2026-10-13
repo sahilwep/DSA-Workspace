@@ -61,6 +61,43 @@
 #include<algorithm>
 using namespace std;
 
+// New Submission:
+
+class Solution {
+private:
+    typedef long long ll;
+public:
+    long long maxAlternatingSum(vector<int>& nums) {
+        int n = nums.size();
+
+        // make all the nums[i] > 0:
+        for(auto &i: nums) i = abs(i);
+
+        // sort:
+        sort(begin(nums), end(nums));   // O(n * logn)
+
+        // process nums, and find maxSum:
+        ll sum = 0;
+        int i = 0;
+        int j = (n % 2 == 0) ? n - 1 : n - 2;   // skip last:
+        while(i < j) {
+            ll n1 = pow(nums[i], 2);
+            ll n2 = pow(nums[j], 2);
+
+            sum += n2 - n1;
+
+            i++;
+            j--;
+        }
+
+        // add last element in odd size:
+        if(n % 2 != 0) sum += pow(nums[n - 1], 2);
+        
+        return sum;
+    }
+};
+
+// Old Submission:
 class Solution {
 public:
     long long maxAlternatingSum(vector<int>& nums) {
