@@ -38,13 +38,13 @@
     - 
     - Given string s1, s2, and s3, find wether s3 is formed by an interleaving of s1 and s2:
     - It says that interleaving of s1 ans s2:
-        - two string s and t is configured where s and t are divied into n and m substring respectively.
+        - two string s and t is configured where s and t are divide into n and m substring respectively.
 
     // Approach 1:
         - From string s1 and s2, we will have to match the string character into s3,
         - If it's matches then only we can move, else we can't move..
-        - we will have to sequentially proecss all the string.
-        - we will have to recursivelly explore all the states of matching..
+        - we will have to sequentially process all the string.
+        - we will have to recursively explore all the states of matching..
 
         // Base case:
             if we successfully explored the string, then only we can say we have found our answer:
